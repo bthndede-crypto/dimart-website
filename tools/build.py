@@ -202,6 +202,7 @@ def head(title, desc, path, ld, page):
 <meta property="og:description" content="{esc_attr(desc)}">
 <meta property="og:url" content="{url}">
 <meta property="og:image" content="{SITE}/assets/dimart-favicon-512.png">
+<meta name="msvalidate.01" content="7CF4CEBF4ED658A86E675507A2B6D623">
 <meta name="theme-color" content="#100E0C">
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="/assets/dimart-favicon.svg" type="image/svg+xml">
