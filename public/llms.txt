@@ -1,9 +1,10 @@
 # Dimart Mimarlık ve Müteahhitlik A.Ş.
 
-> İstanbul Sancaktepe merkezli mimarlık ve müteahhitlik firması. Mimari tasarım, proje ve ruhsat, inşaat ve anahtar teslim uygulamayı tek ekiple yürütür. Slogan: "Her şey bir çizgiyle başlar."
+> İstanbul Sancaktepe merkezli mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulamayı tek ekiple yürütür. Slogan: "Her şey bir çizgiyle başlar."
 
 ## Hizmetler
 - Mimari tasarım: ihtiyaç analizi, konsept, avan proje, 3B görselleştirme
+- İç mimarlık: konut, ofis ve ticari mekânlarda iç mekân tasarımı, özel mobilya, aydınlatma, tadilat
 - Proje ve ruhsat: uygulama projeleri, statik ve tesisat koordinasyonu, belediye ruhsatı
 - İnşaat ve müteahhitlik: kaba ve ince inşaat, şantiye yönetimi
 - Anahtar teslim: tasarımdan iskâna tek sözleşme
@@ -14,3 +15,9 @@
 - E-posta: info@dimartmimarlik.com
 - Web: https://dimartmimarlik.com/
 - Hizmet bölgesi: İstanbul geneli
+
+## Sayfalar
+- [Stüdyo](https://dimartmimarlik.com/studyo/): yaklaşım ve şirket bilgileri
+- [Hizmetler](https://dimartmimarlik.com/hizmetler/): hizmetlerin ayrıntıları
+- [Projeler](https://dimartmimarlik.com/projeler/)
+- [İletişim](https://dimartmimarlik.com/iletisim/)
