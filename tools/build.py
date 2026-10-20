@@ -19,6 +19,7 @@ FIRMA = {
     "tel_link": "+905324996096",
     "eposta": "info@dimartmimarlik.com",
 }
+INSTAGRAM = "https://www.instagram.com/dimartmimarlik/"
 HARITA = "https://www.google.com/maps/search/?api=1&query=Elmaksan+Sk.+No%3A14+Sancaktepe+%C4%B0stanbul"
 
 NAV = [("studyo", "Stüdyo"), ("hizmetler", "Hizmetler"), ("projeler", "Projeler"), ("iletisim", "İletişim")]
@@ -44,6 +45,7 @@ ORG = {
         "addressCountry": "TR",
     },
     "hasMap": HARITA,
+    "sameAs": [INSTAGRAM],
     "areaServed": {"@type": "Country", "name": "Türkiye"},
     "knowsAbout": ["Mimari tasarım", "İç mimarlık", "Mimari proje", "İnşaat ruhsatı", "Konut inşaatı",
                    "Anahtar teslim inşaat", "Tadilat ve renovasyon"],
@@ -260,6 +262,7 @@ def shell(path):
   <div class="nav-foot">
     <a href="tel:{f['tel_link']}">{f['tel']}</a>
     <a href="mailto:{f['eposta']}">{f['eposta']}</a>
+    <a href="{INSTAGRAM}" rel="noopener me" target="_blank">Instagram</a>
     <span>{f['ilce']}, {f['il']} · Türkiye geneli</span>
     <img src="/assets/slogan-acik.png" alt="" width="170" height="33">
   </div>
@@ -282,6 +285,7 @@ def footer():
     <div><dt>e-posta</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
     <div><dt>adres</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / {f['il']}</dd></div>
     <div><dt>harita</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">Google Haritalar'da aç</a></dd></div>
+    <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
   </dl>
   <nav class="foot-nav" aria-label="Alt menü">{"".join(f'<a href="{h}">{n}</a>' for h, n, *_ in MENU)}</nav>
   <div class="legal">
@@ -495,6 +499,7 @@ def page_iletisim():
       <div><dt>e-posta</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
       <div><dt>adres</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / {f['il']}, Türkiye</dd></div>
       <div><dt>harita</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">Google Haritalar'da aç</a></dd></div>
+      <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
     </dl>
     <div class="prose" data-r>
       <p class="label">Görüşmeye gelirken</p>
@@ -610,6 +615,7 @@ def llms():
 - Telefon: {f['tel']}
 - E-posta: {f['eposta']}
 - Web: {SITE}/
+- Instagram: {INSTAGRAM}
 - Hizmet bölgesi: Türkiye geneli
 
 ## Sayfalar
