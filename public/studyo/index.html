@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Stüdyo | Dimart Mimarlık</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Dimart Mimarlık ve Müteahhitlik A.Ş. hakkında: yaklaşımımız, çalışma biçimimiz ve şirket bilgileri. Sancaktepe, İstanbul.">
 <link rel="canonical" href="https://dimartmimarlik.com/studyo/">
 <meta property="og:type" content="website">
@@ -13,15 +12,19 @@
 <meta property="og:title" content="Stüdyo | Dimart Mimarlık">
 <meta property="og:description" content="Dimart Mimarlık ve Müteahhitlik A.Ş. hakkında: yaklaşımımız, çalışma biçimimiz ve şirket bilgileri. Sancaktepe, İstanbul.">
 <meta property="og:url" content="https://dimartmimarlik.com/studyo/">
-<meta name="theme-color" content="#FBFAF8">
-<link rel="icon" href="../assets/dimart-favicon.svg" type="image/svg+xml">
-<link rel="icon" href="../assets/dimart-favicon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<meta property="og:image" content="https://dimartmimarlik.com/assets/dimart-favicon-512.png">
+<meta name="theme-color" content="#100E0C">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/assets/dimart-favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/dimart-favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Open+Sans:wght@400;600&display=swap">
-<link rel="stylesheet" href="../assets/site.css">
-<script type="application/ld+json">
+<link rel="stylesheet" href="/assets/site.css">
+<script>try{if(!sessionStorage.getItem('dm-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro')}catch(e){}</script>
+<script src="/assets/site.js" defer></script>
+<script type="application/ld+json" id="ld">
 {
  "@context": "https://schema.org",
  "@graph": [
@@ -93,84 +96,98 @@
 </script>
 </head>
 <body>
-<header class="site-head" id="top">
-  <div class="wrap">
-    <a class="brand" href="../" aria-label="Dimart Mimarlık ana sayfa"><img src="../assets/dimart-logo-siyah.svg" alt="Dimart Mimarlık" width="88" height="30"></a>
-    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav">Menü</button>
-    <nav class="nav" id="nav" aria-label="Ana menü">
-      <a href="../studyo/" aria-current="page">Stüdyo</a>
-      <a href="../hizmetler/">Hizmetler</a>
-      <a href="../projeler/">Projeler</a>
-      <a href="../iletisim/">İletişim</a>
-    </nav>
+<a class="skip" href="#sayfa">İçeriğe geç</a>
+<div class="intro-ov" aria-hidden="true">
+  <div class="intro-in">
+    <img src="/assets/dimart-logo-beyaz.svg" alt="" width="176" height="60">
+    <i class="intro-line"></i>
+    <img class="intro-slogan" src="/assets/slogan-acik.png" alt="" width="260" height="51">
   </div>
-</header>
-<main>
+</div>
+<aside class="side">
+  <a class="brand" href="/" aria-label="Dimart Mimarlık ana sayfa"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="92" height="31"></a>
+  <img class="side-slogan" src="/assets/slogan-acik.png" alt="Her şey bir çizgiyle başlar." width="150" height="30">
+  <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav"><span>Menü</span><span>Kapat</span></button>
+  <nav class="nav" id="nav" aria-label="Ana menü">
+    <div class="nav-group">
+      <a href="/studyo/" aria-current="page">Stüdyo</a>
+      <a href="/hizmetler/">Hizmetler</a>
+        <a href="/hizmetler/#mimari-tasarim" class="sub">Mimari tasarım</a>
+        <a href="/hizmetler/#ic-mimarlik" class="sub">İç mimarlık</a>
+        <a href="/hizmetler/#proje-ve-ruhsat" class="sub">Proje ve ruhsat</a>
+        <a href="/hizmetler/#insaat-anahtar-teslim" class="sub">İnşaat ve anahtar teslim</a>
+      <a href="/projeler/">Projeler</a>
+    </div>
+    <div class="nav-group">
+      <a href="/iletisim/">İletişim</a>
+      <a href="tel:+905324996096" class="sub">+90 532 499 60 96</a>
+      <a href="mailto:info@dimartmimarlik.com" class="sub">info@dimartmimarlik.com</a>
+    </div>
+  </nav>
+</aside>
+<div class="util" role="group" aria-label="Görünüm ve ses">
+  <button type="button" id="fener-btn" aria-pressed="false" title="Fener: imleç çevresini aydınlatır">Fener</button>
+  <button type="button" id="ses-btn" aria-pressed="false" title="Ortam sesi"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Ses</button>
+</div>
+<div class="rail" aria-hidden="true"><i></i></div>
+<main id="sayfa" data-page="studyo">
   <section class="page-hero">
-    <div class="wrap">
-      <nav class="crumbs" aria-label="Konum"><a href="../">Ana sayfa</a><span>/</span><span>Stüdyo</span></nav>
-      <h1>Çizen de, <strong>inşa eden de biziz.</strong></h1>
-      <p>Dimart Mimarlık ve Müteahhitlik, mimari tasarım, iç mimarlık ve inşaatı tek ekipte birleştiren bir İstanbul stüdyosudur.</p>
+    <nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a><span>/</span><span>Stüdyo</span></nav>
+    <h1 data-r>Çizen de, <span class="y">inşa eden de biziz.</span></h1>
+    <p class="lead" data-r>Dimart Mimarlık ve Müteahhitlik, mimari tasarım, iç mimarlık ve inşaatı tek ekipte birleştiren bir İstanbul stüdyosudur.</p>
+  </section>
+  <section class="split">
+    <figure class="frame m-siva " data-speed="0.05" data-r>
+        <svg viewBox="0 0 400 500" role="img" aria-label="Kemerli açıklığı olan sade bir iç mekânın perspektif çizimi">
+      <path pathLength="1" class="ln" d="M110 150 H290 V330 H110 Z"/>
+      <path pathLength="1" class="ln" d="M110 150 L10 40 M290 150 L390 40 M110 330 L10 470 M290 330 L390 470"/>
+      <path pathLength="1" class="ln" d="M170 330 V235 A30 30 0 0 1 230 235 V330"/>
+      <path pathLength="1" class="ln" d="M40 135 L82 160 L82 268 L40 298 Z"/>
+      <path pathLength="1" class="ln t" d="M61 147 V283 M40 216 L82 214"/>
+      <path pathLength="1" class="ln" d="M125 330 V306 H160 V330 M240 330 V306 H275 V330"/>
+      <path pathLength="1" class="ln t" d="M150 330 L76 470 M180 330 L160 470 M220 330 L240 470 M250 330 L324 470"/>
+      <path pathLength="1" class="ln t" d="M200 150 V196"/>
+      <circle pathLength="1" class="ln" cx="200" cy="204" r="8"/>
+      <rect class="sq" x="196" y="296" width="8" height="8"/>
+        </svg>
+        <figcaption>İç mekân · perspektif</figcaption>
+      </figure>
+    <div class="prose" data-r>
+      <p class="statement sm"><span class="w" style="--i:0">İyi</span> <span class="w" style="--i:1">bir</span> <span class="w" style="--i:2">mekân,</span> <span class="w" style="--i:3">kâğıttaki</span> <span class="w" style="--i:4">çizgi</span> <span class="w" style="--i:5">ile</span> <span class="w" style="--i:6">şantiyedeki</span> <span class="w" style="--i:7">duvar</span> <span class="w" style="--i:8">aynı</span> <span class="w" style="--i:9">elden</span> <span class="w" style="--i:10">çıktığında</span> <span class="w" style="--i:11">olur.</span></p>
+      <p>Birçok projede tasarım bir ofiste, uygulama başka bir firmada yapılır. Aradaki boşlukta detaylar kaybolur, maliyetler sapar, karar verme yükü size kalır.</p>
+      <p>Biz bu boşluğu kapatmak için kurulduk. <strong>Tasarım, proje, ruhsat ve inşaatı aynı ekiple yürütüyoruz.</strong> Çizdiğimiz her detayın sahada nasıl yapılacağını bilerek çiziyor, sahada karşılaştığımız her durumu tasarımın diliyle çözüyoruz.</p>
+      <p>Sıcak, sade ve uzun ömürlü mekânlar seviyoruz: doğru oranlar, dürüst malzemeler, iyi ışık.</p>
     </div>
   </section>
-  <section class="sec">
-    <div class="wrap two">
-      <div><p class="label">Yaklaşım</p><p class="statement" style="margin-top:24px">İyi bir mekân, kâğıttaki çizgi ile şantiyedeki duvar <em>aynı elden</em> çıktığında olur.</p></div>
-      <div class="prose">
-        <p>Birçok projede tasarım bir ofiste, uygulama başka bir firmada yapılır. Aradaki boşlukta detaylar kaybolur, maliyetler sapar, karar verme yükü size kalır.</p>
-        <p>Biz bu boşluğu kapatmak için kurulduk. <strong>Tasarım, proje, ruhsat ve inşaatı aynı ekiple yürütüyoruz.</strong> Çizdiğimiz her detayın sahada nasıl yapılacağını bilerek çiziyor, sahada karşılaştığımız her durumu tasarımın diliyle çözüyoruz.</p>
-        <p>Sıcak, sade ve uzun ömürlü mekânlar seviyoruz: doğru oranlar, dürüst malzemeler, iyi ışık.</p>
-      </div>
-    </div>
-  </section>
-  <section class="sec stone">
-    <div class="wrap two">
-      <div><p class="label">Şirket bilgileri</p><h2 style="font-weight:300;font-size:clamp(28px,3vw,42px);line-height:1.15;margin-top:20px">Resmî <strong style="font-weight:600">kayıtlar</strong></h2></div>
-      <dl class="reg">
-        <div><dt>Ticari unvan</dt><dd>Dimart Mimarlık ve Müteahhitlik A.Ş.</dd></div>
-        <div><dt>Adres</dt><dd>Eyüp Sultan Mah. Elmaksan Sk. No:14, 34654 Sancaktepe / İstanbul</dd></div>
-        <div><dt>Vergi dairesi</dt><dd>Sultanbeyli</dd></div>
-        <div><dt>Vergi no</dt><dd>2971290153</dd></div>
-        <div><dt>MERSİS no</dt><dd>0297129015300001</dd></div>
-        <div><dt>Ticaret sicil no</dt><dd>316926-5</dd></div>
-      </dl>
-    </div>
-  </section>
-</main>
-<section class="band" aria-labelledby="iletisim-baslik">
-  <div class="wrap">
-    <div>
-      <p class="label">İletişim</p>
-      <h2 id="iletisim-baslik" style="margin-top:20px">Projenizi <strong>konuşalım.</strong></h2>
-      <p style="color:var(--night-mute);max-width:44ch;margin-top:22px">Arsanız, binanız ya da yalnızca bir fikriniz olsun. Kısa bir görüşmeyle ihtiyacınızı dinleyelim, size süreç ve takvim önerelim.</p>
-      <a class="btn" href="tel:+905324996096">Bizi arayın</a>
-    </div>
-    <dl class="nap">
-      <div><dt>Telefon</dt><dd><a href="tel:+905324996096">+90 532 499 60 96</a></dd></div>
-      <div><dt>E-posta</dt><dd><a href="mailto:info@dimartmimarlik.com">info@dimartmimarlik.com</a></dd></div>
-      <div><dt>Adres</dt><dd>Eyüp Sultan Mah. Elmaksan Sk. No:14,<br>34654 Sancaktepe / İstanbul</dd></div>
-      <div><dt>Harita</dt><dd><a href="https://www.google.com/maps/search/?api=1&query=Elmaksan+Sk.+No%3A14+Sancaktepe+%C4%B0stanbul" rel="noopener">Google Haritalar'da aç</a></dd></div>
+  <section class="split rev" aria-labelledby="kayit">
+    <div data-r><h2 class="label" id="kayit">Şirket bilgileri</h2><p class="h">Resmî kayıtlar</p></div>
+    <dl class="meta reg" data-r>
+      <div><dt>ticari unvan</dt><dd>Dimart Mimarlık ve Müteahhitlik A.Ş.</dd></div>
+      <div><dt>adres</dt><dd>Eyüp Sultan Mah. Elmaksan Sk. No:14, 34654 Sancaktepe / İstanbul</dd></div>
+      <div><dt>vergi dairesi</dt><dd>Sultanbeyli</dd></div>
+      <div><dt>vergi no</dt><dd>2971290153</dd></div>
+      <div><dt>mersis no</dt><dd>0297129015300001</dd></div>
+      <div><dt>ticaret sicil no</dt><dd>316926-5</dd></div>
     </dl>
+  </section>
+<footer class="foot">
+  <div class="foot-cta" data-r>
+    <p class="label">İletişim</p>
+    <p class="foot-big"><a href="/iletisim/">Projenizi <span class="y">konuşalım.</span></a></p>
   </div>
-</section>
-<footer class="site-foot">
-  <div class="wrap">
-    <img src="../assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="76" height="26" loading="lazy">
-    <nav aria-label="Alt menü"><a href="../studyo/">Stüdyo</a><a href="../hizmetler/">Hizmetler</a><a href="../projeler/">Projeler</a><a href="../iletisim/">İletişim</a></nav>
-    <div class="legal">
-      <span>© 2026 Dimart Mimarlık ve Müteahhitlik A.Ş.</span>
-      <span>Vergi dairesi: Sultanbeyli · VKN 2971290153</span>
-      <span>MERSİS 0297129015300001</span>
-      <span>Ticaret sicil 316926-5</span>
-    </div>
+  <dl class="meta foot-nap">
+    <div><dt>telefon</dt><dd><a href="tel:+905324996096">+90 532 499 60 96</a></dd></div>
+    <div><dt>e-posta</dt><dd><a href="mailto:info@dimartmimarlik.com">info@dimartmimarlik.com</a></dd></div>
+    <div><dt>adres</dt><dd>Eyüp Sultan Mah. Elmaksan Sk. No:14,<br>34654 Sancaktepe / İstanbul</dd></div>
+    <div><dt>harita</dt><dd><a href="https://www.google.com/maps/search/?api=1&query=Elmaksan+Sk.+No%3A14+Sancaktepe+%C4%B0stanbul" rel="noopener" target="_blank">Google Haritalar'da aç</a></dd></div>
+  </dl>
+  <div class="legal">
+    <span>© 2026 Dimart Mimarlık ve Müteahhitlik A.Ş.</span>
+    <span>Sultanbeyli V.D. · VKN 2971290153</span>
+    <span>MERSİS 0297129015300001</span>
+    <span>Ticaret sicil 316926-5</span>
   </div>
 </footer>
-<script>
-(function(){
-  var b=document.getElementById('menu-btn'),n=document.getElementById('nav'),h=document.querySelector('.site-head');
-  b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
-  var s=function(){h.classList.toggle('scrolled',window.scrollY>8)};s();window.addEventListener('scroll',s,{passive:true});
-})();
-</script>
+</main>
 </body>
 </html>
