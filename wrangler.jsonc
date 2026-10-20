@@ -4,5 +4,9 @@
   "assets": {
     "directory": "./public",
     "not_found_handling": "404-page"
-  }
+  },
+  "routes": [
+    { "pattern": "dimartmimarlik.com", "custom_domain": true },
+    { "pattern": "www.dimartmimarlik.com", "custom_domain": true }
+  ]
 }
