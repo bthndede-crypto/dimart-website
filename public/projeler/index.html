@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Projeler | Dimart Mimarlık</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Dimart Mimarlık'ın İstanbul'da tamamladığı konut, villa, ofis ve iç mimarlık projeleri.">
 <link rel="canonical" href="https://dimartmimarlik.com/projeler/">
 <meta property="og:type" content="website">
@@ -13,15 +12,19 @@
 <meta property="og:title" content="Projeler | Dimart Mimarlık">
 <meta property="og:description" content="Dimart Mimarlık'ın İstanbul'da tamamladığı konut, villa, ofis ve iç mimarlık projeleri.">
 <meta property="og:url" content="https://dimartmimarlik.com/projeler/">
-<meta name="theme-color" content="#FBFAF8">
-<link rel="icon" href="../assets/dimart-favicon.svg" type="image/svg+xml">
-<link rel="icon" href="../assets/dimart-favicon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<meta property="og:image" content="https://dimartmimarlik.com/assets/dimart-favicon-512.png">
+<meta name="theme-color" content="#100E0C">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/assets/dimart-favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/dimart-favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Open+Sans:wght@400;600&display=swap">
-<link rel="stylesheet" href="../assets/site.css">
-<script type="application/ld+json">
+<link rel="stylesheet" href="/assets/site.css">
+<script>try{if(!sessionStorage.getItem('dm-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro')}catch(e){}</script>
+<script src="/assets/site.js" defer></script>
+<script type="application/ld+json" id="ld">
 {
  "@context": "https://schema.org",
  "@graph": [
@@ -94,83 +97,82 @@
 </script>
 </head>
 <body>
-<header class="site-head" id="top">
-  <div class="wrap">
-    <a class="brand" href="../" aria-label="Dimart Mimarlık ana sayfa"><img src="../assets/dimart-logo-siyah.svg" alt="Dimart Mimarlık" width="88" height="30"></a>
-    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav">Menü</button>
-    <nav class="nav" id="nav" aria-label="Ana menü">
-      <a href="../studyo/">Stüdyo</a>
-      <a href="../hizmetler/">Hizmetler</a>
-      <a href="../projeler/" aria-current="page">Projeler</a>
-      <a href="../iletisim/">İletişim</a>
-    </nav>
+<a class="skip" href="#sayfa">İçeriğe geç</a>
+<div class="intro-ov" aria-hidden="true">
+  <div class="intro-in">
+    <img src="/assets/dimart-logo-beyaz.svg" alt="" width="176" height="60">
+    <i class="intro-line"></i>
+    <img class="intro-slogan" src="/assets/slogan-acik.png" alt="" width="260" height="51">
   </div>
-</header>
-<main>
+</div>
+<aside class="side">
+  <a class="brand" href="/" aria-label="Dimart Mimarlık ana sayfa"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="92" height="31"></a>
+  <img class="side-slogan" src="/assets/slogan-acik.png" alt="Her şey bir çizgiyle başlar." width="150" height="30">
+  <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav"><span>Menü</span><span>Kapat</span></button>
+  <nav class="nav" id="nav" aria-label="Ana menü">
+    <div class="nav-group">
+      <a href="/studyo/">Stüdyo</a>
+      <a href="/hizmetler/">Hizmetler</a>
+        <a href="/hizmetler/#mimari-tasarim" class="sub">Mimari tasarım</a>
+        <a href="/hizmetler/#ic-mimarlik" class="sub">İç mimarlık</a>
+        <a href="/hizmetler/#proje-ve-ruhsat" class="sub">Proje ve ruhsat</a>
+        <a href="/hizmetler/#insaat-anahtar-teslim" class="sub">İnşaat ve anahtar teslim</a>
+      <a href="/projeler/" aria-current="page">Projeler</a>
+    </div>
+    <div class="nav-group">
+      <a href="/iletisim/">İletişim</a>
+      <a href="tel:+905324996096" class="sub">+90 532 499 60 96</a>
+      <a href="mailto:info@dimartmimarlik.com" class="sub">info@dimartmimarlik.com</a>
+    </div>
+  </nav>
+</aside>
+<div class="util" role="group" aria-label="Görünüm ve ses">
+  <button type="button" id="fener-btn" aria-pressed="false" title="Fener: imleç çevresini aydınlatır">Fener</button>
+  <button type="button" id="ses-btn" aria-pressed="false" title="Ortam sesi"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Ses</button>
+</div>
+<div class="rail" aria-hidden="true"><i></i></div>
+<main id="sayfa" data-page="projeler">
   <section class="page-hero">
-    <div class="wrap">
-      <nav class="crumbs" aria-label="Konum"><a href="../">Ana sayfa</a><span>/</span><span>Projeler</span></nav>
-      <h1>Seçili <strong>projeler.</strong></h1>
-      <p>Konut, villa, ofis ve ticari mekânlarda tasarladığımız ve inşa ettiğimiz işler. Her projede konum, yıl, alan ve üstlendiğimiz hizmetleri paylaşıyoruz.</p>
-    </div>
+    <nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a><span>/</span><span>Projeler</span></nav>
+    <h1 data-r>Seçili <span class="y">projeler.</span></h1>
+    <p class="lead" data-r>Konut, villa, ofis ve ticari mekânlarda tasarladığımız ve inşa ettiğimiz işler. Proje fotoğraflarımızı hazırlıyoruz; her projede konum, yıl, alan ve üstlendiğimiz hizmetleri paylaşacağız.</p>
   </section>
-  <section class="sec">
-    <div class="wrap">
-      <div class="works">
-      <figure class="work wide">
-        <div class="ph"><span>Proje görseli eklenecek</span></div>
-        <figcaption><h3>Proje adı</h3><small>İlçe · Yıl<br>Konut · İç mimarlık</small></figcaption>
-      </figure>
-      <figure class="work narrow">
-        <div class="ph"><span>Proje görseli eklenecek</span></div>
-        <figcaption><h3>Proje adı</h3><small>İlçe · Yıl<br>Villa · Anahtar teslim</small></figcaption>
-      </figure>
-      <figure class="work narrow">
-        <div class="ph"><span>Proje görseli eklenecek</span></div>
-        <figcaption><h3>Proje adı</h3><small>İlçe · Yıl<br>Ofis · İç mimarlık</small></figcaption>
-      </figure>
-      <figure class="work wide">
-        <div class="ph"><span>Proje görseli eklenecek</span></div>
-        <figcaption><h3>Proje adı</h3><small>İlçe · Yıl<br>Konut · İnşaat</small></figcaption>
-      </figure>
-      </div>
-    </div>
+  <section class="works list">
+    <figure class="piece p1">
+      <div class="frame m-traverten empty" data-r data-speed="-0.04"><span>görseller hazırlanıyor</span></div>
+      <figcaption class="cap" data-r><h3>konut</h3><small>İç mimarlık · İstanbul</small></figcaption>
+    </figure>
+    <figure class="piece p2">
+      <div class="frame m-siva empty" data-r data-speed="0.07"><span>görseller hazırlanıyor</span></div>
+      <figcaption class="cap" data-r><h3>villa</h3><small>Anahtar teslim · İstanbul</small></figcaption>
+    </figure>
+    <figure class="piece p3">
+      <div class="frame m-mese empty" data-r data-speed="-0.04"><span>görseller hazırlanıyor</span></div>
+      <figcaption class="cap" data-r><h3>ofis</h3><small>İç mimarlık · İstanbul</small></figcaption>
+    </figure>
+    <figure class="piece p4">
+      <div class="frame m-kagit empty" data-r data-speed="0.07"><span>görseller hazırlanıyor</span></div>
+      <figcaption class="cap" data-r><h3>konut</h3><small>Mimari tasarım ve inşaat · İstanbul</small></figcaption>
+    </figure>
   </section>
-</main>
-<section class="band" aria-labelledby="iletisim-baslik">
-  <div class="wrap">
-    <div>
-      <p class="label">İletişim</p>
-      <h2 id="iletisim-baslik" style="margin-top:20px">Projenizi <strong>konuşalım.</strong></h2>
-      <p style="color:var(--night-mute);max-width:44ch;margin-top:22px">Arsanız, binanız ya da yalnızca bir fikriniz olsun. Kısa bir görüşmeyle ihtiyacınızı dinleyelim, size süreç ve takvim önerelim.</p>
-      <a class="btn" href="tel:+905324996096">Bizi arayın</a>
-    </div>
-    <dl class="nap">
-      <div><dt>Telefon</dt><dd><a href="tel:+905324996096">+90 532 499 60 96</a></dd></div>
-      <div><dt>E-posta</dt><dd><a href="mailto:info@dimartmimarlik.com">info@dimartmimarlik.com</a></dd></div>
-      <div><dt>Adres</dt><dd>Eyüp Sultan Mah. Elmaksan Sk. No:14,<br>34654 Sancaktepe / İstanbul</dd></div>
-      <div><dt>Harita</dt><dd><a href="https://www.google.com/maps/search/?api=1&query=Elmaksan+Sk.+No%3A14+Sancaktepe+%C4%B0stanbul" rel="noopener">Google Haritalar'da aç</a></dd></div>
-    </dl>
+<footer class="foot">
+  <div class="foot-cta" data-r>
+    <p class="label">İletişim</p>
+    <p class="foot-big"><a href="/iletisim/">Projenizi <span class="y">konuşalım.</span></a></p>
   </div>
-</section>
-<footer class="site-foot">
-  <div class="wrap">
-    <img src="../assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="76" height="26" loading="lazy">
-    <nav aria-label="Alt menü"><a href="../studyo/">Stüdyo</a><a href="../hizmetler/">Hizmetler</a><a href="../projeler/">Projeler</a><a href="../iletisim/">İletişim</a></nav>
-    <div class="legal">
-      <span>© 2026 Dimart Mimarlık ve Müteahhitlik A.Ş.</span>
-      <span>Vergi dairesi: Sultanbeyli · VKN 2971290153</span>
-      <span>MERSİS 0297129015300001</span>
-      <span>Ticaret sicil 316926-5</span>
-    </div>
+  <dl class="meta foot-nap">
+    <div><dt>telefon</dt><dd><a href="tel:+905324996096">+90 532 499 60 96</a></dd></div>
+    <div><dt>e-posta</dt><dd><a href="mailto:info@dimartmimarlik.com">info@dimartmimarlik.com</a></dd></div>
+    <div><dt>adres</dt><dd>Eyüp Sultan Mah. Elmaksan Sk. No:14,<br>34654 Sancaktepe / İstanbul</dd></div>
+    <div><dt>harita</dt><dd><a href="https://www.google.com/maps/search/?api=1&query=Elmaksan+Sk.+No%3A14+Sancaktepe+%C4%B0stanbul" rel="noopener" target="_blank">Google Haritalar'da aç</a></dd></div>
+  </dl>
+  <div class="legal">
+    <span>© 2026 Dimart Mimarlık ve Müteahhitlik A.Ş.</span>
+    <span>Sultanbeyli V.D. · VKN 2971290153</span>
+    <span>MERSİS 0297129015300001</span>
+    <span>Ticaret sicil 316926-5</span>
   </div>
 </footer>
-<script>
-(function(){
-  var b=document.getElementById('menu-btn'),n=document.getElementById('nav'),h=document.querySelector('.site-head');
-  b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
-  var s=function(){h.classList.toggle('scrolled',window.scrollY>8)};s();window.addEventListener('scroll',s,{passive:true});
-})();
-</script>
+</main>
 </body>
 </html>

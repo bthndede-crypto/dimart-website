@@ -90,20 +90,100 @@ SUREC = [
     ("Teslim", "Kontrolleri yapar, anahtarı ve belgeleri teslim ederiz."),
 ]
 
+# Fotoğraflar gelene kadar yer tutucu: (malzeme, tür, hizmet)
 PROJELER = [
-    ("wide", "Proje adı", "İlçe · Yıl", "Konut · İç mimarlık"),
-    ("narrow", "Proje adı", "İlçe · Yıl", "Villa · Anahtar teslim"),
-    ("narrow", "Proje adı", "İlçe · Yıl", "Ofis · İç mimarlık"),
-    ("wide", "Proje adı", "İlçe · Yıl", "Konut · İnşaat"),
+    ("traverten", "Konut", "İç mimarlık"),
+    ("siva", "Villa", "Anahtar teslim"),
+    ("mese", "Ofis", "İç mimarlık"),
+    ("kagit", "Konut", "Mimari tasarım ve inşaat"),
 ]
 
 
-def rel(depth):
-    return "../" * depth
+
+# Her hizmet için ince çizgili bir çizim ve malzeme dokusu: slug -> (malzeme, altyazı, çizim adı, svg)
+CIZIMLER = {
+    "mimari-tasarim": ("kagit", "Ön cephe · 1:100", "İki katlı bir konutun cephe çizimi", """
+      <path pathLength="1" class="ln" d="M24 420 H376"/>
+      <path pathLength="1" class="ln" d="M60 420 V270 H240 V420"/>
+      <path pathLength="1" class="ln" d="M120 270 V160 H350 V270 H240"/>
+      <path pathLength="1" class="ln" d="M330 270 V420"/>
+      <path pathLength="1" class="ln" d="M150 186 H322 V244 H150 Z"/>
+      <path pathLength="1" class="ln" d="M85 300 H150 V380 H85 Z M180 420 V318 H216 V420"/>
+      <path pathLength="1" class="ln t" d="M207 186 V244 M265 186 V244 M117.5 300 V380"/>
+      <path pathLength="1" class="ln t" d="M38 160 V420 M33 160 H43 M33 420 H43 M60 446 H350 M60 441 V451 M350 441 V451"/>
+      <rect class="sq" x="116" y="156" width="8" height="8"/>
+      <text x="205" y="468" text-anchor="middle">11.60</text>""", "0 0 400 500"),
+    "ic-mimarlik": ("siva", "İç mekân · perspektif", "Kemerli açıklığı olan sade bir iç mekânın perspektif çizimi", """
+      <path pathLength="1" class="ln" d="M110 150 H290 V330 H110 Z"/>
+      <path pathLength="1" class="ln" d="M110 150 L10 40 M290 150 L390 40 M110 330 L10 470 M290 330 L390 470"/>
+      <path pathLength="1" class="ln" d="M170 330 V235 A30 30 0 0 1 230 235 V330"/>
+      <path pathLength="1" class="ln" d="M40 135 L82 160 L82 268 L40 298 Z"/>
+      <path pathLength="1" class="ln t" d="M61 147 V283 M40 216 L82 214"/>
+      <path pathLength="1" class="ln" d="M125 330 V306 H160 V330 M240 330 V306 H275 V330"/>
+      <path pathLength="1" class="ln t" d="M150 330 L76 470 M180 330 L160 470 M220 330 L240 470 M250 330 L324 470"/>
+      <path pathLength="1" class="ln t" d="M200 150 V196"/>
+      <circle pathLength="1" class="ln" cx="200" cy="204" r="8"/>
+      <rect class="sq" x="196" y="296" width="8" height="8"/>""", "0 0 400 500"),
+    "proje-ve-ruhsat": ("beton", "Zemin kat planı · 1:50", "Bir konutun zemin kat plan çizimi", """
+      <path pathLength="1" class="ln" d="M40 50 H360 V450 H40 Z"/>
+      <path pathLength="1" class="ln t" d="M48 58 H352 V442 H48 Z"/>
+      <path pathLength="1" class="ln" d="M200 50 V170 M200 220 V290 H260 M310 290 H360"/>
+      <path pathLength="1" class="ln" d="M40 290 H140 M190 290 H200"/>
+      <path pathLength="1" class="ln t" d="M200 170 A50 50 0 0 1 250 220 M140 290 A50 50 0 0 0 190 340 M260 290 A50 50 0 0 1 310 340"/>
+      <path pathLength="1" class="ln t" d="M90 50 V42 M150 50 V42 M260 50 V42 M320 50 V42 M40 470 H360 M40 465 V475 M360 465 V475"/>
+      <path pathLength="1" class="ln t" d="M230 340 H340 V430 H230 Z M240 350 H330 M240 360 H330 M240 370 H330 M240 380 H330 M240 390 H330 M240 400 H330 M240 410 H330 M240 420 H330"/>
+      <rect class="sq" x="96" y="166" width="8" height="8"/>
+      <text x="200" y="492" text-anchor="middle">9.20</text>""", "0 0 400 500"),
+    "insaat-anahtar-teslim": ("mese", "Kesit A-A · 1:100", "Döşeme, kolon ve merdiveni gösteren bir yapı kesiti", """
+      <path pathLength="1" class="ln" d="M20 400 H380"/>
+      <path pathLength="1" class="ln t" d="M40 400 L60 420 M80 400 L100 420 M120 400 L140 420 M160 400 L180 420 M200 400 L220 420 M240 400 L260 420 M280 400 L300 420 M320 400 L340 420"/>
+      <path pathLength="1" class="ln" d="M50 392 H350 V400 M50 392 V400 M50 282 H350 V292 H50 Z M50 172 H350 V182 H50 Z M40 62 H360 V72 H40 Z"/>
+      <path pathLength="1" class="ln" d="M70 392 V292 M84 392 V292 M316 392 V292 M330 392 V292 M70 282 V182 M84 282 V182 M316 282 V182 M330 282 V182 M70 172 V72 M84 172 V72 M316 172 V72 M330 172 V72"/>
+      <path pathLength="1" class="ln t" d="M150 392 L250 292 M150 392 V382 H160 V372 H170 V362 H180 V352 H190 V342 H200 V332 H210 V322 H220 V312 H230 V302 H240 V292"/>
+      <path pathLength="1" class="ln t" d="M120 202 H270 V262 H120 Z M195 202 V262 M120 92 H270 V152 H120 Z M195 92 V152"/>
+      <path pathLength="1" class="ln t" d="M40 62 V44 H360 V62"/>
+      <rect class="sq" x="73" y="62" width="8" height="8"/>
+      <text x="364" y="290">+3.00</text>""", "0 0 400 500"),
+}
 
 
-def head(title, desc, path, depth, ld):
-    r = rel(depth)
+def _aks(boxes, extra):
+    """Basit aksonometrik çizim: görünen kenarlar + yüzeyde çizgiler."""
+    import math
+    c30, s30, k = math.cos(math.radians(30)), .5, 17
+
+    def P(x, y, z):
+        return f"{200 + (x - y) * c30 * k:.1f} {265 + (x + y) * s30 * k - z * k:.1f}"
+    out = []
+    for x0, x1, y0, y1, z0, z1 in boxes:
+        d = (f"M{P(x0,y0,z1)} L{P(x1,y0,z1)} L{P(x1,y1,z1)} L{P(x0,y1,z1)} Z "
+             f"M{P(x1,y0,z1)} L{P(x1,y0,z0)} L{P(x1,y1,z0)} L{P(x0,y1,z0)} L{P(x0,y1,z1)} "
+             f"M{P(x1,y1,z1)} L{P(x1,y1,z0)}")
+        out.append(f'<path pathLength="1" class="ln" d="{d}"/>')
+    for cls, pts in extra:
+        out.append(f'<path pathLength="1" class="ln{cls}" d="' + " ".join(
+            ("M" if i == 0 else "L") + P(*q) for i, q in enumerate(pts)) + '"/>')
+    return "\n      " + "\n      ".join(out)
+
+
+ESKIZ = _aks(
+    [(0, 10, 0, 6, 0, 3.2), (-2, 7, 1, 7, 3.2, 6.2)],
+    [(" t", [(-2, 7, 4), (7, 7, 4)]), (" t", [(-2, 7, 5.6), (7, 7, 5.6)]),
+     (" t", [(1, 7, 4), (1, 7, 5.6)]), (" t", [(4, 7, 4), (4, 7, 5.6)]),
+     ("", [(10, 2, 0), (10, 2, 2.4), (10, 3.6, 2.4), (10, 3.6, 0)]),
+     (" t", [(10, 4.4, .8), (10, 4.4, 2.4), (10, 5.6, 2.4), (10, 5.6, .8), (10, 4.4, .8)]),
+     (" t", [(11.5, -1, 0), (11.5, 8.5, 0)]), (" t", [(-3, 8.5, 0), (11.5, 8.5, 0)])])
+
+
+CIZIMLER["eskiz"] = ("traverten", "Eskiz · aksonometri", "Konsol üst katlı bir konutun aksonometrik eskizi",
+                      ESKIZ + '\n      <rect class="sq" x="255" y="343" width="8" height="8"/>', "0 0 400 500")
+
+
+def esc_attr(t):
+    return t.replace('"', "&quot;")
+
+
+def head(title, desc, path, ld, page):
     url = f"{SITE}/{path}"
     return f"""<!doctype html>
 <html lang="tr">
@@ -111,92 +191,98 @@ def head(title, desc, path, depth, ld):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="{desc}">
+<meta name="description" content="{esc_attr(desc)}">
 <link rel="canonical" href="{url}">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="tr_TR">
 <meta property="og:site_name" content="Dimart Mimarlık">
-<meta property="og:title" content="{title}">
-<meta property="og:description" content="{desc}">
+<meta property="og:title" content="{esc_attr(title)}">
+<meta property="og:description" content="{esc_attr(desc)}">
 <meta property="og:url" content="{url}">
-<meta name="theme-color" content="#FBFAF8">
-<link rel="icon" href="{r}assets/dimart-favicon.svg" type="image/svg+xml">
-<link rel="icon" href="{r}assets/dimart-favicon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="{r}assets/apple-touch-icon.png">
+<meta property="og:image" content="{SITE}/assets/dimart-favicon-512.png">
+<meta name="theme-color" content="#100E0C">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/assets/dimart-favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/dimart-favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Open+Sans:wght@400;600&display=swap">
-<link rel="stylesheet" href="{r}assets/site.css">
-<script type="application/ld+json">
+<link rel="stylesheet" href="/assets/site.css">
+<script>try{{if(!sessionStorage.getItem('dm-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro')}}catch(e){{}}</script>
+<script src="/assets/site.js" defer></script>
+<script type="application/ld+json" id="ld">
 {json.dumps({"@context": "https://schema.org", "@graph": ld}, ensure_ascii=False, indent=1)}
 </script>
 </head>
 <body>
-"""
-
-
-def header(depth, current):
-    r = rel(depth)
-    links = "\n".join(
-        f'      <a href="{r}{slug}/"{" aria-current=\"page\"" if slug == current else ""}>{name}</a>'
-        for slug, name in NAV)
-    return f"""<header class="site-head" id="top">
-  <div class="wrap">
-    <a class="brand" href="{r or './'}" aria-label="Dimart Mimarlık ana sayfa"><img src="{r}assets/dimart-logo-siyah.svg" alt="Dimart Mimarlık" width="88" height="30"></a>
-    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav">Menü</button>
-    <nav class="nav" id="nav" aria-label="Ana menü">
-{links}
-    </nav>
+<a class="skip" href="#sayfa">İçeriğe geç</a>
+<div class="intro-ov" aria-hidden="true">
+  <div class="intro-in">
+    <img src="/assets/dimart-logo-beyaz.svg" alt="" width="176" height="60">
+    <i class="intro-line"></i>
+    <img class="intro-slogan" src="/assets/slogan-acik.png" alt="" width="260" height="51">
   </div>
-</header>
+</div>
+""" + shell(path) + f"""
+<main id="sayfa" data-page="{page}">
 """
 
 
-def band(depth):
+def shell(path):
+    cur = "/" + path
+
+    def a(href, name, cls=""):
+        c = f' class="{cls}"' if cls else ""
+        return f'<a href="{href}"{c}{" aria-current=\"page\"" if href == cur else ""}>{name}</a>'
+    subs = "\n".join(f'        <a href="/hizmetler/#{slug}" class="sub">{ad}</a>' for _, ad, slug, *_ in HIZMETLER)
     f = FIRMA
-    return f"""<section class="band" aria-labelledby="iletisim-baslik">
-  <div class="wrap">
-    <div>
-      <p class="label">İletişim</p>
-      <h2 id="iletisim-baslik" style="margin-top:20px">Projenizi <strong>konuşalım.</strong></h2>
-      <p style="color:var(--night-mute);max-width:44ch;margin-top:22px">Arsanız, binanız ya da yalnızca bir fikriniz olsun. Kısa bir görüşmeyle ihtiyacınızı dinleyelim, size süreç ve takvim önerelim.</p>
-      <a class="btn" href="tel:{f['tel_link']}">Bizi arayın</a>
+    return f"""<aside class="side">
+  <a class="brand" href="/" aria-label="Dimart Mimarlık ana sayfa"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="92" height="31"></a>
+  <img class="side-slogan" src="/assets/slogan-acik.png" alt="Her şey bir çizgiyle başlar." width="150" height="30">
+  <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav"><span>Menü</span><span>Kapat</span></button>
+  <nav class="nav" id="nav" aria-label="Ana menü">
+    <div class="nav-group">
+      {a("/studyo/", "Stüdyo")}
+      {a("/hizmetler/", "Hizmetler")}
+{subs}
+      {a("/projeler/", "Projeler")}
     </div>
-    <dl class="nap">
-      <div><dt>Telefon</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a></dd></div>
-      <div><dt>E-posta</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
-      <div><dt>Adres</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / {f['il']}</dd></div>
-      <div><dt>Harita</dt><dd><a href="{HARITA}" rel="noopener">Google Haritalar'da aç</a></dd></div>
-    </dl>
+    <div class="nav-group">
+      {a("/iletisim/", "İletişim")}
+      <a href="tel:{f['tel_link']}" class="sub">{f['tel']}</a>
+      <a href="mailto:{f['eposta']}" class="sub">{f['eposta']}</a>
+    </div>
+  </nav>
+</aside>
+<div class="util" role="group" aria-label="Görünüm ve ses">
+  <button type="button" id="fener-btn" aria-pressed="false" title="Fener: imleç çevresini aydınlatır">Fener</button>
+  <button type="button" id="ses-btn" aria-pressed="false" title="Ortam sesi"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Ses</button>
+</div>
+<div class="rail" aria-hidden="true"><i></i></div>"""
+
+
+def footer():
+    f = FIRMA
+    return f"""<footer class="foot">
+  <div class="foot-cta" data-r>
+    <p class="label">İletişim</p>
+    <p class="foot-big"><a href="/iletisim/">Projenizi <span class="y">konuşalım.</span></a></p>
   </div>
-</section>
-"""
-
-
-def footer(depth):
-    r = rel(depth)
-    f = FIRMA
-    links = "".join(f'<a href="{r}{slug}/">{name}</a>' for slug, name in NAV)
-    return f"""<footer class="site-foot">
-  <div class="wrap">
-    <img src="{r}assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="76" height="26" loading="lazy">
-    <nav aria-label="Alt menü">{links}</nav>
-    <div class="legal">
-      <span>© 2026 {f['unvan']}</span>
-      <span>Vergi dairesi: {f['vd']} · VKN {f['vkn']}</span>
-      <span>MERSİS {f['mersis']}</span>
-      <span>Ticaret sicil {f['sicil']}</span>
-    </div>
+  <dl class="meta foot-nap">
+    <div><dt>telefon</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a></dd></div>
+    <div><dt>e-posta</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
+    <div><dt>adres</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / {f['il']}</dd></div>
+    <div><dt>harita</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">Google Haritalar'da aç</a></dd></div>
+  </dl>
+  <div class="legal">
+    <span>© 2026 {f['unvan']}</span>
+    <span>{f['vd']} V.D. · VKN {f['vkn']}</span>
+    <span>MERSİS {f['mersis']}</span>
+    <span>Ticaret sicil {f['sicil']}</span>
   </div>
 </footer>
-<script>
-(function(){{
-  var b=document.getElementById('menu-btn'),n=document.getElementById('nav'),h=document.querySelector('.site-head');
-  b.addEventListener('click',function(){{var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)}});
-  var s=function(){{h.classList.toggle('scrolled',window.scrollY>8)}};s();window.addEventListener('scroll',s,{{passive:true}});
-}})();
-</script>
+</main>
 </body>
 </html>
 """
@@ -213,120 +299,81 @@ def faq_ld(qs):
 
 
 def faq_html(qs):
-    return "\n".join(f"        <details><summary>{q}</summary><p>{a}</p></details>" for q, a in qs)
+    return "\n".join(f"      <details data-r><summary>{q}</summary><p>{a}</p></details>" for q, a in qs)
 
 
-def works_html(depth):
-    return "\n".join(f"""      <figure class="work {cls}">
-        <div class="ph"><span>Proje görseli eklenecek</span></div>
-        <figcaption><h3>{ad}</h3><small>{yer}<br>{tur}</small></figcaption>
-      </figure>""" for cls, ad, yer, tur in PROJELER)
+def words(text):
+    """Cümleyi kelime kelime beliren span'lere böler (metin aynen HTML'de kalır)."""
+    return " ".join(f'<span class="w" style="--i:{i}">{w}</span>' for i, w in enumerate(text.split()))
 
 
-DRAWING = """<div class="drawing" role="img" aria-label="İki katlı modern bir konutun ince çizgili cephe çizimi">
-        <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-          <path pathLength="1" class="ln draw" d="M24 420 H376"/>
-          <path pathLength="1" class="ln draw d2" d="M60 420 V270 H240 V420"/>
-          <path pathLength="1" class="ln draw d2" d="M120 270 V160 H350 V270 H240"/>
-          <path pathLength="1" class="ln draw d3" d="M330 270 V420"/>
-          <path pathLength="1" class="ln draw d3" d="M150 186 H322 V244 H150 Z"/>
-          <path pathLength="1" class="ln draw d3" d="M85 300 H150 V380 H85 Z M180 420 V318 H216 V420"/>
-          <path pathLength="1" class="ln thin draw d4" d="M207 186 V244 M265 186 V244 M117.5 300 V380"/>
-          <path pathLength="1" class="ln thin draw d4" d="M38 160 V420 M33 160 H43 M33 420 H43 M60 446 H350 M60 441 V451 M350 441 V451"/>
-          <rect class="sq" x="116" y="156" width="8" height="8"/>
-          <text x="205" y="468" text-anchor="middle">11.60 M</text>
-          <text x="26" y="290" text-anchor="middle" transform="rotate(-90 26 290)">7.80 M</text>
+def frame(slug, cls="", speed=None):
+    mat, cap, alt, svg, vb = CIZIMLER[slug]
+    sp = f' data-speed="{speed}"' if speed else ""
+    return f"""<figure class="frame m-{mat} {cls}"{sp} data-r>
+        <svg viewBox="{vb}" role="img" aria-label="{alt}">{svg}
         </svg>
-        <div class="cap"><span>Ön cephe</span><span>Ölçek 1:100</span></div>
-      </div>"""
+        <figcaption>{cap}</figcaption>
+      </figure>"""
+
+
+def crumbs(name):
+    return f'<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a><span>/</span><span>{name}</span></nav>'
 
 
 def page_home():
     ld = [ORG, {"@type": "WebSite", "@id": f"{SITE}/#site", "url": f"{SITE}/", "name": "Dimart Mimarlık",
                 "inLanguage": "tr-TR", "publisher": {"@id": f"{SITE}/#firma"}}, faq_ld(SSS)]
-    svc = "\n".join(f"""      <a class="svc-row" href="hizmetler/#{slug}" style="text-decoration:none">
-        <span class="code">{code}</span><h3>{ad}</h3><p>{kisa}</p>
-      </a>""" for code, ad, slug, kisa, *_ in HIZMETLER)
-    steps = "\n".join(f"        <li><h3>{a}</h3><p>{b}</p></li>" for a, b in SUREC)
+    pieces = "\n".join(f"""    <a class="piece p{i + 1}" href="/hizmetler/#{slug}" data-cursor="İncele">
+      {frame(slug, speed=("0.08" if i % 2 else "-0.05"))}
+      <div class="cap" data-r><h3>{ad.lower()}</h3><small>{kisa}</small></div>
+    </a>""" for i, (code, ad, slug, kisa, *_) in enumerate(HIZMETLER))
+    steps = "\n".join(f'      <li data-r style="--d:{i}"><span class="n">0{i + 1}</span><h3>{a}</h3><p>{b}</p></li>'
+                      for i, (a, b) in enumerate(SUREC))
     return head("Dimart Mimarlık | İstanbul'da mimarlık, iç mimarlık ve anahtar teslim inşaat",
                 "Dimart Mimarlık ve Müteahhitlik A.Ş. İstanbul Sancaktepe merkezli; mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulamayı tek ekiple yürütür.",
-                "", 0, ld) + header(0, "") + f"""<main>
-  <section class="hero">
-    <div class="wrap">
-      <div>
-        <p class="label">Mimarlık &amp; Müteahhitlik · İstanbul</p>
-        <h1>Tasarımdan anahtar teslime <strong>tek çizgi<span class="dot"></span></strong></h1>
-        <p class="lead">Dimart, İstanbul'da konut, ofis ve ticari mekânları tasarlar, projelendirir ve inşa eder. Çizimi yapan ekip şantiyeyi de yönetir; siz tek muhatapla çalışırsınız.</p>
-        <div class="actions">
-          <a class="btn" href="iletisim/">Projenizi konuşalım</a>
-          <a class="btn line" href="projeler/">Projeler</a>
-        </div>
-        <img class="slogan" src="assets/slogan-renkli.png" alt="Her şey bir çizgiyle başlar." width="1945" height="383">
-      </div>
-      {DRAWING}
+                "", ld, "home") + f"""  <section class="hero">
+    {frame("eskiz", "hero-frame", "0.06")}
+    <div class="hero-text" data-r>
+      <p class="label">Mimarlık &amp; müteahhitlik · İstanbul</p>
+      <h1>Tasarımdan anahtar teslime <span class="y">tek çizgi.</span></h1>
+      <p class="lead">Dimart, İstanbul'da konut, ofis ve ticari mekânları tasarlar, projelendirir ve inşa eder. Çizimi yapan ekip şantiyeyi de yönetir; siz tek muhatapla çalışırsınız.</p>
+      <p class="links"><a class="go" href="/iletisim/">Projenizi konuşalım</a><a class="go" href="/hizmetler/">Hizmetler</a></p>
     </div>
+    <p class="cue" aria-hidden="true">kaydırın</p>
   </section>
 
-  <section class="sec stone" aria-labelledby="yaklasim">
-    <div class="wrap">
-      <p class="label" id="yaklasim">Yaklaşım</p>
-      <p class="statement" style="margin-top:28px">Her yapı bir çizgiyle başlar. Biz o çizgiyi <em>ilk eskizden son anahtara</em> kadar elden bırakmıyoruz.</p>
-      <dl class="facts">
-        <div><dt>Disiplin</dt><dd>Mimarlık, iç mimarlık, inşaat</dd></div>
-        <div><dt>Model</dt><dd>Tek ekip, tek sözleşme</dd></div>
-        <div><dt>Bölge</dt><dd>İstanbul geneli</dd></div>
-        <div><dt>Ofis</dt><dd>Sancaktepe, İstanbul</dd></div>
-      </dl>
-    </div>
+  <section class="works" aria-labelledby="calismalar">
+    <h2 class="label" id="calismalar" data-r>Hizmetler · çizimden yapıya</h2>
+{pieces}
   </section>
 
-  <section class="sec" aria-labelledby="secili">
-    <div class="wrap">
-      <div class="sec-head">
-        <div><p class="label">Projeler</p><h2 id="secili">Seçili <strong>işler</strong></h2></div>
-        <p>Konuttan ofise, sıfırdan inşaattan iç mekân yenilemeye kadar tamamladığımız işlerden bir seçki.</p>
-      </div>
-      <div class="works">
-{works_html(0)}
-      </div>
-      <div class="actions"><a class="btn line" href="projeler/">Tüm projeler</a></div>
-    </div>
+  <section class="say" aria-labelledby="yaklasim">
+    <h2 class="label" id="yaklasim" data-r>Yaklaşım</h2>
+    <p class="statement" data-r>{words("Her yapı bir çizgiyle başlar. Biz o çizgiyi ilk eskizden son anahtara kadar elden bırakmıyoruz.")}</p>
+    <dl class="meta facts" data-r>
+      <div><dt>disiplin</dt><dd>Mimarlık, iç mimarlık, inşaat</dd></div>
+      <div><dt>model</dt><dd>Tek ekip, tek sözleşme</dd></div>
+      <div><dt>bölge</dt><dd>İstanbul geneli</dd></div>
+      <div><dt>ofis</dt><dd>Sancaktepe, İstanbul</dd></div>
+    </dl>
   </section>
 
-  <section class="sec stone" aria-labelledby="hizmet">
-    <div class="wrap">
-      <div class="sec-head">
-        <div><p class="label">Hizmetler</p><h2 id="hizmet">Bir çizgiden <strong>bitmiş yapıya</strong></h2></div>
-        <p>Her aşamayı ayrı firmalara dağıtmak yerine tasarım, ruhsat ve uygulamayı aynı çatı altında yürütüyoruz.</p>
-      </div>
-      <div class="svc">
-{svc}
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" aria-labelledby="surec">
-    <div class="wrap">
-      <div class="sec-head">
-        <div><p class="label">Süreç</p><h2 id="surec">Beş adımda <strong>teslim</strong></h2></div>
-        <p>Her adımın sonunda ne teslim edeceğimizi baştan konuşuruz. Süreç boyunca tek bir proje sorumlusu sizinle iletişimde olur.</p>
-      </div>
-      <ol class="steps">
+  <section class="process" aria-labelledby="surec">
+    <div class="sec-head" data-r><h2 class="label" id="surec">Süreç</h2><p class="h">Beş adımda teslim</p></div>
+    <ol class="steps">
+      <i class="steps-line" aria-hidden="true"></i>
 {steps}
-      </ol>
-    </div>
+    </ol>
   </section>
 
-  <section class="sec stone" aria-labelledby="sss">
-    <div class="wrap two">
-      <div><p class="label">Sık sorulan sorular</p><h2 id="sss" style="font-weight:300;font-size:clamp(30px,3.6vw,50px);line-height:1.1;margin-top:20px">Merak <strong style="font-weight:600">edilenler</strong></h2></div>
-      <div class="faq">
+  <section class="qa" aria-labelledby="sss">
+    <div class="sec-head" data-r><h2 class="label" id="sss">Sık sorulan sorular</h2><p class="h">Merak edilenler</p></div>
+    <div class="faq">
 {faq_html(SSS)}
-      </div>
     </div>
   </section>
-</main>
-""" + band(0) + footer(0)
+""" + footer()
 
 
 def page_studyo():
@@ -335,39 +382,32 @@ def page_studyo():
     f = FIRMA
     return head("Stüdyo | Dimart Mimarlık",
                 "Dimart Mimarlık ve Müteahhitlik A.Ş. hakkında: yaklaşımımız, çalışma biçimimiz ve şirket bilgileri. Sancaktepe, İstanbul.",
-                "studyo/", 1, ld) + header(1, "studyo") + f"""<main>
-  <section class="page-hero">
-    <div class="wrap">
-      <nav class="crumbs" aria-label="Konum"><a href="../">Ana sayfa</a><span>/</span><span>Stüdyo</span></nav>
-      <h1>Çizen de, <strong>inşa eden de biziz.</strong></h1>
-      <p>Dimart Mimarlık ve Müteahhitlik, mimari tasarım, iç mimarlık ve inşaatı tek ekipte birleştiren bir İstanbul stüdyosudur.</p>
+                "studyo/", ld, "studyo") + f"""  <section class="page-hero">
+    {crumbs("Stüdyo")}
+    <h1 data-r>Çizen de, <span class="y">inşa eden de biziz.</span></h1>
+    <p class="lead" data-r>Dimart Mimarlık ve Müteahhitlik, mimari tasarım, iç mimarlık ve inşaatı tek ekipte birleştiren bir İstanbul stüdyosudur.</p>
+  </section>
+  <section class="split">
+    {frame("ic-mimarlik", "", "0.05")}
+    <div class="prose" data-r>
+      <p class="statement sm">{words("İyi bir mekân, kâğıttaki çizgi ile şantiyedeki duvar aynı elden çıktığında olur.")}</p>
+      <p>Birçok projede tasarım bir ofiste, uygulama başka bir firmada yapılır. Aradaki boşlukta detaylar kaybolur, maliyetler sapar, karar verme yükü size kalır.</p>
+      <p>Biz bu boşluğu kapatmak için kurulduk. <strong>Tasarım, proje, ruhsat ve inşaatı aynı ekiple yürütüyoruz.</strong> Çizdiğimiz her detayın sahada nasıl yapılacağını bilerek çiziyor, sahada karşılaştığımız her durumu tasarımın diliyle çözüyoruz.</p>
+      <p>Sıcak, sade ve uzun ömürlü mekânlar seviyoruz: doğru oranlar, dürüst malzemeler, iyi ışık.</p>
     </div>
   </section>
-  <section class="sec">
-    <div class="wrap two">
-      <div><p class="label">Yaklaşım</p><p class="statement" style="margin-top:24px">İyi bir mekân, kâğıttaki çizgi ile şantiyedeki duvar <em>aynı elden</em> çıktığında olur.</p></div>
-      <div class="prose">
-        <p>Birçok projede tasarım bir ofiste, uygulama başka bir firmada yapılır. Aradaki boşlukta detaylar kaybolur, maliyetler sapar, karar verme yükü size kalır.</p>
-        <p>Biz bu boşluğu kapatmak için kurulduk. <strong>Tasarım, proje, ruhsat ve inşaatı aynı ekiple yürütüyoruz.</strong> Çizdiğimiz her detayın sahada nasıl yapılacağını bilerek çiziyor, sahada karşılaştığımız her durumu tasarımın diliyle çözüyoruz.</p>
-        <p>Sıcak, sade ve uzun ömürlü mekânlar seviyoruz: doğru oranlar, dürüst malzemeler, iyi ışık.</p>
-      </div>
-    </div>
+  <section class="split rev" aria-labelledby="kayit">
+    <div data-r><h2 class="label" id="kayit">Şirket bilgileri</h2><p class="h">Resmî kayıtlar</p></div>
+    <dl class="meta reg" data-r>
+      <div><dt>ticari unvan</dt><dd>{f['unvan']}</dd></div>
+      <div><dt>adres</dt><dd>{f['adres']}, {f['pk']} {f['ilce']} / {f['il']}</dd></div>
+      <div><dt>vergi dairesi</dt><dd>{f['vd']}</dd></div>
+      <div><dt>vergi no</dt><dd>{f['vkn']}</dd></div>
+      <div><dt>mersis no</dt><dd>{f['mersis']}</dd></div>
+      <div><dt>ticaret sicil no</dt><dd>{f['sicil']}</dd></div>
+    </dl>
   </section>
-  <section class="sec stone">
-    <div class="wrap two">
-      <div><p class="label">Şirket bilgileri</p><h2 style="font-weight:300;font-size:clamp(28px,3vw,42px);line-height:1.15;margin-top:20px">Resmî <strong style="font-weight:600">kayıtlar</strong></h2></div>
-      <dl class="reg">
-        <div><dt>Ticari unvan</dt><dd>{f['unvan']}</dd></div>
-        <div><dt>Adres</dt><dd>{f['adres']}, {f['pk']} {f['ilce']} / {f['il']}</dd></div>
-        <div><dt>Vergi dairesi</dt><dd>{f['vd']}</dd></div>
-        <div><dt>Vergi no</dt><dd>{f['vkn']}</dd></div>
-        <div><dt>MERSİS no</dt><dd>{f['mersis']}</dd></div>
-        <div><dt>Ticaret sicil no</dt><dd>{f['sicil']}</dd></div>
-      </dl>
-    </div>
-  </section>
-</main>
-""" + band(1) + footer(1)
+""" + footer()
 
 
 def page_hizmetler():
@@ -375,59 +415,53 @@ def page_hizmetler():
                "provider": {"@id": f"{SITE}/#firma"}, "areaServed": {"@type": "City", "name": "İstanbul"}}
               for code, ad, slug, kisa, uzun, _ in HIZMETLER]
     ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("Hizmetler", "hizmetler/")])] + svc_ld + [faq_ld(SSS[:4])]
-    blocks = "\n".join(f"""      <article class="svc-detail" id="{slug}">
-        <div><p class="label">{code}</p><h2>{ad}</h2></div>
-        <div class="body"><p>{uzun}</p><ul>{''.join(f'<li>{i}</li>' for i in items)}</ul></div>
-      </article>""" for code, ad, slug, kisa, uzun, items in HIZMETLER)
+    blocks = "\n".join(f"""  <article class="svc{' rev' if i % 2 else ''}" id="{slug}">
+    <div class="svc-text" data-r>
+      <p class="label">{i + 1:02d} / {len(HIZMETLER):02d}</p>
+      <h2>{ad}</h2>
+      <p>{uzun}</p>
+      <dl class="meta">
+        <div><dt>kapsam</dt><dd>{' · '.join(items)}</dd></div>
+        <div><dt>bölge</dt><dd>İstanbul geneli</dd></div>
+      </dl>
+    </div>
+    {frame(slug, "", "0.06")}
+  </article>""" for i, (code, ad, slug, kisa, uzun, items) in enumerate(HIZMETLER))
     return head("Hizmetler: mimari tasarım, iç mimarlık, ruhsat ve anahtar teslim inşaat | Dimart Mimarlık",
                 "Dimart Mimarlık'ın İstanbul'daki hizmetleri: mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulama.",
-                "hizmetler/", 1, ld) + header(1, "hizmetler") + f"""<main>
-  <section class="page-hero">
-    <div class="wrap">
-      <nav class="crumbs" aria-label="Konum"><a href="../">Ana sayfa</a><span>/</span><span>Hizmetler</span></nav>
-      <h1>Bir çizgiden <strong>bitmiş yapıya.</strong></h1>
-      <p>İstanbul'da mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulama. İhtiyacınız olan aşamayı ya da tüm süreci üstleniyoruz.</p>
-    </div>
+                "hizmetler/", ld, "hizmetler") + f"""  <section class="page-hero">
+    {crumbs("Hizmetler")}
+    <h1 data-r>Bir çizgiden <span class="y">bitmiş yapıya.</span></h1>
+    <p class="lead" data-r>İstanbul'da mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulama. İhtiyacınız olan aşamayı ya da tüm süreci üstleniyoruz.</p>
   </section>
-  <section class="sec" style="padding-top:0">
-    <div class="wrap">
 {blocks}
-    </div>
-  </section>
-  <section class="sec stone">
-    <div class="wrap two">
-      <div><p class="label">Sık sorulan sorular</p></div>
-      <div class="faq">
+  <section class="qa" aria-labelledby="sss">
+    <div class="sec-head" data-r><h2 class="label" id="sss">Sık sorulan sorular</h2><p class="h">Merak edilenler</p></div>
+    <div class="faq">
 {faq_html(SSS[:4])}
-      </div>
     </div>
   </section>
-</main>
-""" + band(1) + footer(1)
+""" + footer()
 
 
 def page_projeler():
     ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("Projeler", "projeler/")]),
           {"@type": "CollectionPage", "url": f"{SITE}/projeler/", "name": "Projeler", "about": {"@id": f"{SITE}/#firma"}}]
+    items = "\n".join(f"""    <figure class="piece p{i + 1}">
+      <div class="frame m-{mat} empty" data-r data-speed="{'0.07' if i % 2 else '-0.04'}"><span>görseller hazırlanıyor</span></div>
+      <figcaption class="cap" data-r><h3>{tur.lower()}</h3><small>{hizmet} · İstanbul</small></figcaption>
+    </figure>""" for i, (mat, tur, hizmet) in enumerate(PROJELER))
     return head("Projeler | Dimart Mimarlık",
                 "Dimart Mimarlık'ın İstanbul'da tamamladığı konut, villa, ofis ve iç mimarlık projeleri.",
-                "projeler/", 1, ld) + header(1, "projeler") + f"""<main>
-  <section class="page-hero">
-    <div class="wrap">
-      <nav class="crumbs" aria-label="Konum"><a href="../">Ana sayfa</a><span>/</span><span>Projeler</span></nav>
-      <h1>Seçili <strong>projeler.</strong></h1>
-      <p>Konut, villa, ofis ve ticari mekânlarda tasarladığımız ve inşa ettiğimiz işler. Her projede konum, yıl, alan ve üstlendiğimiz hizmetleri paylaşıyoruz.</p>
-    </div>
+                "projeler/", ld, "projeler") + f"""  <section class="page-hero">
+    {crumbs("Projeler")}
+    <h1 data-r>Seçili <span class="y">projeler.</span></h1>
+    <p class="lead" data-r>Konut, villa, ofis ve ticari mekânlarda tasarladığımız ve inşa ettiğimiz işler. Proje fotoğraflarımızı hazırlıyoruz; her projede konum, yıl, alan ve üstlendiğimiz hizmetleri paylaşacağız.</p>
   </section>
-  <section class="sec">
-    <div class="wrap">
-      <div class="works">
-{works_html(1)}
-      </div>
-    </div>
+  <section class="works list">
+{items}
   </section>
-</main>
-""" + band(1) + footer(1)
+""" + footer()
 
 
 def page_iletisim():
@@ -436,31 +470,35 @@ def page_iletisim():
     f = FIRMA
     return head("İletişim | Dimart Mimarlık, Sancaktepe İstanbul",
                 f"Dimart Mimarlık iletişim: {f['tel']}, {f['eposta']}. {f['adres']}, {f['ilce']} / {f['il']}.",
-                "iletisim/", 1, ld) + header(1, "iletisim") + f"""<main>
-  <section class="page-hero">
-    <div class="wrap">
-      <nav class="crumbs" aria-label="Konum"><a href="../">Ana sayfa</a><span>/</span><span>İletişim</span></nav>
-      <h1>Projenizi <strong>konuşalım.</strong></h1>
-      <p>Telefonla arayın ya da e-posta gönderin; ihtiyacınızı dinleyip size süreç ve takvim önerelim. Ofisimizde de ağırlamaktan memnuniyet duyarız.</p>
+                "iletisim/", ld, "iletisim") + f"""  <section class="page-hero">
+    {crumbs("İletişim")}
+    <h1 data-r>Projenizi <span class="y">konuşalım.</span></h1>
+    <p class="lead" data-r>Telefonla arayın ya da e-posta gönderin; ihtiyacınızı dinleyip size süreç ve takvim önerelim. Ofisimizde de ağırlamaktan memnuniyet duyarız.</p>
+  </section>
+  <section class="split">
+    <dl class="meta reg big" data-r>
+      <div><dt>telefon</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a></dd></div>
+      <div><dt>e-posta</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
+      <div><dt>adres</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / {f['il']}, Türkiye</dd></div>
+      <div><dt>harita</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">Google Haritalar'da aç</a></dd></div>
+    </dl>
+    <div class="prose" data-r>
+      <p class="label">Görüşmeye gelirken</p>
+      <p>Varsa tapu ya da imar durumu belgesi, mevcut projeler ve beğendiğiniz mekânların fotoğrafları ilk görüşmeyi çok daha verimli hale getirir.</p>
+      <p class="links"><a class="go" href="tel:{f['tel_link']}">Hemen arayın</a><a class="go" href="mailto:{f['eposta']}">E-posta gönderin</a></p>
     </div>
   </section>
-  <section class="sec">
-    <div class="wrap two">
-      <dl class="reg">
-        <div><dt>Telefon</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a></dd></div>
-        <div><dt>E-posta</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
-        <div><dt>Adres</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / {f['il']}, Türkiye</dd></div>
-        <div><dt>Harita</dt><dd><a href="{HARITA}" rel="noopener">Google Haritalar'da aç</a></dd></div>
-      </dl>
-      <div class="prose">
-        <p class="label">Görüşmeye gelirken</p>
-        <p>Varsa tapu ya da imar durumu belgesi, mevcut projeler ve beğendiğiniz mekânların fotoğrafları ilk görüşmeyi çok daha verimli hale getirir.</p>
-        <div class="actions" style="margin-top:8px"><a class="btn" href="tel:{f['tel_link']}">Hemen arayın</a><a class="btn line" href="mailto:{f['eposta']}">E-posta gönderin</a></div>
-      </div>
-    </div>
+""" + footer()
+
+
+def page_404():
+    return head("Sayfa bulunamadı | Dimart Mimarlık", "Aradığınız sayfa bulunamadı.", "404.html", [ORG], "404").replace(
+        '<link rel="canonical" href="https://dimartmimarlik.com/404.html">', '<meta name="robots" content="noindex">') + """  <section class="page-hero">
+    <h1 data-r>Bu çizgi bir yere <span class="y">varmıyor.</span></h1>
+    <p class="lead" data-r>Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir.</p>
+    <p class="links" data-r><a class="go" href="/">Ana sayfaya dönün</a></p>
   </section>
-</main>
-""" + footer(1)
+""" + footer()
 
 
 PAGES = {
@@ -476,6 +514,7 @@ if __name__ == "__main__":
         out = ROOT / path
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(fn(), encoding="utf-8")
+    (ROOT / "404.html").write_text(page_404(), encoding="utf-8")
     urls = "\n".join(f"  <url><loc>{SITE}/{p.replace('index.html', '')}</loc><lastmod>2026-10-21</lastmod></url>" for p in PAGES)
     (ROOT / "sitemap.xml").write_text(
         f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n',
