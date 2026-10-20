@@ -322,7 +322,7 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .foot-big{font:300 clamp(40px,7vw,120px)/1 var(--mont);letter-spacing:-.02em;margin-top:22px}
 .foot-big a{display:inline-block;transition:transform .8s var(--ease)}
 .foot-big a:hover{transform:translateX(16px)}
-.foot-nap{grid-column:1 / -1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.foot-nap{grid-column:1 / -1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px}
 .foot-nav{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:8px 34px;font:500 10px var(--mont);letter-spacing:.22em;text-transform:uppercase;color:var(--ink2)}
 .foot-nav a:hover{color:var(--y)}
 .legal{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px 26px;font:400 10.5px/1.6 var(--sans);letter-spacing:.06em;color:var(--mute)}
