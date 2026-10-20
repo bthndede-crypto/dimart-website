@@ -1,23 +1,29 @@
 # Dimart Mimarlık ve Müteahhitlik A.Ş.
 
-> İstanbul Sancaktepe merkezli mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulamayı tek ekiple yürütür. Slogan: "Her şey bir çizgiyle başlar."
+> İstanbul Sancaktepe merkezli, Türkiye genelinde hizmet veren mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulamayı tek ekiple yürütür. Slogan: "Her şey bir çizgiyle başlar."
 
 ## Hizmetler
-- Mimari tasarım: ihtiyaç analizi, konsept, avan proje, 3B görselleştirme
-- İç mimarlık: konut, ofis ve ticari mekânlarda iç mekân tasarımı, özel mobilya, aydınlatma, tadilat
-- Proje ve ruhsat: uygulama projeleri, statik ve tesisat koordinasyonu, belediye ruhsatı
-- İnşaat ve müteahhitlik: kaba ve ince inşaat, şantiye yönetimi
-- Anahtar teslim: tasarımdan iskâna tek sözleşme
+- Mimari tasarım: İhtiyaç analizi, konsept, avan proje ve 3B görselleştirme.
+- İç mimarlık: Konut, ofis ve ticari mekânlarda iç mekân tasarımı ve uygulaması.
+- Proje ve ruhsat: Uygulama projeleri, disiplinler arası koordinasyon ve belediye ruhsat süreçleri.
+- İnşaat ve anahtar teslim: Kaba ve ince inşaat, şantiye yönetimi, tek sözleşmeyle anahtar teslim.
 
 ## İletişim
 - Adres: Eyüp Sultan Mah. Elmaksan Sk. No:14, 34654 Sancaktepe / İstanbul, Türkiye
 - Telefon: +90 532 499 60 96
 - E-posta: info@dimartmimarlik.com
 - Web: https://dimartmimarlik.com/
-- Hizmet bölgesi: İstanbul geneli
+- Hizmet bölgesi: Türkiye geneli
 
 ## Sayfalar
-- [Stüdyo](https://dimartmimarlik.com/studyo/): yaklaşım ve şirket bilgileri
+- [Stüdyo](https://dimartmimarlik.com/studyo/): yaklaşım ve çalışma bölgesi
 - [Hizmetler](https://dimartmimarlik.com/hizmetler/): hizmetlerin ayrıntıları
 - [Projeler](https://dimartmimarlik.com/projeler/)
+- [Blog](https://dimartmimarlik.com/blog/): rehberler
 - [İletişim](https://dimartmimarlik.com/iletisim/)
+
+## Blog yazıları
+- [Anahtar teslim inşaat nedir? Kapsam, süreç ve sözleşmede dikkat edilecekler](https://dimartmimarlik.com/blog/anahtar-teslim-insaat-nedir/): Anahtar teslim inşaat, tasarımdan ruhsata, inşaattan iskâna kadar bütün işin tek bir yükleniciye, tek sözleşmeyle verilmesidir. İşveren tek muhatapla çalışır; yüklenici yapıyı kullanıma hazır halde, anahtarıyla teslim eder. Sözleşmede kapsamın, malzeme standardının, takvimin ve ödeme planının yazılı olarak netleşmesi en önemli adımdır.
+- [İnşaat ruhsatı nasıl alınır? Gerekli belgeler ve adımlar](https://dimartmimarlik.com/blog/insaat-ruhsati-nasil-alinir/): Türkiye'de yeni bir yapıya ya da taşıyıcı sistemi etkileyen bir değişikliğe başlamadan önce yapı ruhsatı alınması gerekir. Ruhsat, belediye sınırları içinde belediyeden, dışında ise il özel idaresinden alınır. Başvuru; tapu, imar durumu, onaylı projeler, zemin etüdü ve yapı denetim sözleşmesi gibi belgelerle yapılır. İş bitince yapı kullanma izin belgesi (iskân) alınır.
+- [İç mimarlık süreci nasıl ilerler? İlk görüşmeden teslime 7 adım](https://dimartmimarlik.com/blog/ic-mimarlik-sureci/): Bir iç mimarlık projesi yedi adımda ilerler: ihtiyaç görüşmesi, yerinde rölöve, konsept, uygulama projesi, malzeme seçimi, uygulama ve teslim. Her adımın sonunda yazılı bir çıktı ve işveren onayı olur. Süreyi ve bütçeyi en çok etkileyen şey, kararların uygulama başlamadan verilmiş olmasıdır.
+- [Tadilat ve renovasyon bütçesi nasıl hazırlanır? Maliyeti belirleyen 8 kalem](https://dimartmimarlik.com/blog/tadilat-butcesi-nasil-hazirlanir/): Tadilat bütçesini en çok söküm ve altyapı (tesisat, elektrik), ıslak hacimler, zemin kaplamaları, doğramalar, özel imalat mobilyalar ve işçilik belirler. Sağlıklı bir bütçe için önce kapsam ve malzeme listesi yazılı hale getirilmeli, teklifler aynı liste üzerinden karşılaştırılmalı ve yüzde 10 ile 15 arası beklenmedik gider payı ayrılmalıdır.

@@ -1,6 +1,10 @@
 """Sayfaları ortak başlık/altlık ile public/ altına üretir: python3 tools/build.py"""
 import json
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from blog import YAZILAR  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent / "public"
 SITE = "https://dimartmimarlik.com"
@@ -14,10 +18,6 @@ FIRMA = {
     "tel": "+90 532 499 60 96",
     "tel_link": "+905324996096",
     "eposta": "info@dimartmimarlik.com",
-    "vd": "Sultanbeyli",
-    "vkn": "2971290153",
-    "mersis": "0297129015300001",
-    "sicil": "316926-5",
 }
 HARITA = "https://www.google.com/maps/search/?api=1&query=Elmaksan+Sk.+No%3A14+Sancaktepe+%C4%B0stanbul"
 
@@ -29,13 +29,12 @@ ORG = {
     "name": FIRMA["unvan"],
     "alternateName": "Dimart Mimarlık",
     "slogan": "Her şey bir çizgiyle başlar.",
-    "description": "İstanbul Sancaktepe merkezli mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulama.",
+    "description": "İstanbul Sancaktepe merkezli, Türkiye genelinde hizmet veren mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulama.",
     "url": f"{SITE}/",
     "logo": f"{SITE}/assets/dimart-logo-siyah.svg",
     "image": f"{SITE}/assets/dimart-favicon-512.png",
     "email": FIRMA["eposta"],
     "telephone": FIRMA["tel_link"],
-    "taxID": FIRMA["vkn"],
     "address": {
         "@type": "PostalAddress",
         "streetAddress": FIRMA["adres"],
@@ -45,7 +44,7 @@ ORG = {
         "addressCountry": "TR",
     },
     "hasMap": HARITA,
-    "areaServed": {"@type": "City", "name": "İstanbul"},
+    "areaServed": {"@type": "Country", "name": "Türkiye"},
     "knowsAbout": ["Mimari tasarım", "İç mimarlık", "Mimari proje", "İnşaat ruhsatı", "Konut inşaatı",
                    "Anahtar teslim inşaat", "Tadilat ve renovasyon"],
 }
@@ -73,7 +72,7 @@ SSS = [
     ("Dimart Mimarlık hangi hizmetleri veriyor?",
      "Mimari tasarım, iç mimarlık, proje ve ruhsat süreçleri, inşaat ve anahtar teslim uygulama. Tasarımdan teslime kadar tüm süreci tek ekip yürütür."),
     ("Dimart Mimarlık nerede, hangi bölgelerde çalışıyor?",
-     "Ofisimiz Eyüp Sultan Mah. Elmaksan Sk. No:14, Sancaktepe / İstanbul adresindedir. İstanbul genelinde proje üstleniyoruz."),
+     "Ofisimiz Eyüp Sultan Mah. Elmaksan Sk. No:14, Sancaktepe / İstanbul adresindedir. İstanbul başta olmak üzere Türkiye genelinde proje üstleniyoruz."),
     ("Tasarım ve inşaatı aynı firmaya yaptırmanın avantajı nedir?",
      "Çizimi yapan ekip uygulamayı da yürüttüğü için proje ile şantiye arasında bilgi kaybı olmaz; karar, takvim ve maliyet tek muhataptan takip edilir."),
     ("Bir projeye nasıl başlıyoruz?",
@@ -192,6 +191,7 @@ def head(title, desc, path, ld, page):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title>
 <meta name="description" content="{esc_attr(desc)}">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="{url}">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="tr_TR">
@@ -229,37 +229,45 @@ def head(title, desc, path, ld, page):
 """
 
 
+MENU = [("/studyo/", "Stüdyo", "Yaklaşım ve ekip", "ic-mimarlik"),
+        ("/hizmetler/", "Hizmetler", "Tasarımdan anahtar teslime", "eskiz"),
+        ("/projeler/", "Projeler", "Seçili işler", "insaat-anahtar-teslim"),
+        ("/blog/", "Blog", "Rehberler ve notlar", "proje-ve-ruhsat"),
+        ("/iletisim/", "İletişim", "Projenizi konuşalım", "mimari-tasarim")]
+
+
 def shell(path):
     cur = "/" + path
-
-    def a(href, name, cls=""):
-        c = f' class="{cls}"' if cls else ""
-        return f'<a href="{href}"{c}{" aria-current=\"page\"" if href == cur else ""}>{name}</a>'
-    subs = "\n".join(f'        <a href="/hizmetler/#{slug}" class="sub">{ad}</a>' for _, ad, slug, *_ in HIZMETLER)
     f = FIRMA
-    return f"""<aside class="side">
-  <a class="brand" href="/" aria-label="Dimart Mimarlık ana sayfa"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="92" height="31"></a>
-  <img class="side-slogan" src="/assets/slogan-acik.png" alt="Her şey bir çizgiyle başlar." width="150" height="30">
-  <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav"><span>Menü</span><span>Kapat</span></button>
-  <nav class="nav" id="nav" aria-label="Ana menü">
-    <div class="nav-group">
-      {a("/studyo/", "Stüdyo")}
-      {a("/hizmetler/", "Hizmetler")}
-{subs}
-      {a("/projeler/", "Projeler")}
-    </div>
-    <div class="nav-group">
-      {a("/iletisim/", "İletişim")}
-      <a href="tel:{f['tel_link']}" class="sub">{f['tel']}</a>
-      <a href="mailto:{f['eposta']}" class="sub">{f['eposta']}</a>
-    </div>
-  </nav>
-</aside>
+    items = "\n".join(
+        f'''      <li><a href="{href}" data-i="{i}"{' aria-current="page"' if cur.startswith(href) else ''}><span class="n">0{i + 1}</span><span class="t">{name}</span><small>{sub}</small></a></li>'''
+        for i, (href, name, sub, _) in enumerate(MENU))
+    previews = "\n".join(frame(cz, f"pv pv{i}", decor=True) for i, (*_, cz) in enumerate(MENU))
+    return f"""<header class="top" id="top">
+  <a class="brand" href="/" aria-label="Dimart Mimarlık ana sayfa"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="96" height="33"></a>
+  <p class="top-loc" aria-hidden="true">İstanbul · Türkiye geneli</p>
+  <a class="go top-cta" href="/iletisim/">Projenizi konuşalım</a>
+  <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav"><span class="mb-t"><span>Menü</span><span>Kapat</span></span><span class="mb-i" aria-hidden="true"><i></i><i></i></span></button>
+  <i class="top-bar" aria-hidden="true"></i>
+</header>
+<nav class="nav" id="nav" aria-label="Ana menü">
+  <ol class="nav-list">
+{items}
+  </ol>
+  <div class="nav-pv" aria-hidden="true">
+{previews}
+  </div>
+  <div class="nav-foot">
+    <a href="tel:{f['tel_link']}">{f['tel']}</a>
+    <a href="mailto:{f['eposta']}">{f['eposta']}</a>
+    <span>{f['ilce']}, {f['il']} · Türkiye geneli</span>
+    <img src="/assets/slogan-acik.png" alt="" width="170" height="33">
+  </div>
+</nav>
 <div class="util" role="group" aria-label="Görünüm ve ses">
   <button type="button" id="fener-btn" aria-pressed="false" title="Fener: imleç çevresini aydınlatır">Fener</button>
   <button type="button" id="ses-btn" aria-pressed="false" title="Ortam sesi"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Ses</button>
-</div>
-<div class="rail" aria-hidden="true"><i></i></div>"""
+</div>"""
 
 
 def footer():
@@ -275,11 +283,11 @@ def footer():
     <div><dt>adres</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / {f['il']}</dd></div>
     <div><dt>harita</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">Google Haritalar'da aç</a></dd></div>
   </dl>
+  <nav class="foot-nav" aria-label="Alt menü">{"".join(f'<a href="{h}">{n}</a>' for h, n, *_ in MENU)}</nav>
   <div class="legal">
     <span>© 2026 {f['unvan']}</span>
-    <span>{f['vd']} V.D. · VKN {f['vkn']}</span>
-    <span>MERSİS {f['mersis']}</span>
-    <span>Ticaret sicil {f['sicil']}</span>
+    <span>{f['adres']}, {f['ilce']} / {f['il']}</span>
+    <span>Türkiye genelinde hizmet</span>
   </div>
 </footer>
 </main>
@@ -307,11 +315,12 @@ def words(text):
     return " ".join(f'<span class="w" style="--i:{i}">{w}</span>' for i, w in enumerate(text.split()))
 
 
-def frame(slug, cls="", speed=None):
+def frame(slug, cls="", speed=None, decor=False):
     mat, cap, alt, svg, vb = CIZIMLER[slug]
     sp = f' data-speed="{speed}"' if speed else ""
-    return f"""<figure class="frame m-{mat} {cls}"{sp} data-r>
-        <svg viewBox="{vb}" role="img" aria-label="{alt}">{svg}
+    a11y = 'aria-hidden="true"' if decor else f'role="img" aria-label="{alt}"'
+    return f"""<figure class="frame m-{mat} {cls}"{sp}{'' if decor else ' data-r'}>
+        <svg viewBox="{vb}" {a11y}>{svg}
         </svg>
         <figcaption>{cap}</figcaption>
       </figure>"""
@@ -330,14 +339,14 @@ def page_home():
     </a>""" for i, (code, ad, slug, kisa, *_) in enumerate(HIZMETLER))
     steps = "\n".join(f'      <li data-r style="--d:{i}"><span class="n">0{i + 1}</span><h3>{a}</h3><p>{b}</p></li>'
                       for i, (a, b) in enumerate(SUREC))
-    return head("Dimart Mimarlık | İstanbul'da mimarlık, iç mimarlık ve anahtar teslim inşaat",
-                "Dimart Mimarlık ve Müteahhitlik A.Ş. İstanbul Sancaktepe merkezli; mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulamayı tek ekiple yürütür.",
+    return head("Dimart Mimarlık | Mimarlık, iç mimarlık ve anahtar teslim inşaat · Türkiye geneli",
+                "Dimart Mimarlık ve Müteahhitlik A.Ş. İstanbul merkezli, Türkiye genelinde; mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulamayı tek ekiple yürütür.",
                 "", ld, "home") + f"""  <section class="hero">
     {frame("eskiz", "hero-frame", "0.06")}
     <div class="hero-text" data-r>
-      <p class="label">Mimarlık &amp; müteahhitlik · İstanbul</p>
+      <p class="label">Mimarlık &amp; müteahhitlik · Türkiye geneli</p>
       <h1>Tasarımdan anahtar teslime <span class="y">tek çizgi.</span></h1>
-      <p class="lead">Dimart, İstanbul'da konut, ofis ve ticari mekânları tasarlar, projelendirir ve inşa eder. Çizimi yapan ekip şantiyeyi de yönetir; siz tek muhatapla çalışırsınız.</p>
+      <p class="lead">Dimart, İstanbul merkezli ekibiyle Türkiye genelinde konut, ofis ve ticari mekânları tasarlar, projelendirir ve inşa eder. Çizimi yapan ekip şantiyeyi de yönetir; siz tek muhatapla çalışırsınız.</p>
       <p class="links"><a class="go" href="/iletisim/">Projenizi konuşalım</a><a class="go" href="/hizmetler/">Hizmetler</a></p>
     </div>
     <p class="cue" aria-hidden="true">kaydırın</p>
@@ -354,7 +363,7 @@ def page_home():
     <dl class="meta facts" data-r>
       <div><dt>disiplin</dt><dd>Mimarlık, iç mimarlık, inşaat</dd></div>
       <div><dt>model</dt><dd>Tek ekip, tek sözleşme</dd></div>
-      <div><dt>bölge</dt><dd>İstanbul geneli</dd></div>
+      <div><dt>bölge</dt><dd>Türkiye geneli</dd></div>
       <div><dt>ofis</dt><dd>Sancaktepe, İstanbul</dd></div>
     </dl>
   </section>
@@ -365,6 +374,14 @@ def page_home():
       <i class="steps-line" aria-hidden="true"></i>
 {steps}
     </ol>
+  </section>
+
+  <section class="blog-list home-blog" aria-labelledby="notlar">
+    <div class="sec-head" data-r><h2 class="label" id="notlar">Blog</h2><p class="h">Karar vermeden önce okuyun</p></div>
+    <ol>
+{yazi_listesi(YAZILAR[:3])}
+    </ol>
+    <p class="links" data-r><a class="go" href="/blog/">Tüm yazılar</a></p>
   </section>
 
   <section class="qa" aria-labelledby="sss">
@@ -381,11 +398,11 @@ def page_studyo():
           {"@type": "AboutPage", "url": f"{SITE}/studyo/", "about": {"@id": f"{SITE}/#firma"}}]
     f = FIRMA
     return head("Stüdyo | Dimart Mimarlık",
-                "Dimart Mimarlık ve Müteahhitlik A.Ş. hakkında: yaklaşımımız, çalışma biçimimiz ve şirket bilgileri. Sancaktepe, İstanbul.",
+                "Dimart Mimarlık ve Müteahhitlik A.Ş. hakkında: yaklaşımımız, çalışma biçimimiz ve çalışma bölgemiz. Sancaktepe, İstanbul.",
                 "studyo/", ld, "studyo") + f"""  <section class="page-hero">
     {crumbs("Stüdyo")}
     <h1 data-r>Çizen de, <span class="y">inşa eden de biziz.</span></h1>
-    <p class="lead" data-r>Dimart Mimarlık ve Müteahhitlik, mimari tasarım, iç mimarlık ve inşaatı tek ekipte birleştiren bir İstanbul stüdyosudur.</p>
+    <p class="lead" data-r>Dimart Mimarlık ve Müteahhitlik, mimari tasarım, iç mimarlık ve inşaatı tek ekipte birleştiren, İstanbul merkezli ve Türkiye genelinde çalışan bir stüdyodur.</p>
   </section>
   <section class="split">
     {frame("ic-mimarlik", "", "0.05")}
@@ -396,15 +413,12 @@ def page_studyo():
       <p>Sıcak, sade ve uzun ömürlü mekânlar seviyoruz: doğru oranlar, dürüst malzemeler, iyi ışık.</p>
     </div>
   </section>
-  <section class="split rev" aria-labelledby="kayit">
-    <div data-r><h2 class="label" id="kayit">Şirket bilgileri</h2><p class="h">Resmî kayıtlar</p></div>
+  <section class="split rev" aria-labelledby="bolge">
+    <div data-r><h2 class="label" id="bolge">Çalışma bölgesi</h2><p class="h">İstanbul'dan Türkiye'ye</p></div>
     <dl class="meta reg" data-r>
-      <div><dt>ticari unvan</dt><dd>{f['unvan']}</dd></div>
-      <div><dt>adres</dt><dd>{f['adres']}, {f['pk']} {f['ilce']} / {f['il']}</dd></div>
-      <div><dt>vergi dairesi</dt><dd>{f['vd']}</dd></div>
-      <div><dt>vergi no</dt><dd>{f['vkn']}</dd></div>
-      <div><dt>mersis no</dt><dd>{f['mersis']}</dd></div>
-      <div><dt>ticaret sicil no</dt><dd>{f['sicil']}</dd></div>
+      <div><dt>ofis</dt><dd>{f['adres']}, {f['pk']} {f['ilce']} / {f['il']}</dd></div>
+      <div><dt>hizmet bölgesi</dt><dd>Türkiye geneli: konut, villa, ofis, ticari ve turizm yapıları</dd></div>
+      <div><dt>çalışma biçimi</dt><dd>Keşif ve şantiye yönetimi yerinde, tasarım ve koordinasyon İstanbul ofisinde</dd></div>
     </dl>
   </section>
 """ + footer()
@@ -412,7 +426,7 @@ def page_studyo():
 
 def page_hizmetler():
     svc_ld = [{"@type": "Service", "@id": f"{SITE}/hizmetler/#{slug}", "name": ad, "description": uzun,
-               "provider": {"@id": f"{SITE}/#firma"}, "areaServed": {"@type": "City", "name": "İstanbul"}}
+               "provider": {"@id": f"{SITE}/#firma"}, "areaServed": {"@type": "Country", "name": "Türkiye"}}
               for code, ad, slug, kisa, uzun, _ in HIZMETLER]
     ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("Hizmetler", "hizmetler/")])] + svc_ld + [faq_ld(SSS[:4])]
     blocks = "\n".join(f"""  <article class="svc{' rev' if i % 2 else ''}" id="{slug}">
@@ -422,17 +436,17 @@ def page_hizmetler():
       <p>{uzun}</p>
       <dl class="meta">
         <div><dt>kapsam</dt><dd>{' · '.join(items)}</dd></div>
-        <div><dt>bölge</dt><dd>İstanbul geneli</dd></div>
+        <div><dt>bölge</dt><dd>Türkiye geneli</dd></div>
       </dl>
     </div>
     {frame(slug, "", "0.06")}
   </article>""" for i, (code, ad, slug, kisa, uzun, items) in enumerate(HIZMETLER))
     return head("Hizmetler: mimari tasarım, iç mimarlık, ruhsat ve anahtar teslim inşaat | Dimart Mimarlık",
-                "Dimart Mimarlık'ın İstanbul'daki hizmetleri: mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulama.",
+                "Dimart Mimarlık'ın Türkiye genelindeki hizmetleri: mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulama.",
                 "hizmetler/", ld, "hizmetler") + f"""  <section class="page-hero">
     {crumbs("Hizmetler")}
     <h1 data-r>Bir çizgiden <span class="y">bitmiş yapıya.</span></h1>
-    <p class="lead" data-r>İstanbul'da mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulama. İhtiyacınız olan aşamayı ya da tüm süreci üstleniyoruz.</p>
+    <p class="lead" data-r>İstanbul merkezli, Türkiye genelinde mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulama. İhtiyacınız olan aşamayı ya da tüm süreci üstleniyoruz.</p>
   </section>
 {blocks}
   <section class="qa" aria-labelledby="sss">
@@ -449,10 +463,10 @@ def page_projeler():
           {"@type": "CollectionPage", "url": f"{SITE}/projeler/", "name": "Projeler", "about": {"@id": f"{SITE}/#firma"}}]
     items = "\n".join(f"""    <figure class="piece p{i + 1}">
       <div class="frame m-{mat} empty" data-r data-speed="{'0.07' if i % 2 else '-0.04'}"><span>görseller hazırlanıyor</span></div>
-      <figcaption class="cap" data-r><h3>{tur.lower()}</h3><small>{hizmet} · İstanbul</small></figcaption>
+      <figcaption class="cap" data-r><h3>{tur.lower()}</h3><small>{hizmet}</small></figcaption>
     </figure>""" for i, (mat, tur, hizmet) in enumerate(PROJELER))
     return head("Projeler | Dimart Mimarlık",
-                "Dimart Mimarlık'ın İstanbul'da tamamladığı konut, villa, ofis ve iç mimarlık projeleri.",
+                "Dimart Mimarlık'ın Türkiye genelinde tamamladığı konut, villa, ofis ve iç mimarlık projeleri.",
                 "projeler/", ld, "projeler") + f"""  <section class="page-hero">
     {crumbs("Projeler")}
     <h1 data-r>Seçili <span class="y">projeler.</span></h1>
@@ -493,12 +507,121 @@ def page_iletisim():
 
 def page_404():
     return head("Sayfa bulunamadı | Dimart Mimarlık", "Aradığınız sayfa bulunamadı.", "404.html", [ORG], "404").replace(
-        '<link rel="canonical" href="https://dimartmimarlik.com/404.html">', '<meta name="robots" content="noindex">') + """  <section class="page-hero">
+        '<link rel="canonical" href="https://dimartmimarlik.com/404.html">\n', '').replace(
+        'index, follow, max-image-preview:large', 'noindex') + """  <section class="page-hero">
     <h1 data-r>Bu çizgi bir yere <span class="y">varmıyor.</span></h1>
     <p class="lead" data-r>Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir.</p>
     <p class="links" data-r><a class="go" href="/">Ana sayfaya dönün</a></p>
   </section>
 """ + footer()
+
+
+AYLAR = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"]
+
+
+def tarih_tr(t):
+    y, m, g = t.split("-")
+    return f"{int(g)} {AYLAR[int(m) - 1]} {y}"
+
+
+def yazi_listesi(yazilar):
+    return "\n".join(f"""    <li data-r><a href="/blog/{y['slug']}/" data-cursor="Oku">
+      <time datetime="{y['tarih']}">{tarih_tr(y['tarih'])}</time>
+      <span class="bt">{y['baslik']}</span>
+      <span class="bk">{y['kategori']}</span>
+    </a></li>""" for y in yazilar)
+
+
+def page_blog():
+    ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("Blog", "blog/")]),
+          {"@type": "Blog", "@id": f"{SITE}/blog/#blog", "url": f"{SITE}/blog/", "name": "Dimart Mimarlık Blog",
+           "inLanguage": "tr-TR", "publisher": {"@id": f"{SITE}/#firma"},
+           "blogPost": [{"@type": "BlogPosting", "headline": y["baslik"], "url": f"{SITE}/blog/{y['slug']}/",
+                         "datePublished": y["tarih"]} for y in YAZILAR]}]
+    return head("Blog: mimarlık, iç mimarlık, ruhsat ve inşaat rehberleri | Dimart Mimarlık",
+                "Anahtar teslim inşaat, yapı ruhsatı, iç mimarlık süreci ve tadilat bütçesi üzerine Dimart Mimarlık'ın hazırladığı rehberler.",
+                "blog/", ld, "blog") + f"""  <section class="page-hero">
+    {crumbs("Blog")}
+    <h1 data-r>Çizgiden <span class="y">notlar.</span></h1>
+    <p class="lead" data-r>Proje, ruhsat, inşaat ve iç mimarlık üzerine sahada öğrendiklerimizi yazıyoruz. Karar vermeden önce okumanız gerekenler, sade bir dille.</p>
+  </section>
+  <section class="blog-list" aria-label="Yazılar">
+    <ol>
+{yazi_listesi(YAZILAR)}
+    </ol>
+  </section>
+""" + footer()
+
+
+def page_yazi(y):
+    url = f"{SITE}/blog/{y['slug']}/"
+    ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("Blog", "blog/"), (y["kisa"], f"blog/{y['slug']}/")]),
+          {"@type": "BlogPosting", "@id": f"{url}#yazi", "headline": y["baslik"], "description": y["aciklama"],
+           "abstract": y["ozet"], "datePublished": y["tarih"], "dateModified": y["tarih"], "inLanguage": "tr-TR",
+           "url": url, "mainEntityOfPage": url, "articleSection": y["kategori"],
+           "author": {"@id": f"{SITE}/#firma"}, "publisher": {"@id": f"{SITE}/#firma"},
+           "image": f"{SITE}/assets/dimart-favicon-512.png", "isPartOf": {"@id": f"{SITE}/blog/#blog"}},
+          faq_ld(y["sss"])]
+    diger = [o for o in YAZILAR if o["slug"] != y["slug"]][:3]
+    return head(f"{y['baslik']} | Dimart Mimarlık", y["aciklama"], f"blog/{y['slug']}/", ld, "yazi") + f"""  <article class="post">
+    <header class="post-head">
+      <nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span>{y['kategori']}</span></nav>
+      <h1 data-r>{y['baslik']}</h1>
+      <p class="post-meta" data-r><time datetime="{y['tarih']}">{tarih_tr(y['tarih'])}</time><span>{y['kategori']}</span><span>Dimart Mimarlık</span></p>
+    </header>
+    {frame(y["cizim"], "post-frame")}
+    <div class="post-body">
+      <aside class="kisaca" data-r><p class="label">Kısaca</p><p>{y['ozet']}</p></aside>
+      <div class="prose post-text" data-r>{y['govde']}</div>
+      <section class="post-faq" aria-labelledby="sss">
+        <h2 class="label" id="sss">Sık sorulan sorular</h2>
+        <div class="faq">
+{faq_html(y['sss'])}
+        </div>
+      </section>
+      <aside class="post-cta" data-r>
+        <p>Projeniz için bu adımları birlikte planlayalım.</p>
+        <p class="links"><a class="go" href="/iletisim/">Projenizi konuşalım</a><a class="go" href="/hizmetler/">Hizmetler</a></p>
+      </aside>
+    </div>
+  </article>
+  <section class="blog-list more" aria-labelledby="diger">
+    <h2 class="label" id="diger" data-r>Diğer yazılar</h2>
+    <ol>
+{yazi_listesi(diger)}
+    </ol>
+  </section>
+""" + footer()
+
+
+def llms():
+    f = FIRMA
+    svc = "\n".join(f"- {ad}: {kisa}" for _, ad, _, kisa, *_ in HIZMETLER)
+    yazilar = "\n".join(f"- [{y['baslik']}]({SITE}/blog/{y['slug']}/): {y['ozet']}" for y in YAZILAR)
+    return f"""# {f['unvan']}
+
+> İstanbul Sancaktepe merkezli, Türkiye genelinde hizmet veren mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulamayı tek ekiple yürütür. Slogan: "Her şey bir çizgiyle başlar."
+
+## Hizmetler
+{svc}
+
+## İletişim
+- Adres: {f['adres']}, {f['pk']} {f['ilce']} / {f['il']}, Türkiye
+- Telefon: {f['tel']}
+- E-posta: {f['eposta']}
+- Web: {SITE}/
+- Hizmet bölgesi: Türkiye geneli
+
+## Sayfalar
+- [Stüdyo]({SITE}/studyo/): yaklaşım ve çalışma bölgesi
+- [Hizmetler]({SITE}/hizmetler/): hizmetlerin ayrıntıları
+- [Projeler]({SITE}/projeler/)
+- [Blog]({SITE}/blog/): rehberler
+- [İletişim]({SITE}/iletisim/)
+
+## Blog yazıları
+{yazilar}
+"""
 
 
 PAGES = {
@@ -507,7 +630,10 @@ PAGES = {
     "hizmetler/index.html": page_hizmetler,
     "projeler/index.html": page_projeler,
     "iletisim/index.html": page_iletisim,
+    "blog/index.html": page_blog,
 }
+for _y in YAZILAR:
+    PAGES[f"blog/{_y['slug']}/index.html"] = (lambda y=_y: page_yazi(y))
 
 if __name__ == "__main__":
     for path, fn in PAGES.items():
@@ -519,4 +645,5 @@ if __name__ == "__main__":
     (ROOT / "sitemap.xml").write_text(
         f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n',
         encoding="utf-8")
+    (ROOT / "llms.txt").write_text(llms(), encoding="utf-8")
     print("ok", len(PAGES))

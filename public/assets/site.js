@@ -208,14 +208,18 @@
     steps = $('#sayfa .steps');
     kaydir();
   }
-  var tick = false;
+  var tick = false, sonY = 0;
   function kaydir() {
     if (tick) return; tick = true;
     requestAnimationFrame(function () {
       tick = false;
       var vh = w.innerHeight, max = d.documentElement.scrollHeight - vh;
-      h.style.setProperty('--p', max > 0 ? (w.scrollY / max).toFixed(4) : 0);
-      var rail = $('.rail i'); if (rail) rail.style.setProperty('--p', max > 0 ? (w.scrollY / max).toFixed(4) : 0);
+      var y = w.scrollY, top = $('.top');
+      h.style.setProperty('--p', max > 0 ? (y / max).toFixed(4) : 0);
+      if (top && !h.classList.contains('menu')) {
+        top.classList.toggle('solid', y > 40);
+        if (Math.abs(y - sonY) > 6) { top.classList.toggle('hide', y > sonY && y > 240); sonY = y; }
+      }
       para.forEach(function (el) {
         var r = el.getBoundingClientRect(), mid = r.top + r.height / 2 - vh / 2;
         el.style.transform = 'translate3d(0,' + (mid * parseFloat(el.dataset.speed)).toFixed(1) + 'px,0)';
@@ -245,6 +249,7 @@
     });
     Promise.all([sayfa, Moz.run(true, 700)]).then(function (v) {
       degistir(v[0]);
+      d.dispatchEvent(new Event('dm-swap'));
       if (push) history.pushState({}, '', url);
       navIsaretle();
       var hash = new URL(url, location.href).hash, hedef = hash && d.getElementById(decodeURIComponent(hash.slice(1)));
@@ -270,17 +275,38 @@
     sy.focus({ preventScroll: true });
   }
   function navIsaretle() {
-    $$('.nav a').forEach(function (a) {
+    $$('.nav-list a').forEach(function (a) {
       var u = new URL(a.href, location.href);
-      if (!u.hash && u.origin === location.origin && u.pathname === location.pathname) a.setAttribute('aria-current', 'page');
+      if (location.pathname.indexOf(u.pathname) === 0) a.setAttribute('aria-current', 'page');
       else a.removeAttribute('aria-current');
     });
   }
 
-  /* ---------- menü (mobil) ---------- */
+  /* ---------- menü: tam ekran, üzerine gelinen sayfanın çizimi sağda çizilir ---------- */
+  function onizle(i) {
+    $$('.nav-pv .frame').forEach(function (f, k) {
+      f.classList.toggle('on', k === i);
+      if (k === i) { f.classList.remove('in'); void f.offsetWidth; f.classList.add('in'); } else f.classList.remove('in');
+    });
+  }
   function menu(ac) {
     var b = $('#menu-btn'), n = $('#nav'); if (!b) return;
-    n.classList.toggle('open', ac); b.setAttribute('aria-expanded', ac);
+    if (n.classList.contains('open') === ac) return;
+    n.classList.toggle('open', ac); h.classList.toggle('menu', ac); b.setAttribute('aria-expanded', ac);
+    if (ac) {
+      var cur = $('.nav-list a[aria-current]');
+      onizle(cur ? +cur.dataset.i : 0);
+      $('.top').classList.remove('hide');
+    }
+  }
+  function menuKur() {
+    $('#menu-btn').addEventListener('click', function () { menu(!$('#nav').classList.contains('open')); Ses.whoosh(); });
+    $$('.nav-list a').forEach(function (a) {
+      var i = +a.dataset.i;
+      a.addEventListener('pointerenter', function () { onizle(i); });
+      a.addEventListener('focus', function () { onizle(i); });
+    });
+    d.addEventListener('keydown', function (e) { if (e.key === 'Escape') menu(false); });
   }
 
   /* ---------- fener ---------- */
@@ -313,6 +339,7 @@
       }
     }, { passive: true });
     d.addEventListener('pointerleave', function () { c.classList.remove('show'); });
+    d.addEventListener('dm-swap', function () { son = null; c.classList.remove('label', 'link'); lbl.textContent = ''; });
     (function loop() {
       cx += (x - cx) * .22; cy += (y - cy) * .22;
       c.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
@@ -327,7 +354,7 @@
     imlecKur();
     sesKur();
     var sy = $('#sayfa'); if (sy) sy.setAttribute('tabindex', '-1');
-    $('#menu-btn').addEventListener('click', function () { menu(!$('#nav').classList.contains('open')); Ses.tick(); });
+    menuKur();
     d.addEventListener('click', function (e) {
       if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       var a = e.target.closest && e.target.closest('a'), u = yerel(a);
