@@ -12,7 +12,7 @@
   var $ = function (s, r) { return (r || d).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || d).querySelectorAll(s)); };
 
-  /* ---------- ortam sesi (Web Audio ile üretilir, dosya indirmez) ---------- */
+  /* ---------- ortam sesi: Web Audio ile üretilen hafif doku + çok kısık piyano (Satie, Gymnopédies; Gregory Tait, CC BY 4.0) ---------- */
   var Ses = {
     ctx: null, on: false, bus: null, wet: null, timer: 0,
     build: function () {
@@ -36,7 +36,7 @@
       var lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 520; lp.Q.value = .4;
       var lfo = c.createOscillator(), lfoG = c.createGain();
       lfo.frequency.value = .035; lfoG.gain.value = 260; lfo.connect(lfoG); lfoG.connect(lp.frequency); lfo.start();
-      var pad = c.createGain(); pad.gain.value = .9;
+      var pad = this.pad = c.createGain(); pad.gain.value = .3;
       lp.connect(pad); pad.connect(master); pad.connect(wet);
       [[73.42, .05], [110, .04], [146.83, .03], [220, .016], [277.18, .008], [329.63, .006]].forEach(function (n, k) {
         ['sine', 'triangle'].forEach(function (type, j) {
@@ -57,7 +57,38 @@
       var ag = c.createGain(); ag.gain.value = .07;
       var al = c.createOscillator(), alg = c.createGain(); al.frequency.value = .06; alg.gain.value = .04; al.connect(alg); alg.connect(ag.gain); al.start();
       air.connect(bp); bp.connect(ag); ag.connect(master); air.start();
+      // müzik: sayfa geçişlerinde kesilmez, parçalar arasında kısa bir sessizlik bırakır
+      var a = this.audio = new Audio();
+      a.preload = 'none';
+      var mg = this.mg = c.createGain(); mg.gain.value = .5;
+      try {
+        var src = c.createMediaElementSource(a);
+        src.connect(mg); mg.connect(master);
+        var mw = c.createGain(); mw.gain.value = .12; mg.connect(mw); mw.connect(wet);
+      } catch (e) {}
+      var self = this;
+      a.addEventListener('ended', function () {
+        self.parca = (self.parca + 1) % self.liste.length; self.konum = 0;
+        clearTimeout(self.mt); self.mt = setTimeout(function () { if (self.on) self.cal(); }, 6000);
+      });
+      w.addEventListener('pagehide', function () {
+        try { sessionStorage.setItem('dm-muzik', self.parca + ':' + Math.floor(a.currentTime || 0)); } catch (e) {}
+      });
+      var k = null; try { k = sessionStorage.getItem('dm-muzik'); } catch (e) {}
+      if (k) { k = k.split(':'); this.parca = (+k[0] || 0) % this.liste.length; this.konum = +k[1] || 0; }
       return true;
+    },
+    liste: ['/assets/muzik/gymnopedie-1.mp3', '/assets/muzik/gymnopedie-3.mp3'],
+    parca: 0, konum: 0,
+    cal: function () {
+      var a = this.audio; if (!a) return;
+      var url = this.liste[this.parca];
+      if (a.getAttribute('src') !== url) {
+        a.src = url;
+        var t = this.konum;
+        if (t) a.addEventListener('loadedmetadata', function f() { a.removeEventListener('loadedmetadata', f); try { a.currentTime = t; } catch (e) {} });
+      }
+      var p = a.play(); if (p && p.catch) p.catch(function () {});
     },
     bell: function (f, t, v) {
       var c = this.ctx; if (!c) return;
@@ -71,16 +102,6 @@
         o.connect(g); g.connect(Ses.wet); g.connect(Ses.bus);
         o.start(t); o.stop(t + 5);
       });
-    },
-    chimes: function () {
-      var self = this, notes = [587.33, 659.25, 739.99, 880, 987.77, 1174.66];
-      clearTimeout(this.timer);
-      this.timer = setTimeout(function () {
-        if (!self.on) return;
-        self.bell(notes[Math.floor(Math.random() * notes.length)], 0, .03);
-        if (Math.random() < .4) self.bell(notes[Math.floor(Math.random() * notes.length)], self.ctx.currentTime + .7, .02);
-        self.chimes();
-      }, 7000 + Math.random() * 9000);
     },
     burst: function (dur, f0, f1, vol, q) {
       var c = this.ctx; if (!this.on || !c) return;
@@ -101,36 +122,46 @@
       this.on = true;
       this.bus.gain.cancelScheduledValues(c.currentTime);
       this.bus.gain.setTargetAtTime(.6, c.currentTime, 1.4);
-      this.bell(587.33, c.currentTime + .1, .04); this.bell(880, c.currentTime + .5, .03); this.bell(1174.66, c.currentTime + .9, .02);
-      this.chimes();
+      this.bell(587.33, c.currentTime + .1, .025); this.bell(880, c.currentTime + .5, .018);
+      clearTimeout(this.mt); this.mt = setTimeout(function () { if (Ses.on) Ses.cal(); }, 1200);
     },
     stop: function () {
-      this.on = false; clearTimeout(this.timer);
+      this.on = false; clearTimeout(this.timer); clearTimeout(this.mt);
       if (!this.ctx) return;
-      var c = this.ctx;
+      var c = this.ctx, a = this.audio;
       this.bus.gain.cancelScheduledValues(c.currentTime);
       this.bus.gain.setTargetAtTime(0, c.currentTime, .35);
-      setTimeout(function () { if (!Ses.on) c.suspend(); }, 1800);
+      setTimeout(function () { if (!Ses.on) { if (a) { Ses.konum = a.currentTime; a.pause(); } c.suspend(); } }, 1800);
     }
   };
 
   function sesKur() {
     var b = $('#ses-btn'); if (!b) return;
+    var olaylar = ['pointerdown', 'keydown', 'touchend'], bekle = null;
+    var birak = function () {
+      if (!bekle) return;
+      olaylar.forEach(function (t) { d.removeEventListener(t, bekle, true); });
+      bekle = null; b.classList.remove('wait');
+    };
     var set = function (on) {
-      b.setAttribute('aria-pressed', on); b.classList.remove('wait');
+      birak();
+      b.setAttribute('aria-pressed', on);
       store.set('dm-ses', on ? '1' : '0');
       on ? Ses.start() : Ses.stop();
     };
-    b.addEventListener('click', function (e) { e.stopPropagation(); set(!Ses.on); });
-    // önceki ziyarette açıksa, tarayıcı izin verdiği ilk etkileşimde yeniden başlat
-    if (store.get('dm-ses') === '1') {
-      b.classList.add('wait');
-      var go = function (e) {
+    b.addEventListener('click', function (e) {
+      e.stopPropagation();
+      // açılışta çalmayı bekliyorsa tıklama kapatır
+      set(bekle ? false : !Ses.on);
+    });
+    // varsayılan açık: tarayıcılar sesi ilk etkileşime kadar beklettiği için ilk dokunuşta başlar
+    if (store.get('dm-ses') !== '0') {
+      b.classList.add('wait'); b.setAttribute('aria-pressed', 'true');
+      bekle = function (e) {
         if (e.target.closest && e.target.closest('#ses-btn')) return;
-        ['pointerdown', 'keydown', 'touchstart'].forEach(function (t) { d.removeEventListener(t, go, true); });
         set(true);
       };
-      ['pointerdown', 'keydown', 'touchstart'].forEach(function (t) { d.addEventListener(t, go, true); });
+      olaylar.forEach(function (t) { d.addEventListener(t, bekle, true); });
     }
   }
 
