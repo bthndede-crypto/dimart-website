@@ -294,7 +294,7 @@ def shell(path):
   </div>
 </nav>
 <div class="util" role="group" aria-label="Görünüm ve ses">
-  <button type="button" id="fener-btn" aria-pressed="false" title="Fener: imleç çevresini aydınlatır">Fener</button>
+  <button type="button" id="eskiz-btn" aria-pressed="false" title="Eskiz: imleçle sayfanın üstüne çizin">Eskiz</button>
   <button type="button" id="ses-btn" aria-pressed="false" aria-label="Müzik" title="Müziği aç ya da kapat"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ses-t" aria-hidden="true"><span>Müzik açık</span><span>Müzik kapalı</span></span></button>
 </div>"""
 
@@ -596,7 +596,7 @@ def page_kvkk():
 <p>Başvurularınızı <a href="mailto:{f['eposta']}">{f['eposta']}</a> adresine e-postayla ya da yukarıdaki adresimize yazılı olarak iletebilirsiniz. Başvurunuzu en geç 30 gün içinde ücretsiz olarak sonuçlandırırız.</p>
 
 <h2>Çerezler</h2>
-<p>Bu site çerez kullanmaz. Ses ve fener tercihiniz yalnızca kendi tarayıcınızın yerel deposunda tutulur; bize ya da üçüncü kişilere gönderilmez ve tarayıcı ayarlarınızdan silinebilir. Yazı tipleri ve müzik dosyaları da sitenin kendi sunucusundan yüklenir.</p>
+<p>Bu site çerez kullanmaz. Müzik ve eskiz tercihiniz yalnızca kendi tarayıcınızın yerel deposunda tutulur; bize ya da üçüncü kişilere gönderilmez ve tarayıcı ayarlarınızdan silinebilir. Yazı tipleri ve müzik dosyaları da sitenin kendi sunucusundan yüklenir.</p>
 <p>Instagram ve Google Haritalar bağlantılarına tıkladığınızda ilgili platformun kendi gizlilik politikası geçerli olur.</p>
       </div>
     </div>
