@@ -30,7 +30,7 @@ ORG = {
     "name": FIRMA["unvan"],
     "alternateName": "Dimart Mimarlık",
     "slogan": "Her şey bir çizgiyle başlar.",
-    "description": "İstanbul Sancaktepe merkezli, Türkiye genelinde hizmet veren mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulama.",
+    "description": "İstanbul merkezli mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, villa ve konut inşaatı, tadilat ve renovasyon, proje ve ruhsat, anahtar teslim uygulama.",
     "url": f"{SITE}/",
     "logo": f"{SITE}/assets/dimart-logo-siyah.svg",
     "image": f"{SITE}/assets/dimart-favicon-512.png",
@@ -48,7 +48,9 @@ ORG = {
     "sameAs": [INSTAGRAM],
     "areaServed": {"@type": "Country", "name": "Türkiye"},
     "knowsAbout": ["Mimari tasarım", "İç mimarlık", "Mimari proje", "İnşaat ruhsatı", "Konut inşaatı",
-                   "Anahtar teslim inşaat", "Tadilat ve renovasyon"],
+                   "Villa inşaatı", "Müstakil ev inşaatı", "Anahtar teslim inşaat", "Tadilat ve renovasyon",
+                   "Ev ve daire tadilatı", "Mutfak ve banyo yenileme", "Ofis iç mimarisi",
+                   "Mağaza, kafe ve restoran tasarımı", "Cephe yenileme"],
 }
 
 HIZMETLER = [
@@ -70,11 +72,35 @@ HIZMETLER = [
      ["Kaba inşaat", "İnce işler", "Şantiye yönetimi", "İş güvenliği", "Kalite kontrol", "Anahtar teslim"]),
 ]
 
+# Uzmanlık alanları: aranan işler, sade dille (hizmetler sayfası + şema)
+ALANLAR = [
+    ("Villa ve müstakil ev inşaatı",
+     "Arsadan anahtara: tasarım, ruhsat, kaba ve ince inşaat tek sözleşmede. Bahçe, havuz ve peyzaj dahil edilebilir."),
+    ("Konut ve apartman projeleri",
+     "Apartman ve küçük ölçekli konut projelerinde mimari proje, ruhsat ve uygulama."),
+    ("Ev ve daire tadilatı",
+     "Komple daire yenileme ve renovasyon: tesisat, elektrik, zemin, kapı ve doğramalar tek planla."),
+    ("Mutfak ve banyo yenileme",
+     "Islak hacimlerde yalıtım ve tesisat yenileme, ölçüye özel dolap ve tezgâh, kaplama ve vitrifiye seçimi."),
+    ("Ofis iç mimarisi",
+     "Çalışma düzeni, toplantı alanları, akustik ve aydınlatma; markanıza uygun, verimli ofisler."),
+    ("Mağaza, kafe ve restoran tasarımı",
+     "Ticari mekânlarda konsept, uygulama projesi ve kısa takvimli anahtar teslim uygulama."),
+    ("Cephe ve dış mekân",
+     "Cephe yenileme ve yalıtım, teras, bahçe ve giriş düzenlemeleri."),
+]
+
 SSS = [
     ("Dimart Mimarlık hangi hizmetleri veriyor?",
      "Mimari tasarım, iç mimarlık, proje ve ruhsat süreçleri, inşaat ve anahtar teslim uygulama. Tasarımdan teslime kadar tüm süreci tek ekip yürütür."),
-    ("Dimart Mimarlık nerede, hangi bölgelerde çalışıyor?",
-     "Ofisimiz Eyüp Sultan Mah. Elmaksan Sk. No:14, Sancaktepe / İstanbul adresindedir. İstanbul başta olmak üzere Türkiye genelinde proje üstleniyoruz."),
+    ("Dimart Mimarlık nerede?",
+     "Ofisimiz İstanbul'dadır. Açık adres ve yol tarifi için İletişim sayfasına bakabilirsiniz; keşif ve şantiye yönetimi için projenin bulunduğu yere geliyoruz."),
+    ("Villa ve müstakil ev inşaatı yapıyor musunuz?",
+     "Evet. Villa ve müstakil ev projelerinde tasarımdan ruhsata, kaba inşaattan ince işlere kadar tüm süreci anahtar teslim olarak üstleniyoruz."),
+    ("Ev ve daire tadilatı yapıyor musunuz?",
+     "Evet. Komple daire yenileme, mutfak ve banyo yenileme ile tesisat ve zemin yenileme gibi tadilat ve renovasyon işlerini proje ve bütçe planıyla yürütüyoruz."),
+    ("Sadece iç mimarlık hizmeti alabilir miyim?",
+     "Evet. İç mimari tasarım ve uygulama projesini ayrı bir hizmet olarak da veriyoruz; isterseniz uygulamayı da kendi ekibimizle yaparız."),
     ("Tasarım ve inşaatı aynı firmaya yaptırmanın avantajı nedir?",
      "Çizimi yapan ekip uygulamayı da yürüttüğü için proje ile şantiye arasında bilgi kaybı olmaz; karar, takvim ve maliyet tek muhataptan takip edilir."),
     ("Bir projeye nasıl başlıyoruz?",
@@ -208,9 +234,8 @@ def head(title, desc, path, ld, page):
 <link rel="icon" href="/assets/dimart-favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/dimart-favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Open+Sans:wght@400;600&display=swap">
+<link rel="preload" href="/assets/fonts/montserrat-latin-2f5adf.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/site.css">
 <script>try{{if(!sessionStorage.getItem('dm-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro')}}catch(e){{}}</script>
 <script src="/assets/site.js" defer></script>
@@ -248,7 +273,7 @@ def shell(path):
     previews = "\n".join(frame(cz, f"pv pv{i}", decor=True) for i, (*_, cz) in enumerate(MENU))
     return f"""<header class="top" id="top">
   <a class="brand" href="/" aria-label="Dimart Mimarlık ana sayfa"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="96" height="33"></a>
-  <p class="top-loc" aria-hidden="true">İstanbul · Türkiye geneli</p>
+  <p class="top-loc" aria-hidden="true">İstanbul</p>
   <a class="go top-cta" href="/iletisim/">Projenizi konuşalım</a>
   <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav"><span class="mb-t"><span>Menü</span><span>Kapat</span></span><span class="mb-i" aria-hidden="true"><i></i><i></i></span></button>
   <i class="top-bar" aria-hidden="true"></i>
@@ -264,13 +289,13 @@ def shell(path):
     <a href="tel:{f['tel_link']}">{f['tel']}</a>
     <a href="mailto:{f['eposta']}">{f['eposta']}</a>
     <a href="{INSTAGRAM}" rel="noopener me" target="_blank">Instagram</a>
-    <span>{f['ilce']}, {f['il']} · Türkiye geneli</span>
+    <span>{f['il']}</span>
     <img src="/assets/slogan-acik.png" alt="" width="170" height="33">
   </div>
 </nav>
 <div class="util" role="group" aria-label="Görünüm ve ses">
   <button type="button" id="fener-btn" aria-pressed="false" title="Fener: imleç çevresini aydınlatır">Fener</button>
-  <button type="button" id="ses-btn" aria-pressed="false" title="Ortam sesi"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Ses</button>
+  <button type="button" id="ses-btn" aria-pressed="false" aria-label="Müzik" title="Müziği aç ya da kapat"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ses-t" aria-hidden="true"><span>Müzik açık</span><span>Müzik kapalı</span></span></button>
 </div>"""
 
 
@@ -284,15 +309,16 @@ def footer():
   <dl class="meta foot-nap">
     <div><dt>telefon</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a></dd></div>
     <div><dt>e-posta</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
-    <div><dt>adres</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / {f['il']}</dd></div>
+    <div><dt>ofis</dt><dd>{f['il']}</dd></div>
     <div><dt>harita</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">Google Haritalar'da aç</a></dd></div>
     <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
   </dl>
   <nav class="foot-nav" aria-label="Alt menü">{"".join(f'<a href="{h}">{n}</a>' for h, n, *_ in MENU)}</nav>
   <div class="legal">
     <span>© 2026 {f['unvan']}</span>
-    <span>{f['adres']}, {f['ilce']} / {f['il']}</span>
-    <span>Türkiye genelinde hizmet</span>
+    <span>Mimarlık · İç mimarlık · İnşaat · {f['il']}</span>
+    <span><a href="/kvkk/">KVKK ve gizlilik</a></span>
+    <span>Müzik: Erik Satie, <i>Gymnopédies</i> · yorum <a href="https://archive.org/details/satie-gnossienne-gymnopedie" rel="noopener" target="_blank">Gregory Tait</a> · <a href="https://creativecommons.org/licenses/by/4.0/deed.tr" rel="noopener license" target="_blank">CC BY 4.0</a></span>
   </div>
 </footer>
 </main>
@@ -344,14 +370,14 @@ def page_home():
     </a>""" for i, (code, ad, slug, kisa, *_) in enumerate(HIZMETLER))
     steps = "\n".join(f'      <li data-r style="--d:{i}"><span class="n">0{i + 1}</span><h3>{a}</h3><p>{b}</p></li>'
                       for i, (a, b) in enumerate(SUREC))
-    return head("Dimart Mimarlık | Mimarlık, iç mimarlık ve anahtar teslim inşaat · Türkiye geneli",
-                "Dimart Mimarlık ve Müteahhitlik A.Ş. İstanbul merkezli, Türkiye genelinde; mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulamayı tek ekiple yürütür.",
+    return head("Dimart Mimarlık | İstanbul mimarlık ofisi, iç mimarlık ve anahtar teslim inşaat",
+                "İstanbul'da mimarlık ve müteahhitlik: mimari tasarım, iç mimarlık, villa ve konut inşaatı, tadilat ve renovasyon, proje ve ruhsat, anahtar teslim uygulama. Dimart'ta hepsi tek ekipten.",
                 "", ld, "home") + f"""  <section class="hero">
     {frame("eskiz", "hero-frame", "0.06")}
     <div class="hero-text" data-r>
-      <p class="label">Mimarlık &amp; müteahhitlik · Türkiye geneli</p>
+      <p class="label">Mimarlık &amp; müteahhitlik · İstanbul</p>
       <h1>Tasarımdan anahtar teslime <span class="y">tek çizgi.</span></h1>
-      <p class="lead">Dimart, İstanbul merkezli ekibiyle Türkiye genelinde konut, ofis ve ticari mekânları tasarlar, projelendirir ve inşa eder. Çizimi yapan ekip şantiyeyi de yönetir; siz tek muhatapla çalışırsınız.</p>
+      <p class="lead">Dimart, İstanbul'daki ekibiyle villa, konut, ofis ve ticari mekânları tasarlar, projelendirir ve inşa eder. Çizimi yapan ekip şantiyeyi de yönetir; siz tek muhatapla çalışırsınız.</p>
       <p class="links"><a class="go" href="/iletisim/">Projenizi konuşalım</a><a class="go" href="/hizmetler/">Hizmetler</a></p>
     </div>
     <p class="cue" aria-hidden="true">kaydırın</p>
@@ -368,8 +394,8 @@ def page_home():
     <dl class="meta facts" data-r>
       <div><dt>disiplin</dt><dd>Mimarlık, iç mimarlık, inşaat</dd></div>
       <div><dt>model</dt><dd>Tek ekip, tek sözleşme</dd></div>
-      <div><dt>bölge</dt><dd>Türkiye geneli</dd></div>
-      <div><dt>ofis</dt><dd>Sancaktepe, İstanbul</dd></div>
+      <div><dt>yapılar</dt><dd>Villa, konut, ofis, ticari mekân</dd></div>
+      <div><dt>ofis</dt><dd>İstanbul</dd></div>
     </dl>
   </section>
 
@@ -402,12 +428,12 @@ def page_studyo():
     ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("Stüdyo", "studyo/")]),
           {"@type": "AboutPage", "url": f"{SITE}/studyo/", "about": {"@id": f"{SITE}/#firma"}}]
     f = FIRMA
-    return head("Stüdyo | Dimart Mimarlık",
-                "Dimart Mimarlık ve Müteahhitlik A.Ş. hakkında: yaklaşımımız, çalışma biçimimiz ve çalışma bölgemiz. Sancaktepe, İstanbul.",
+    return head("Stüdyo: İstanbul'da mimarlık ve müteahhitlik firması | Dimart Mimarlık",
+                "Dimart Mimarlık ve Müteahhitlik A.Ş. hakkında: tasarım, proje, ruhsat ve inşaatı tek ekipte birleştiren İstanbul merkezli mimarlık ofisi. Yaklaşımımız ve çalışma biçimimiz.",
                 "studyo/", ld, "studyo") + f"""  <section class="page-hero">
     {crumbs("Stüdyo")}
     <h1 data-r>Çizen de, <span class="y">inşa eden de biziz.</span></h1>
-    <p class="lead" data-r>Dimart Mimarlık ve Müteahhitlik, mimari tasarım, iç mimarlık ve inşaatı tek ekipte birleştiren, İstanbul merkezli ve Türkiye genelinde çalışan bir stüdyodur.</p>
+    <p class="lead" data-r>Dimart Mimarlık ve Müteahhitlik, mimari tasarım, iç mimarlık ve inşaatı tek ekipte birleştiren, İstanbul merkezli bir mimarlık ve müteahhitlik stüdyosudur.</p>
   </section>
   <section class="split">
     {frame("ic-mimarlik", "", "0.05")}
@@ -419,10 +445,10 @@ def page_studyo():
     </div>
   </section>
   <section class="split rev" aria-labelledby="bolge">
-    <div data-r><h2 class="label" id="bolge">Çalışma bölgesi</h2><p class="h">İstanbul'dan Türkiye'ye</p></div>
+    <div data-r><h2 class="label" id="bolge">Çalışma biçimi</h2><p class="h">Ofiste çizer, sahada yaparız</p></div>
     <dl class="meta reg" data-r>
       <div><dt>ofis</dt><dd>{f['adres']}, {f['pk']} {f['ilce']} / {f['il']}</dd></div>
-      <div><dt>hizmet bölgesi</dt><dd>Türkiye geneli: konut, villa, ofis, ticari ve turizm yapıları</dd></div>
+      <div><dt>yapı türleri</dt><dd>Villa, müstakil ev, konut, ofis, ticari ve turizm yapıları</dd></div>
       <div><dt>çalışma biçimi</dt><dd>Keşif ve şantiye yönetimi yerinde, tasarım ve koordinasyon İstanbul ofisinde</dd></div>
     </dl>
   </section>
@@ -433,7 +459,12 @@ def page_hizmetler():
     svc_ld = [{"@type": "Service", "@id": f"{SITE}/hizmetler/#{slug}", "name": ad, "description": uzun,
                "provider": {"@id": f"{SITE}/#firma"}, "areaServed": {"@type": "Country", "name": "Türkiye"}}
               for code, ad, slug, kisa, uzun, _ in HIZMETLER]
-    ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("Hizmetler", "hizmetler/")])] + svc_ld + [faq_ld(SSS[:4])]
+    katalog = {"@type": "OfferCatalog", "@id": f"{SITE}/hizmetler/#alanlar", "name": "Uzmanlık alanları",
+              "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": a, "description": b,
+                                   "provider": {"@id": f"{SITE}/#firma"}}} for a, b in ALANLAR]}
+    ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("Hizmetler", "hizmetler/")])] + svc_ld + [katalog, faq_ld(SSS[:7])]
+    alanlar = "\n".join(f'      <li data-r style="--d:{i % 3}"><span class="n">{i + 1:02d}</span><h3>{a}</h3><p>{b}</p></li>'
+                        for i, (a, b) in enumerate(ALANLAR))
     blocks = "\n".join(f"""  <article class="svc{' rev' if i % 2 else ''}" id="{slug}">
     <div class="svc-text" data-r>
       <p class="label">{i + 1:02d} / {len(HIZMETLER):02d}</p>
@@ -441,23 +472,28 @@ def page_hizmetler():
       <p>{uzun}</p>
       <dl class="meta">
         <div><dt>kapsam</dt><dd>{' · '.join(items)}</dd></div>
-        <div><dt>bölge</dt><dd>Türkiye geneli</dd></div>
       </dl>
     </div>
     {frame(slug, "", "0.06")}
   </article>""" for i, (code, ad, slug, kisa, uzun, items) in enumerate(HIZMETLER))
     return head("Hizmetler: mimari tasarım, iç mimarlık, ruhsat ve anahtar teslim inşaat | Dimart Mimarlık",
-                "Dimart Mimarlık'ın Türkiye genelindeki hizmetleri: mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulama.",
+                "Dimart Mimarlık hizmetleri: mimari tasarım, iç mimarlık, villa ve konut inşaatı, ev tadilatı ve renovasyon, ofis ve mağaza tasarımı, proje ve ruhsat, anahtar teslim uygulama.",
                 "hizmetler/", ld, "hizmetler") + f"""  <section class="page-hero">
     {crumbs("Hizmetler")}
     <h1 data-r>Bir çizgiden <span class="y">bitmiş yapıya.</span></h1>
-    <p class="lead" data-r>İstanbul merkezli, Türkiye genelinde mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulama. İhtiyacınız olan aşamayı ya da tüm süreci üstleniyoruz.</p>
+    <p class="lead" data-r>İstanbul merkezli ekibimizle mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulama. İhtiyacınız olan aşamayı ya da tüm süreci üstleniyoruz.</p>
   </section>
 {blocks}
+  <section class="areas" aria-labelledby="alanlar">
+    <div class="sec-head" data-r><h2 class="label" id="alanlar">Uzmanlık alanları</h2><p class="h">En çok yaptığımız işler</p></div>
+    <ol>
+{alanlar}
+    </ol>
+  </section>
   <section class="qa" aria-labelledby="sss">
     <div class="sec-head" data-r><h2 class="label" id="sss">Sık sorulan sorular</h2><p class="h">Merak edilenler</p></div>
     <div class="faq">
-{faq_html(SSS[:4])}
+{faq_html(SSS[:7])}
     </div>
   </section>
 """ + footer()
@@ -470,8 +506,8 @@ def page_projeler():
       <div class="frame m-{mat} empty" data-r data-speed="{'0.07' if i % 2 else '-0.04'}"><span>görseller hazırlanıyor</span></div>
       <figcaption class="cap" data-r><h3>{tur.lower()}</h3><small>{hizmet}</small></figcaption>
     </figure>""" for i, (mat, tur, hizmet) in enumerate(PROJELER))
-    return head("Projeler | Dimart Mimarlık",
-                "Dimart Mimarlık'ın Türkiye genelinde tamamladığı konut, villa, ofis ve iç mimarlık projeleri.",
+    return head("Projeler: villa, konut, ofis ve iç mimarlık | Dimart Mimarlık",
+                "Dimart Mimarlık'ın tasarlayıp inşa ettiği villa, konut, ofis ve iç mimarlık projeleri.",
                 "projeler/", ld, "projeler") + f"""  <section class="page-hero">
     {crumbs("Projeler")}
     <h1 data-r>Seçili <span class="y">projeler.</span></h1>
@@ -511,6 +547,63 @@ def page_iletisim():
 """ + footer()
 
 
+def page_kvkk():
+    f = FIRMA
+    ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("KVKK ve gizlilik", "kvkk/")]),
+          {"@type": "WebPage", "url": f"{SITE}/kvkk/", "name": "KVKK aydınlatma metni ve gizlilik",
+           "about": {"@id": f"{SITE}/#firma"}, "dateModified": "2026-10-22"}]
+    return head("KVKK aydınlatma metni ve gizlilik | Dimart Mimarlık",
+                "Dimart Mimarlık ve Müteahhitlik A.Ş. kişisel verilerin korunması aydınlatma metni, gizlilik ve çerez bilgilendirmesi.",
+                "kvkk/", ld, "kvkk") + f"""  <article class="post legal-page">
+    <header class="post-head">
+      {crumbs("KVKK ve gizlilik")}
+      <h1 data-r>KVKK aydınlatma metni <span class="y">ve gizlilik</span></h1>
+      <p class="post-meta" data-r><span>Son güncelleme: 22 Ekim 2026</span></p>
+    </header>
+    <div class="post-body">
+      <div class="prose post-text" data-r>
+<p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu'nun (KVKK) 10. maddesi uyarınca, {f['unvan']} ("Dimart") tarafından kişisel verilerinizin nasıl işlendiğini açıklamak için hazırlanmıştır.</p>
+
+<h2>Veri sorumlusu</h2>
+<p>{f['unvan']}<br>{f['adres']}, {f['pk']} {f['ilce']} / {f['il']}<br>E-posta: <a href="mailto:{f['eposta']}">{f['eposta']}</a> · Telefon: <a href="tel:{f['tel_link']}">{f['tel']}</a></p>
+
+<h2>Hangi verileri işliyoruz?</h2>
+<ul>
+<li><strong>Kimlik ve iletişim bilgileri:</strong> bizi aradığınızda ya da e-posta gönderdiğinizde paylaştığınız ad, soyad, telefon numarası ve e-posta adresi.</li>
+<li><strong>Proje bilgileri:</strong> teklif ve proje çalışması için paylaştığınız adres, tapu, imar durumu, proje dosyaları ve fotoğraflar.</li>
+<li><strong>Sözleşme ve finans bilgileri:</strong> iş ilişkisi kurulursa sözleşme, fatura ve ödeme bilgileri.</li>
+<li><strong>Teknik kayıtlar:</strong> siteyi ziyaret ettiğinizde, sitenin barındırıldığı altyapı tarafından güvenlik amacıyla tutulan IP adresi, tarayıcı bilgisi ve erişim zamanı.</li>
+</ul>
+<p>Sitede iletişim formu, üyelik, reklam ya da ziyaretçi analizi aracı bulunmaz.</p>
+
+<h2>Hangi amaçlarla ve hangi hukuki sebeple?</h2>
+<ul>
+<li>Taleplerinize yanıt vermek, keşif ve teklif hazırlamak (KVKK m. 5/2-c: sözleşmenin kurulması).</li>
+<li>Tasarım, proje, ruhsat ve inşaat işlerini yürütmek (KVKK m. 5/2-c).</li>
+<li>Fatura, vergi ve imar mevzuatından doğan yükümlülükleri yerine getirmek (KVKK m. 5/2-ç: hukuki yükümlülük).</li>
+<li>Sitenin güvenliğini sağlamak ve kötüye kullanımı önlemek (KVKK m. 5/2-f: meşru menfaat).</li>
+</ul>
+
+<h2>Verileri kimlere aktarıyoruz?</h2>
+<p>Verileriniz yalnızca yukarıdaki amaçlarla ve gerektiği ölçüde; ruhsat ve izin süreçleri için belediyeler, yapı denetim kuruluşları ve diğer yetkili kamu kurumlarıyla, işin yürütülmesi için birlikte çalıştığımız proje müellifleri ve uzmanlarla, mali yükümlülükler için mali müşavirimizle paylaşılabilir.</p>
+<p>E-posta hizmetimiz (Google Workspace) ve sitenin barındırma altyapısı (Cloudflare) yurt dışında sunucuları bulunan hizmet sağlayıcılardır. Bu hizmetler aracılığıyla gerçekleşen aktarımlar KVKK'nın 9. maddesine uygun olarak yapılır.</p>
+
+<h2>Ne kadar süre saklıyoruz?</h2>
+<p>Verilerinizi işleme amacının gerektirdiği süre ve ilgili mevzuatta öngörülen saklama süreleri boyunca saklarız. Bu sürelerin sonunda verileri siler, yok eder ya da anonim hale getiririz.</p>
+
+<h2>Haklarınız</h2>
+<p>KVKK'nın 11. maddesi uyarınca; verilerinizin işlenip işlenmediğini öğrenme, işlenmişse bilgi talep etme, işlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme, aktarıldığı üçüncü kişileri bilme, eksik ya da yanlış işlenmişse düzeltilmesini, şartları oluştuğunda silinmesini ya da yok edilmesini isteme, bu işlemlerin aktarıldığı kişilere bildirilmesini isteme, otomatik sistemlerle analiz sonucu aleyhinize bir sonuç çıkmasına itiraz etme ve kanuna aykırı işleme nedeniyle zarara uğramanız halinde zararın giderilmesini talep etme haklarına sahipsiniz.</p>
+<p>Başvurularınızı <a href="mailto:{f['eposta']}">{f['eposta']}</a> adresine e-postayla ya da yukarıdaki adresimize yazılı olarak iletebilirsiniz. Başvurunuzu en geç 30 gün içinde ücretsiz olarak sonuçlandırırız.</p>
+
+<h2>Çerezler</h2>
+<p>Bu site çerez kullanmaz. Ses ve fener tercihiniz yalnızca kendi tarayıcınızın yerel deposunda tutulur; bize ya da üçüncü kişilere gönderilmez ve tarayıcı ayarlarınızdan silinebilir. Yazı tipleri ve müzik dosyaları da sitenin kendi sunucusundan yüklenir.</p>
+<p>Instagram ve Google Haritalar bağlantılarına tıkladığınızda ilgili platformun kendi gizlilik politikası geçerli olur.</p>
+      </div>
+    </div>
+  </article>
+""" + footer()
+
+
 def page_404():
     return head("Sayfa bulunamadı | Dimart Mimarlık", "Aradığınız sayfa bulunamadı.", "404.html", [ORG], "404").replace(
         '<link rel="canonical" href="https://dimartmimarlik.com/404.html">\n', '').replace(
@@ -545,7 +638,7 @@ def page_blog():
            "blogPost": [{"@type": "BlogPosting", "headline": y["baslik"], "url": f"{SITE}/blog/{y['slug']}/",
                          "datePublished": y["tarih"]} for y in YAZILAR]}]
     return head("Blog: mimarlık, iç mimarlık, ruhsat ve inşaat rehberleri | Dimart Mimarlık",
-                "Anahtar teslim inşaat, yapı ruhsatı, iç mimarlık süreci ve tadilat bütçesi üzerine Dimart Mimarlık'ın hazırladığı rehberler.",
+                "Villa inşaatı, ofis iç mimarisi, anahtar teslim inşaat, yapı ruhsatı, tadilat bütçesi ve firma seçimi üzerine Dimart Mimarlık'ın hazırladığı rehberler.",
                 "blog/", ld, "blog") + f"""  <section class="page-hero">
     {crumbs("Blog")}
     <h1 data-r>Çizgiden <span class="y">notlar.</span></h1>
@@ -606,7 +699,7 @@ def llms():
     yazilar = "\n".join(f"- [{y['baslik']}]({SITE}/blog/{y['slug']}/): {y['ozet']}" for y in YAZILAR)
     return f"""# {f['unvan']}
 
-> İstanbul Sancaktepe merkezli, Türkiye genelinde hizmet veren mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, proje ve ruhsat, inşaat ve anahtar teslim uygulamayı tek ekiple yürütür. Slogan: "Her şey bir çizgiyle başlar."
+> İstanbul merkezli mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, villa ve konut inşaatı, tadilat ve renovasyon, proje ve ruhsat ve anahtar teslim uygulamayı tek ekiple yürütür. İstanbul dışındaki projeleri de üstlenir. Slogan: "Her şey bir çizgiyle başlar."
 
 ## Hizmetler
 {svc}
@@ -638,6 +731,7 @@ PAGES = {
     "projeler/index.html": page_projeler,
     "iletisim/index.html": page_iletisim,
     "blog/index.html": page_blog,
+    "kvkk/index.html": page_kvkk,
 }
 for _y in YAZILAR:
     PAGES[f"blog/{_y['slug']}/index.html"] = (lambda y=_y: page_yazi(y))
@@ -648,7 +742,7 @@ if __name__ == "__main__":
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(fn(), encoding="utf-8")
     (ROOT / "404.html").write_text(page_404(), encoding="utf-8")
-    urls = "\n".join(f"  <url><loc>{SITE}/{p.replace('index.html', '')}</loc><lastmod>2026-10-21</lastmod></url>" for p in PAGES)
+    urls = "\n".join(f"  <url><loc>{SITE}/{p.replace('index.html', '')}</loc><lastmod>2026-10-22</lastmod></url>" for p in PAGES)
     (ROOT / "sitemap.xml").write_text(
         f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n',
         encoding="utf-8")

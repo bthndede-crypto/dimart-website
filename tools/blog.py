@@ -6,6 +6,153 @@ Yeni yazı eklemek için listeye bir sözlük ekleyip `python3 tools/build.py` �
 
 YAZILAR = [
     {
+        "slug": "villa-insaati-sureci",
+        "baslik": "Villa ve müstakil ev inşaatı: arsadan anahtara adım adım süreç",
+        "kisa": "Villa inşaatı",
+        "aciklama": "Villa ve müstakil ev yaptırmak isteyenler için arsa analizinden tasarıma, ruhsattan kaba ve ince inşaata, teslime kadar bütün süreç ve bütçe ipuçları.",
+        "tarih": "2026-10-22",
+        "kategori": "İnşaat",
+        "cizim": "insaat-anahtar-teslim",
+        "ozet": "Villa ya da müstakil ev inşaatı; arsanın imar durumunun incelenmesiyle başlar, ihtiyaç programı ve tasarımla şekillenir, uygulama projeleri ve yapı ruhsatından sonra kaba ve ince inşaatla sürer, yapı kullanma izniyle (iskân) tamamlanır. Bütçeyi en çok yapının alanı, zemin koşulları ve malzeme standardı belirler. Tasarım ve uygulamanın aynı ekipte olması, kararların ve maliyetin baştan sona tek elden takip edilmesini sağlar.",
+        "govde": """
+<h2>1. Arsayı tanımak</h2>
+<p>Her şey arsayla başlar. İmar durumu belgesi, parsele ne kadar ve nasıl yapı yapılabileceğini gösterir: taban alanı, emsal, kat adedi ya da yükseklik sınırı, yollara ve komşu parsellere çekme mesafeleri. Bunun yanında arsanın eğimi, yönü, manzarası, ağaçları, yola bağlantısı ve altyapı (su, elektrik, kanalizasyon ya da fosseptik) yerinde incelenir. Zemin etüdü ise temelin nasıl tasarlanacağını belirler ve maliyeti doğrudan etkiler.</p>
+
+<h2>2. İhtiyaç programı</h2>
+<p>Evde kaç kişi yaşayacak, kaç yatak odası gerekiyor, misafir ne sıklıkla geliyor, evden çalışan var mı, bahçe ve havuz isteniyor mu? Bu soruların cevapları bir ihtiyaç programına dönüşür. İyi bir program, bugünü olduğu kadar on yıl sonrasını da düşünür: büyüyen çocuklar, yaşlanan ebeveynler, değişen çalışma düzeni.</p>
+
+<h2>3. Tasarım</h2>
+<p>Konsept aşamasında yapının arsaya nasıl oturacağı, güneşi ve manzarayı nasıl kullanacağı, iç ve dış mekânın nasıl buluşacağı belirlenir. Ardından avan proje gelir: planlar, kesitler, görünüşler ve üç boyutlu görseller. Bu aşamada malzeme dili de netleşmeye başlar. Değişiklik yapmanın en ucuz olduğu zaman tasarım aşamasıdır; şantiyede yapılan her değişiklik hem zaman hem para demektir.</p>
+
+<h2>4. Uygulama projeleri ve ruhsat</h2>
+<p>Onaylanan tasarım; mimari, statik, mekanik ve elektrik uygulama projelerine dönüşür. Projeler birbiriyle koordine edilir ki kolon ile tesisat, kiriş ile pencere çakışmasın. Belediyeye ruhsat başvurusu yapılır, yapı denetim kuruluşuyla sözleşme imzalanır. Ruhsat alınmadan inşaata başlanmaz.</p>
+
+<h2>5. Kaba inşaat</h2>
+<p>Hafriyat, temel, taşıyıcı sistem, döşemeler, duvarlar ve çatı bu aşamadadır. Yapının ömrünü ve güvenliğini belirleyen işler burada yapılır; beton dökümleri ve donatı kontrolleri yapı denetimin gözetiminde ilerler. Su yalıtımı ve drenaj gibi sonradan düzeltmesi zor kalemler bu aşamada özenle yapılmalıdır.</p>
+
+<h2>6. İnce işler</h2>
+<p>Doğramalar, ısı ve ses yalıtımı, sıva ve şap, tesisat ve elektrik, ıslak hacimler, zemin ve duvar kaplamaları, mutfak, dolaplar, aydınlatma. Ev, bu aşamada kişiliğini kazanır. Malzeme seçimlerinin baştan bir listeye bağlanması hem bütçeyi hem takvimi korur.</p>
+
+<h2>7. Dış mekân ve teslim</h2>
+<p>Bahçe duvarları, peyzaj, teras, havuz ve otopark gibi dış işler tamamlanır. Son kontrol bir liste üzerinden birlikte yapılır, eksikler kapatılır. Yapı kullanma izin belgesi (iskân) alınır; anahtarla birlikte projeler, garanti belgeleri ve kullanım bilgileri teslim edilir.</p>
+
+<h2>Bütçeyi ne belirler?</h2>
+<ul>
+<li><strong>Alan ve form:</strong> kapalı alan büyüdükçe maliyet artar; çok girintili çıkıntılı formlar da maliyeti yükseltir.</li>
+<li><strong>Zemin:</strong> zayıf zemin, eğimli arsa ya da yüksek yeraltı suyu temel maliyetini artırır.</li>
+<li><strong>Malzeme standardı:</strong> doğrama, cephe, kaplama ve vitrifiye seçimleri bütçede en çok oynayan kalemlerdir.</li>
+<li><strong>Kapsam:</strong> havuz, peyzaj, akıllı ev sistemleri ve mobilyanın kapsama girip girmediği.</li>
+</ul>
+<p>Güvenilir bir fiyat için avan projenin ve malzeme listesinin netleşmesini beklemek gerekir. Metrekare üzerinden verilen hızlı fiyatlar, kapsamı belirsiz bıraktığı için genellikle sonradan sürpriz çıkarır.</p>
+""",
+        "sss": [
+            ("Villa inşaatına başlamak için ilk ne yapmalıyım?",
+             "Arsanın imar durumunu öğrenin ve bir mimarla arsayı yerinde görün. Neyin, ne kadar yapılabileceği netleşmeden tasarıma ve bütçeye başlamak sağlıklı olmaz."),
+            ("Hazır proje mi, arsaya özel tasarım mı?",
+             "Hazır projeler arsanın yönünü, eğimini ve manzarasını bilmez. Arsaya özel tasarım, aynı bütçeyle çok daha iyi ışık, mahremiyet ve kullanım sağlar."),
+            ("Villa inşaatında anahtar teslim modelin avantajı nedir?",
+             "Tasarım, ruhsat ve inşaat tek sözleşmede olduğu için bilgi kaybı yaşanmaz; takvim, bütçe ve kalite tek muhataptan takip edilir."),
+        ],
+    },
+    {
+        "slug": "ofis-ic-mimarisi",
+        "baslik": "Ofis iç mimarisi: verimli ve sıcak bir çalışma alanı nasıl tasarlanır?",
+        "kisa": "Ofis iç mimarisi",
+        "aciklama": "Ofis tasarımında çalışma düzeni, toplantı alanları, akustik, aydınlatma, malzeme ve marka kimliği; ofis tadilatını iş akışını aksatmadan planlamanın yolları.",
+        "tarih": "2026-10-22",
+        "kategori": "İç mimarlık",
+        "cizim": "ic-mimarlik",
+        "ozet": "İyi bir ofis, ekibin nasıl çalıştığını anlamakla başlar: odaklanma, birlikte çalışma, toplantı ve dinlenme için ayrı ayrı alanlar gerekir. Akustik ve gün ışığı verimliliği en çok etkileyen iki konudur. Malzeme ve renk seçimi markanın karakterini yansıtmalı, mobilya ve tesisat ise ekibin büyümesine izin verecek esneklikte planlanmalıdır.",
+        "govde": """
+<h2>Önce iş akışını anlamak</h2>
+<p>Ofis tasarımı bir mobilya yerleşimi değil, bir çalışma biçiminin planıdır. Ekip ne kadar zamanını masada, ne kadarını toplantıda geçiriyor? Telefon ve görüntülü görüşme ne sıklıkta yapılıyor? Müşteri ofise geliyor mu? Hibrit çalışılıyorsa ofiste aynı anda kaç kişi bulunuyor? Bu soruların cevabı, metrekarenin nasıl paylaştırılacağını belirler.</p>
+
+<h2>Alanları ayırmak</h2>
+<ul>
+<li><strong>Odak alanları:</strong> sessiz, dikkat dağıtmayan, uzun süre oturmaya uygun çalışma yerleri.</li>
+<li><strong>Birlikte çalışma alanları:</strong> ekip masaları, yazı tahtaları, ayakta kısa görüşme noktaları.</li>
+<li><strong>Toplantı odaları ve görüşme kabinleri:</strong> farklı büyüklüklerde; tek kişilik görüşme kabinleri açık ofisin gürültüsünü ciddi biçimde azaltır.</li>
+<li><strong>Karşılama ve mutfak:</strong> ofisin ilk izlenimi ve ekibin bir araya geldiği en samimi yer.</li>
+</ul>
+
+<h2>Akustik</h2>
+<p>Açık ofislerin en sık şikâyeti gürültüdür. Ses emici tavan ve duvar panelleri, halı ya da yumuşak zemin kaplamaları, kitaplık ve dolapların bölücü olarak kullanılması yankıyı azaltır. Toplantı odalarında duvarların tavana kadar çıkması ve doğru kapı seçimi, konuşmaların dışarı taşmasını önler.</p>
+
+<h2>Işık</h2>
+<p>Gün ışığı en değerli malzemedir. Sürekli çalışılan masalar pencerelere yakın, toplantı ve depolama gibi kısa süreli kullanılan alanlar iç bölümlere yerleştirilir. Yapay aydınlatmada genel ışık, masa üstü ışığı ve vurgu ışığı birlikte düşünülür; ekranda yansıma ve gözde kamaşma yaratmayan armatürler seçilir.</p>
+
+<h2>Malzeme, renk ve marka</h2>
+<p>Ofis, markanın üç boyutlu halidir. Ahşap, doğal taş, keten ve sıva gibi sıcak ve dokulu malzemeler, kurumsal soğukluğu kırar ve uzun yıllar eskimeden kalır. Marka renkleri tüm mekâna yayılmak yerine birkaç güçlü noktada kullanıldığında daha etkili olur.</p>
+
+<h2>Esneklik ve tesisat</h2>
+<p>Ekip büyür, düzen değişir. Yükseltilmiş döşeme ya da iyi planlanmış zemin prizleri, modüler masa sistemleri ve taşınabilir bölücüler, yıllar içinde ofisi yeniden kurmadan değiştirmeye izin verir. İklimlendirme, havalandırma ve veri altyapısı tasarımın en başında birlikte planlanmalıdır.</p>
+
+<h2>Ofis tadilatını işleri aksatmadan yapmak</h2>
+<p>Taşınmadan yenilenecek ofislerde iş bölgelere ayrılarak, gürültülü işler akşam ve hafta sonuna planlanarak yürütülebilir. Detaylı bir iş programı ve malzemelerin önceden siparişi, şantiye süresini kısaltır.</p>
+""",
+        "sss": [
+            ("Ofis iç mimarisi süreci ne kadar sürer?",
+             "Alanın büyüklüğüne ve kapsamına göre değişir. Tasarım ve uygulama projeleri tamamlandıktan sonra, malzemeler önceden sipariş edilirse uygulama süresi belirgin biçimde kısalır."),
+            ("Kiralık ofiste iç mimari değişiklik yapılabilir mi?",
+             "Evet, ancak kira sözleşmesi ve bina yönetiminin kuralları kontrol edilmelidir. Taşıyıcı sisteme dokunmayan bölme duvar, kaplama ve aydınlatma değişiklikleri genellikle mümkündür."),
+            ("Açık ofis mi, kapalı odalar mı?",
+             "Çoğu ekip için en iyi çözüm karmadır: açık çalışma alanları, yanında odaklanma ve görüşme için kapalı oda ve kabinler."),
+        ],
+    },
+    {
+        "slug": "mimarlik-ve-insaat-firmasi-secimi",
+        "baslik": "Mimarlık ve inşaat firması seçerken nelere dikkat edilmeli?",
+        "kisa": "Firma seçimi",
+        "aciklama": "Mimar, iç mimar ya da müteahhit seçmeden önce bakılması gerekenler: tamamlanmış işler, ekip, süreç, teklifin kapsamı, sözleşme ve iletişim.",
+        "tarih": "2026-10-22",
+        "kategori": "Rehber",
+        "cizim": "eskiz",
+        "ozet": "Doğru firmayı seçmek için önce tamamlanmış işlerini yerinde görmek ve eski müşterileriyle konuşmak gerekir. Teklifler fiyatla değil kapsamla karşılaştırılmalı; malzeme listesi, takvim, ödeme planı ve değişikliklerin nasıl fiyatlanacağı yazılı olmalıdır. Tasarımı ve uygulamayı kimin yapacağı, şantiyeyi kimin yöneteceği ve iletişimin nasıl yürüyeceği baştan netleşmelidir.",
+        "govde": """
+<h2>Tamamlanmış işlere bakın</h2>
+<p>Görseller fikir verir, ama asıl ölçü bitmiş yapılardır. Mümkünse firmanın teslim ettiği bir projeyi yerinde görün; detayların, birleşim yerlerinin ve işçiliğin kalitesine bakın. Eski müşterilerine süreç boyunca iletişimin nasıl olduğunu, takvime ve bütçeye ne kadar uyulduğunu sorun.</p>
+
+<h2>Kim tasarlıyor, kim uyguluyor?</h2>
+<p>Bazı firmalar yalnızca tasarım yapar, bazıları yalnızca uygular, bazıları ise ikisini birlikte yürütür. Tasarım ve uygulama ayrı firmalardaysa aradaki koordinasyonun kimde olacağı netleşmelidir. Tek ekip modelinde ise çizen ile yapan aynı olduğu için sorumluluk bölünmez. Hangi modeli seçerseniz seçin, şantiyeyi kimin yöneteceğini ve sahada kimin karar vereceğini öğrenin.</p>
+
+<h2>Teklifleri fiyatla değil kapsamla karşılaştırın</h2>
+<p>İki teklif arasındaki fiyat farkı çoğu zaman kapsam farkıdır. Birinde dahil olan mutfak, dolap, aydınlatma ya da peyzaj diğerinde dışarıda kalmış olabilir. Teklifleri kalem kalem, aynı malzeme standardıyla karşılaştırın. Belirsiz kalemler sonradan ek maliyet olarak döner.</p>
+
+<h2>Sözleşmede neler yazmalı?</h2>
+<ul>
+<li>İşin kapsamı ve kapsam dışı kalemler.</li>
+<li>Marka, model ya da sınıf belirtilmiş malzeme listesi.</li>
+<li>Başlangıç ve teslim tarihleri, gecikme hükümleri.</li>
+<li>İş ilerlemesine bağlı ödeme planı.</li>
+<li>Değişiklik taleplerinin nasıl fiyatlanıp onaylanacağı.</li>
+<li>Teslim sonrası garanti ve bakım.</li>
+</ul>
+
+<h2>Belgeler ve yetkinlik</h2>
+<p>Ruhsat gerektiren işlerde projelerin ilgili meslek odalarına kayıtlı mühendis ve mimarlarca çizilmesi, yapının da yapı denetim gözetiminde yapılması gerekir. Firmanın bu süreçleri daha önce yürütüp yürütmediğini, iş güvenliği ve sigorta konularını nasıl ele aldığını sorun.</p>
+
+<h2>İletişim ve raporlama</h2>
+<p>İnşaat aylar süren bir ortaklıktır. Size kimin, hangi sıklıkla ve nasıl bilgi vereceğini baştan konuşun. Düzenli fotoğraflı raporlar, şantiye ziyaret günleri ve tek bir sorumlu kişi, sürecin rahat geçmesini sağlar.</p>
+
+<h2>İlk görüşmede sorulacak sorular</h2>
+<ul>
+<li>Benzer büyüklükte ve türde hangi projeleri yaptınız?</li>
+<li>Projeyi kim yönetecek, sahada kim olacak?</li>
+<li>Teklifiniz neleri kapsıyor, neleri kapsamıyor?</li>
+<li>Takvimi etkileyebilecek riskler neler?</li>
+<li>Süreç boyunca beni nasıl bilgilendireceksiniz?</li>
+</ul>
+""",
+        "sss": [
+            ("En ucuz teklifi seçmek mantıklı mı?",
+             "Ancak kapsam ve malzeme standardı diğer tekliflerle birebir aynıysa. Fiyat farkı çoğu zaman eksik bırakılmış kalemlerden kaynaklanır."),
+            ("Mimar ve müteahhidi ayrı mı seçmeliyim?",
+             "Her iki model de işler. Ayrı seçerseniz koordinasyonun kimde olacağını netleştirin; tek ekip modeli ise sorumluluğu tek elde toplar."),
+            ("Firmanın güvenilirliğini nasıl anlarım?",
+             "Tamamlanmış işlerini yerinde görün, eski müşterileriyle konuşun, teklif ve sözleşmenin ne kadar ayrıntılı olduğuna bakın."),
+        ],
+    },
+    {
         "slug": "anahtar-teslim-insaat-nedir",
         "baslik": "Anahtar teslim inşaat nedir? Kapsam, süreç ve sözleşmede dikkat edilecekler",
         "kisa": "Anahtar teslim inşaat",

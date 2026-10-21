@@ -110,6 +110,13 @@ html.menu{overflow:hidden}
 .util [aria-pressed=true] .eq i:nth-child(4){animation-delay:-.2s;animation-duration:.8s}
 @keyframes eq{from{height:2px}to{height:10px}}
 #ses-btn.wait .eq i{background:var(--y);opacity:.5}
+#ses-btn.wait .eq i{animation:none;height:2px}
+.ses-t{display:grid;overflow:hidden;height:10px}
+.ses-t span{grid-area:1/1;transition:transform .5s var(--ease),opacity .5s}
+.ses-t span:last-child{transform:translateY(100%);opacity:0}
+#ses-btn[aria-pressed=false] .ses-t span:first-child{transform:translateY(-100%);opacity:0}
+#ses-btn[aria-pressed=false] .ses-t span:last-child{transform:none;opacity:1}
+#ses-btn[aria-pressed=true]:hover .ses-t span:first-child{color:var(--y)}
 
 /* fener, mozaik, imleç, gren */
 #fener{position:fixed;inset:0;z-index:80;pointer-events:none;opacity:0;transition:opacity .9s;
@@ -255,6 +262,19 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .faq summary:hover{color:var(--y)}
 .faq details p{color:var(--ink2);padding:0 40px 24px 0;max-width:62ch}
 
+/* uzmanlık alanları */
+.areas{padding:12vh 0 4vh;display:grid;grid-template-columns:repeat(12,1fr);column-gap:20px}
+.areas .sec-head{grid-column:1 / span 4}
+.areas ol{grid-column:6 / span 7;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 40px;border-top:1px solid var(--line)}
+.areas li{padding:26px 0;border-bottom:1px solid var(--line)}
+.areas li[data-r]{transition-delay:calc(var(--d) * 110ms)}
+.areas .n{font:500 10px var(--mont);letter-spacing:.24em;color:var(--y)}
+.areas h3{font:400 17px/1.35 var(--mont);margin:10px 0 8px}
+.areas p{color:var(--ink2);font-size:13px;max-width:44ch}
+.legal a{border-bottom:1px solid var(--line)}
+.legal a:hover{color:var(--ink)}
+.legal-page .post-head,.legal-page .post-body{grid-column:1 / span 9}
+
 /* alt sayfalar */
 .page-hero{padding:150px 0 12vh;min-height:62vh;display:flex;flex-direction:column;justify-content:flex-end}
 .page-hero h1{font-size:clamp(32px,4vw,64px);max-width:16ch;margin-top:auto}
@@ -366,6 +386,8 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
   .steps li{padding:0 0 36px 34px}
   .steps li::before{top:6px}
   .qa,.split,.svc,.foot,.post{display:flex;flex-direction:column;gap:40px}
+  .areas{display:flex;flex-direction:column;gap:30px}
+  .areas ol{grid-template-columns:1fr}
   .post{padding-top:110px;gap:30px}
   .post-frame{width:70%;margin:0;position:relative;top:0}
   .post-body{margin-top:0}
