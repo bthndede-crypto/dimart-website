@@ -312,6 +312,15 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .pn-renk i{flex:none;width:28px;height:28px;border:1px solid var(--line);background-size:cover}
 .pn-ad{font-size:15px;color:var(--ink)}.pn-olcu{font:500 10px var(--mont);letter-spacing:.14em;color:var(--y);margin:6px 0 16px}
 .pn-is{display:flex;flex-wrap:wrap;gap:6px}
+.pn-acilis{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px}
+.pn-acilis button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border:1px solid var(--line);color:var(--ink2);font:500 9px/1.2 var(--mont);letter-spacing:.08em;text-transform:uppercase}
+.pn-acilis button[aria-pressed=true]{border-color:var(--y);color:var(--y)}
+.pn-acilis svg{width:52px;height:64px;fill:none;stroke:currentColor;stroke-width:1.6;overflow:visible}
+.pn-acilis svg .d{stroke-width:4}
+.pn-acilis svg .o{fill:currentColor;stroke:none;opacity:.08}
+.pn-acilis svg circle{fill:currentColor}
+.pn-baslik kbd{font:600 9px/1 var(--mont);border:1px solid var(--y);color:var(--y);padding:2px 5px;margin-left:6px}
+.pn-ipucu{margin:0 0 8px}
 .pn-is button{font:500 9.5px/1 var(--mont);letter-spacing:.2em;text-transform:uppercase;color:var(--ink2);padding:9px 10px;border:1px solid var(--line)}
 .pn-is button:hover{color:var(--y);border-color:var(--y)}
 .pn-alan{display:block;margin:14px 0 4px}

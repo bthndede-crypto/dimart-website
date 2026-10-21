@@ -527,13 +527,31 @@
       BOYA.forEach(function (b, i) { h += '<button type="button" data-boya="' + i + '" aria-pressed="' + (!ozel && i === secili) + '"><i style="background:' + b.r + '"></i><span>' + b.ad + '</span></button>'; });
       return h + '</div>';
     };
+    /* Kapı açılış yönü: menteşe tarafı ve içe/dışa, küçük çizimlerle */
+    var acilisSecici = function (a) {
+      if (a.kanat === 'surgu') return '';
+      var g = acikGeo(a); if (!g) return '';
+      var mm = a.mentese ? 1 : 0, yy = a.yon === -1 ? -1 : 1, cift = a.kanat === 'cift', yn = yon(g.o.pts);
+      // simge odayı üstte gösterir; menteşe tarafı plandakiyle aynı düşsün
+      var svg = function (m, y) {
+        var sag = (m ? -1 : 1) * yn > 0, hx = sag ? 37 : 7, ux = sag ? 7 : 37, k;
+        if (cift) k = '<path d="M7 22V' + (y === 1 ? 7 : 37) + 'A15 15 0 0 ' + (y === 1 ? 1 : 0) + ' 22 22M37 22V' + (y === 1 ? 7 : 37) + 'A15 15 0 0 ' + (y === 1 ? 0 : 1) + ' 22 22"/>';
+        else k = '<path d="M' + hx + ' 22V' + (y === 1 ? -8 : 52) + 'A30 30 0 0 ' + ((sag ? 0 : 1) ^ (y === 1 ? 0 : 1)) + ' ' + ux + ' 22"/><circle cx="' + hx + '" cy="22" r="2.5"/>';
+        return '<svg viewBox="0 -10 44 64" aria-hidden="true"><rect class="o" x="0" y="-10" width="44" height="32"/><line class="d" x1="0" y1="22" x2="7" y2="22"/><line class="d" x1="37" y1="22" x2="44" y2="22"/>' + k + '</svg>';
+      };
+      var liste = cift ? [[0, 1, 'İçe açılır'], [0, -1, 'Dışa açılır']] : [[0, 1, 'İçe açılır'], [1, 1, 'İçe açılır'], [0, -1, 'Dışa açılır'], [1, -1, 'Dışa açılır']];
+      return '<p class="pn-baslik">Açılış yönü</p><div class="pn-acilis">' + liste.map(function (o) {
+        var on = (cift || o[0] === mm) && o[1] === yy;
+        return '<button type="button" data-pis="ac' + o[0] + (o[1] === 1 ? 'i' : 'd') + '" aria-pressed="' + on + '">' + svg(o[0], o[1]) + '<span>' + o[2] + '</span></button>';
+      }).join('') + '</div><p class="pn-not pn-ipucu">Açık renkli taraf odanın içi, nokta menteşe. Seçtiğiniz yön planda hemen görünür.</p>';
+    };
     function secimPaneli(s) {
       var h = '', geriDon = { esya: '← Eşya listesi', kapi: '← Kapı tipleri', pencere: '← Pencere tipleri' }[arac];
       geriDon = geriDon ? '<button type="button" data-pis="liste">' + geriDon + '</button>' : '';
       if (s.tur === 'esya') {
         var e = plan.esya[s.i], t = TIP[e.tip], ew = e.w || t.w, ed = e.d || t.d;
         h += '<p class="pn-baslik">Seçili eşya</p><p class="pn-ad">' + t.ad + '</p><p class="pn-olcu">' + ew + ' × ' + ed + ' × ' + t.h + ' cm</p>' +
-          '<p class="pn-baslik">Döndür</p><div class="pn-is"><button type="button" data-pis="sol90">⟲ 90°</button><button type="button" data-pis="sol15">⟲ 15°</button><button type="button" data-pis="sag15">15° ⟳</button><button type="button" data-pis="sag90">90° ⟳</button></div>' +
+          '<p class="pn-baslik">Döndür <kbd>R</kbd></p><p class="pn-not pn-ipucu">Sarı tutamağı sürükleyin ya da klavyede <b>R</b> tuşuna basın (her basışta 90°). Dokunmatikte eşyaya iki kez dokunun.</p><div class="pn-is"><button type="button" data-pis="sol90">⟲ 90°</button><button type="button" data-pis="sol15">⟲ 15°</button><button type="button" data-pis="sag15">15° ⟳</button><button type="button" data-pis="sag90">90° ⟳</button></div>' +
           aralik('Açı', 'a', e.a || 0, 0, 359, 1, Math.round(e.a || 0) + '°') +
           '<p class="pn-baslik">Ölçü (cm)</p><div class="pn-ikili"><label>Genişlik<input type="number" data-k="w" min="10" max="800" value="' + ew + '"></label><label>Derinlik<input type="number" data-k="d" min="10" max="800" value="' + ed + '"></label></div>' +
           (e.w || e.d ? '<div class="pn-is"><button type="button" data-pis="standart">Standart ölçüye dön</button></div>' : '') +
@@ -548,15 +566,13 @@
         var a = plan.acik[s.i];
         if (a.tur === 'kapi') {
           var kt = KAPI_TIP[a.kt] || {};
-          h += '<p class="pn-baslik">Seçili kapı</p><p class="pn-ad">' + (kt.ad || 'Kapı') + '</p>' +
+          h += '<p class="pn-baslik">Seçili kapı</p><p class="pn-ad">' + (kt.ad || 'Kapı') + '</p>' + acilisSecici(a) +
             '<div class="pn-alan"><span>Kapı tipi</span><div class="pn-liste">' + Object.keys(KAPI_TIP).map(function (k) { return '<button type="button" data-kt="' + k + '" aria-pressed="' + (a.kt === k) + '"><span>' + KAPI_TIP[k].ad + '</span><small>' + cmS(KAPI_TIP[k].gen) + '</small></button>'; }).join('') + '</div></div>' +
             aralik('Genişlik', 'gen', cmS(acikGen(a)), 60, 260, 5, cmS(acikGen(a)) + ' cm') +
             aralik('Yükseklik', 'h', cmS(kapiH(a)), 190, 270, 5, cmS(kapiH(a)) + ' cm') +
             secim('Kanat', 'kanat', [['tek', 'Tek'], ['cift', 'Çift'], ['surgu', 'Sürgü']], a.kanat || 'tek') +
-            (a.kanat === 'surgu' || a.kanat === 'cift' ? '' : secim('Menteşe', 'mentese', [[0, 'Sol'], [1, 'Sağ']], a.mentese ? 1 : 0)) +
-            (a.kanat === 'surgu' ? '' : secim('Açılış', 'yon', [[1, 'İçe'], [-1, 'Dışa']], a.yon === -1 ? -1 : 1)) +
             renkler('Kanat rengi', 'renk', a.renk || '', ['#ECE7DD', '#D6C8AE', '#B08D66', '#7A5A3C', '#4E3B2C', '#8E8C88', '#3B3A38', '#1E1D1B', '#3F4B5C', '#6E7F6A'], 'Tipin rengi') +
-            '<div class="pn-is pn-son"><button type="button" data-pis="dondur">Yönü döndür ⟳</button><button type="button" data-pis="sil">Sil</button>' + geriDon + '</div>' +
+            '<div class="pn-is pn-son"><button type="button" data-pis="dondur">Sıradaki yön ⟳ (R)</button><button type="button" data-pis="sil">Sil</button>' + geriDon + '</div>' +
             '<p class="pn-not">Kapıyı duvar boyunca sürükleyerek kaydırabilirsiniz.</p>';
         } else {
           h += '<p class="pn-baslik">Seçili pencere</p><p class="pn-ad">' + ((PEN_TIP[a.pt] || {}).ad || 'Pencere') + '</p>' +
@@ -606,7 +622,7 @@
       } else {
         h += '<p class="pn-baslik">Nasıl çalışır</p><ol class="pn-adim">' +
           '<li><b>Duvar</b> ile köşelere tıklayıp odayı kapatın.</li><li><b>Kapı</b> ve <b>Pencere</b> ile tipini seçip duvara tıklayın.</li>' +
-          '<li><b>Eşya</b> listesinden seçip plana yerleştirin.</li><li><b>Seç</b> ile her şeye tıklayın: döndürün, ölçüsünü, rengini, malzemesini değiştirin.</li>' +
+          '<li><b>Eşya</b> listesinden seçip plana yerleştirin.</li><li><b>Seç</b> ile her şeye tıklayın: döndürün (<b>R</b> tuşu ya da sarı tutamak), ölçüsünü, rengini, malzemesini değiştirin.</li>' +
           '<li><b>3B</b> ile içinde gezinin; 3B görünümde de tıklayıp düzenleyebilirsiniz.</li></ol>' +
           '<p class="pn-not">Ölçek: bir kare 50 × 50 cm. Duvar yüksekliği 2,80 m. Eşyalar standart ölçülerdedir.</p>';
       }
@@ -702,6 +718,8 @@
           else if (!mm && yy === 1) mm = 1; else if (mm && yy === 1) yy = -1; else if (mm) mm = 0; else yy = 1;
           a.mentese = mm; a.yon = yy;
         }
+        var ac = /^ac([01])([id])$/.exec(n);
+        if (ac) { a.mentese = +ac[1]; a.yon = ac[2] === 'i' ? 1 : -1; }
         if (n === 'sil') { plan.acik.splice(s.i, 1); sec = null; }
       } else if (s.tur === 'oda') {
         if (n === 'sil') {
