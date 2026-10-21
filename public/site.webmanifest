@@ -1,0 +1,11 @@
+{
+  "name": "Dimart Mimarlık",
+  "short_name": "Dimart",
+  "icons": [
+    { "src": "/assets/dimart-favicon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/dimart-favicon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#100E0C",
+  "background_color": "#100E0C",
+  "display": "browser"
+}

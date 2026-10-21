@@ -231,8 +231,11 @@ def head(title, desc, path, ld, page):
 <meta name="msvalidate.01" content="7CF4CEBF4ED658A86E675507A2B6D623">
 <meta name="theme-color" content="#100E0C">
 <meta name="color-scheme" content="dark">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/assets/dimart-favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/assets/dimart-favicon-32.png" sizes="32x32">
+<link rel="icon" href="/assets/dimart-favicon-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/assets/dimart-favicon-192.png" type="image/png" sizes="192x192">
+<link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/montserrat-latin-2f5adf.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
@@ -373,7 +376,7 @@ def page_home():
     </a>""" for i, (code, ad, slug, kisa, *_) in enumerate(HIZMETLER))
     steps = "\n".join(f'      <li data-r style="--d:{i}"><span class="n">0{i + 1}</span><h3>{a}</h3><p>{b}</p></li>'
                       for i, (a, b) in enumerate(SUREC))
-    return head("Dimart Mimarlık | İstanbul mimarlık ofisi, iç mimarlık ve anahtar teslim inşaat",
+    return head("Dimart Mimarlık | İstanbul Mimarlık, İç Mimarlık ve İnşaat",
                 "İstanbul'da mimarlık ve müteahhitlik: mimari tasarım, iç mimarlık, villa ve konut inşaatı, tadilat ve renovasyon, proje ve ruhsat, anahtar teslim uygulama. Dimart'ta hepsi tek ekipten.",
                 "", ld, "home") + f"""  <section class="hero">
     {frame("eskiz", "hero-frame", "0.06")}
@@ -781,7 +784,7 @@ def llms():
 - E-posta: {f['eposta']}
 - Web: {SITE}/
 - Instagram: {INSTAGRAM}
-- Hizmet bölgesi: Türkiye geneli
+- Merkez: İstanbul
 
 ## Sayfalar
 - [Stüdyo]({SITE}/studyo/): yaklaşım ve çalışma bölgesi
