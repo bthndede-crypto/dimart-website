@@ -1,4 +1,4 @@
-/* Dimart Mimarlık · koyu, sıcak, sade. Studio KO'dan ilhamla: küçük harfli altyazılar, dağınık kareler, mozaik geçiş. Eskiz modu Dimart'a özgü. */
+/* Dimart Mimarlık · koyu, sıcak, sade. Studio KO'dan ilhamla: küçük harfli altyazılar, dağınık kareler, mozaik geçiş. Çizim masası Dimart'a özgü. */
 :root{
   --bg:#100E0C;
   --bg2:#17140F;
@@ -96,13 +96,16 @@ html.menu .top-bar{opacity:0}
 .nav-foot img{margin-left:auto;width:170px;height:auto;opacity:.8}
 html.menu{overflow:hidden}
 
-/* üst bar: eskiz, müzik */
+/* üst bar: çizim masası, müzik */
+.util a{font:500 10px/1 var(--mont);letter-spacing:.22em;text-transform:uppercase;color:var(--mute);padding:8px 12px;display:flex;align-items:center;gap:8px;transition:color .3s}
+.util a:hover,.util a[aria-current=page]{color:var(--ink)}
+.util a::before{content:"";width:10px;height:10px;border-left:1px solid currentColor;border-bottom:1px solid currentColor;transition:box-shadow .4s}
+.util a:hover::before,.util a[aria-current=page]::before{border-color:var(--y);box-shadow:inset 3px -3px 0 -1px var(--y)}
+.util a+button{border-left:1px solid var(--line)}
 .util{position:relative;display:flex;align-items:center;gap:0}
 .util button{font:500 10px/1 var(--mont);letter-spacing:.22em;text-transform:uppercase;color:var(--mute);padding:8px 12px;display:flex;align-items:center;gap:8px;transition:color .3s}
 .util button+button{border-left:1px solid var(--line)}
 .util button:hover,.util button[aria-pressed=true]{color:var(--ink)}
-#eskiz-btn::before{content:"";width:10px;height:10px;border-left:1px solid currentColor;border-bottom:1px solid currentColor;box-shadow:inset 0 0 0 0 var(--y);transition:box-shadow .4s}
-#eskiz-btn[aria-pressed=true]::before{border-color:var(--y);box-shadow:inset 3px -3px 0 -1px var(--y)}
 .eq{display:flex;align-items:flex-end;gap:2px;height:10px}
 .eq i{width:2px;height:2px;background:currentColor;transition:height .4s}
 .util [aria-pressed=true] .eq i{background:var(--y);animation:eq 1.1s ease-in-out infinite alternate}
@@ -119,15 +122,6 @@ html.menu{overflow:hidden}
 #ses-btn[aria-pressed=false] .ses-t span:last-child{transform:none;opacity:1}
 #ses-btn[aria-pressed=true]:hover .ses-t span:first-child{color:var(--y)}
 
-/* eskiz: imlecin çevresinde açılan çizim kâğıdı ve imleçten çıkan dik çizgiler */
-#eskiz-kagit,#eskiz{position:fixed;inset:0;z-index:80;pointer-events:none;opacity:0;transition:opacity .8s}
-#eskiz-kagit{background-image:linear-gradient(rgba(237,232,224,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(237,232,224,.07) 1px,transparent 1px),
-  linear-gradient(rgba(237,232,224,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(237,232,224,.035) 1px,transparent 1px);
-  background-size:120px 120px,120px 120px,24px 24px,24px 24px;
-  -webkit-mask-image:radial-gradient(circle 240px at var(--fx,50%) var(--fy,45%),#000 0,rgba(0,0,0,.4) 55%,transparent 100%);
-  mask-image:radial-gradient(circle 240px at var(--fx,50%) var(--fy,45%),#000 0,rgba(0,0,0,.4) 55%,transparent 100%)}
-#eskiz{width:100%;height:100%}
-html.eskiz #eskiz-kagit,html.eskiz #eskiz{opacity:1}
 #mozaik{position:fixed;inset:0;width:100%;height:100%;z-index:90;pointer-events:none;display:none}
 #mozaik.on{display:block;pointer-events:auto}
 .cursor{position:fixed;left:0;top:0;z-index:95;pointer-events:none;width:6px;height:6px;margin:-3px 0 0 -3px;background:var(--y);opacity:0;transition:width .4s var(--ease),height .4s var(--ease),margin .4s var(--ease),background .3s,opacity .3s;display:flex;align-items:center;justify-content:center}
@@ -157,13 +151,6 @@ html.js.intro .intro-ov{animation:none;cursor:pointer}
 .intro-ses .eq i:nth-child(4){animation-delay:-.2s;animation-duration:.8s}
 .intro-sessiz{color:var(--mute)}
 .intro-gir button:hover{color:var(--y)}
-.eskiz-ipucu{position:fixed;left:50%;bottom:26px;z-index:81;transform:translate(-50%,10px);font:500 9.5px var(--mont);letter-spacing:.22em;text-transform:uppercase;color:var(--ink2);opacity:0;transition:opacity .6s,transform .6s var(--ease);pointer-events:none;white-space:nowrap}
-.eskiz-ipucu.on{opacity:1;transform:translate(-50%,0)}
-.eskiz-davet{position:fixed;left:50%;bottom:22px;z-index:82;transform:translate(-50%,10px);display:flex;align-items:center;gap:14px;padding:12px 18px;background:rgba(16,14,12,.88);border:1px solid var(--line);backdrop-filter:blur(6px);font:500 9.5px var(--mont);letter-spacing:.22em;text-transform:uppercase;color:var(--ink);opacity:0;pointer-events:none;transition:opacity .6s,transform .6s var(--ease),border-color .3s;white-space:nowrap}
-.eskiz-davet b{color:var(--y);font-weight:500}
-.eskiz-davet span::after{content:" →"}
-.eskiz-davet.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
-.eskiz-davet:hover{border-color:var(--y)}
 .intro-in{display:flex;flex-direction:column;align-items:center}
 .intro-in img{opacity:0;animation:fadeUp 1.2s .5s var(--ease) forwards}
 .intro-in .intro-slogan{animation-delay:1.5s;width:260px;height:auto}
@@ -307,7 +294,7 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .masa-bar button{font:500 10px/1 var(--mont);letter-spacing:.22em;text-transform:uppercase;color:var(--mute);padding:10px 14px;border:1px solid transparent;transition:color .3s,border-color .3s}
 .masa-bar button:hover{color:var(--ink)}
 .masa-bar button[aria-pressed=true]{color:var(--y);border-color:var(--y)}
-.masa-govde{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:0;border:1px solid var(--line)}
+.masa-govde{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:0;border:1px solid var(--line)}
 .masa-sahne{position:relative;min-width:0}
 .masa-kagit{display:block;width:100%;height:min(74vh,760px);background:var(--bg2);cursor:crosshair;touch-action:none}
 .masa-3b{display:none;width:100%;height:min(74vh,760px);background:var(--bg2);touch-action:none}
@@ -327,6 +314,30 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .pn-is{display:flex;flex-wrap:wrap;gap:6px}
 .pn-is button{font:500 9.5px/1 var(--mont);letter-spacing:.2em;text-transform:uppercase;color:var(--ink2);padding:9px 10px;border:1px solid var(--line)}
 .pn-is button:hover{color:var(--y);border-color:var(--y)}
+.pn-alan{display:block;margin:14px 0 4px}
+.pn-alan>span{display:flex;justify-content:space-between;align-items:baseline;font:500 9.5px/1 var(--mont);letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
+.pn-alan b{font-weight:500;color:var(--y);letter-spacing:.08em}
+.pn-alan input[type=range]{width:100%;accent-color:var(--y);height:18px;cursor:pointer}
+.pn-alan select{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:8px;font:13px var(--sans)}
+.pn-sec{display:flex;border:1px solid var(--line)}
+.pn-sec button{flex:1;padding:8px 4px;font:500 9.5px/1 var(--mont);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);transition:color .25s,background .25s}
+.pn-sec button+button{border-left:1px solid var(--line)}
+.pn-sec button:hover{color:var(--ink)}
+.pn-sec button[aria-pressed=true]{background:var(--y);color:#17140F}
+.pn-cip{display:flex;flex-wrap:wrap;gap:6px}
+.pn-cip button{width:24px;height:24px;border:1px solid var(--line);border-radius:50%;padding:0;transition:transform .2s}
+.pn-cip button:hover{transform:scale(1.12)}
+.pn-cip button[aria-pressed=true]{outline:2px solid var(--y);outline-offset:2px}
+.pn-cip .dogal{background:linear-gradient(135deg,transparent 46%,var(--mute) 47%,var(--mute) 53%,transparent 54%)}
+.pn-ozel{position:relative;width:24px;height:24px;border-radius:50%;border:1px dashed var(--mute);overflow:hidden;cursor:pointer;background:conic-gradient(#d9534f,#f2b705,#6e7f6a,#3f4b5c,#9b5d4a,#d9534f)}
+.pn-ozel input{position:absolute;inset:-6px;width:40px;height:40px;opacity:0;cursor:pointer}
+.pn-ikili{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pn-ikili label{display:grid;gap:6px;font:500 9px var(--mont);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.pn-ikili input{background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:8px;font:13px var(--sans);width:100%}
+.pn-son{margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
+.pn-adim{margin:0 0 14px 18px;padding:0;font-size:12.5px;line-height:1.6;color:var(--ink2)}
+.pn-adim li{margin-bottom:6px}.pn-adim b{color:var(--ink);font-weight:600}
+.pn-is{margin-bottom:6px}
 .pn-not{font-size:12.5px;line-height:1.6;color:var(--ink2);margin-bottom:12px}
 @media (max-width:860px){.masa-govde{grid-template-columns:1fr}.masa-kagit,.masa-3b{height:64vh}.masa-panel{border-left:0;border-top:1px solid var(--line);max-height:300px}}
 .masa-alt{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding:18px 0 6px}
@@ -427,8 +438,8 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
   .nav-foot img{margin:10px 0 0}
   .util{margin-left:auto}
   .util .ses-t{display:none}
+  .util a{display:none}
   .intro-gir{flex-direction:column;align-items:center;gap:14px}
-  #eskiz-btn{display:none}
   .util button+button{border:0}
   main{padding:0 20px}
   .hero{display:flex;flex-direction:column;align-items:stretch;padding-top:90px;min-height:auto;padding-bottom:12vh}
