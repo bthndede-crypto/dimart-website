@@ -307,7 +307,28 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .masa-bar button{font:500 10px/1 var(--mont);letter-spacing:.22em;text-transform:uppercase;color:var(--mute);padding:10px 14px;border:1px solid transparent;transition:color .3s,border-color .3s}
 .masa-bar button:hover{color:var(--ink)}
 .masa-bar button[aria-pressed=true]{color:var(--y);border-color:var(--y)}
-.masa-kagit{display:block;width:100%;height:min(72vh,720px);background:var(--bg2);border:1px solid var(--line);cursor:crosshair;touch-action:none}
+.masa-govde{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:0;border:1px solid var(--line)}
+.masa-sahne{position:relative;min-width:0}
+.masa-kagit{display:block;width:100%;height:min(74vh,760px);background:var(--bg2);cursor:crosshair;touch-action:none}
+.masa-3b{display:none;width:100%;height:min(74vh,760px);background:var(--bg2);touch-action:none}
+.masa-3b canvas{display:block;width:100%!important;height:100%!important}
+.masa.uc [data-arac]:not([data-arac="3b"])[aria-pressed=true]{color:var(--mute);border-color:transparent}
+.masa.uc .masa-kagit{display:none}.masa.uc .masa-3b{display:block}
+.masa-panel{border-left:1px solid var(--line);padding:18px 16px;max-height:min(74vh,760px);overflow:auto;scrollbar-width:thin}
+.pn-baslik{font:500 9.5px/1 var(--mont);letter-spacing:.22em;text-transform:uppercase;color:var(--mute);margin:18px 0 8px}
+.pn-baslik:first-child{margin-top:0}
+.pn-liste,.pn-renk{display:grid;gap:2px}
+.pn-liste button,.pn-renk button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:7px 8px;font-size:12.5px;color:var(--ink2);border:1px solid transparent;transition:color .25s,border-color .25s,background .25s}
+.pn-liste button:hover,.pn-renk button:hover{color:var(--ink);background:rgba(237,232,224,.04)}
+.pn-liste button[aria-pressed=true],.pn-renk button[aria-pressed=true]{color:var(--ink);border-color:var(--y)}
+.pn-liste span{flex:1}.pn-liste small{font:500 9px var(--mont);letter-spacing:.08em;color:var(--mute)}
+.pn-renk i{flex:none;width:28px;height:28px;border:1px solid var(--line);background-size:cover}
+.pn-ad{font-size:15px;color:var(--ink)}.pn-olcu{font:500 10px var(--mont);letter-spacing:.14em;color:var(--y);margin:6px 0 16px}
+.pn-is{display:flex;flex-wrap:wrap;gap:6px}
+.pn-is button{font:500 9.5px/1 var(--mont);letter-spacing:.2em;text-transform:uppercase;color:var(--ink2);padding:9px 10px;border:1px solid var(--line)}
+.pn-is button:hover{color:var(--y);border-color:var(--y)}
+.pn-not{font-size:12.5px;line-height:1.6;color:var(--ink2);margin-bottom:12px}
+@media (max-width:860px){.masa-govde{grid-template-columns:1fr}.masa-kagit,.masa-3b{height:64vh}.masa-panel{border-left:0;border-top:1px solid var(--line);max-height:300px}}
 .masa-alt{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding:18px 0 6px}
 .masa-ipucu{font-size:13px;color:var(--ink2);margin-right:auto}
 .masa-toplam{font:500 11px var(--mont);letter-spacing:.2em;text-transform:uppercase;color:var(--y)}
