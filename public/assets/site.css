@@ -75,6 +75,7 @@ html.menu .top-bar{opacity:0}
 .nav.open .nav-list li:nth-child(3) a{transition-delay:.12s,0s,0s}
 .nav.open .nav-list li:nth-child(4) a{transition-delay:.18s,0s,0s}
 .nav.open .nav-list li:nth-child(5) a{transition-delay:.24s,0s,0s}
+.nav.open .nav-list li:nth-child(6) a{transition-delay:.3s,0s,0s}
 .nav-list .n{font:500 10px var(--mont);letter-spacing:.24em;color:var(--mute)}
 .nav-list .t{font:300 clamp(36px,5.6vw,92px)/1.05 var(--mont);letter-spacing:-.02em;transition:transform .7s var(--ease),color .4s}
 .nav-list small{font:400 11px var(--sans);letter-spacing:.12em;color:var(--mute);opacity:0;transform:translateX(-12px);transition:opacity .5s,transform .7s var(--ease)}
@@ -297,6 +298,20 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .legal a{border-bottom:1px solid var(--line)}
 .legal a:hover{color:var(--ink)}
 .legal-page .post-head,.legal-page .post-body{grid-column:1 / span 9}
+
+/* çizim masası */
+.page-hero.short{min-height:48vh;padding-bottom:7vh}
+.masa{padding:0 0 10vh}
+.masa-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-top:1px solid var(--line);padding:14px 0}
+.masa-bar>div{display:flex;flex-wrap:wrap}
+.masa-bar button{font:500 10px/1 var(--mont);letter-spacing:.22em;text-transform:uppercase;color:var(--mute);padding:10px 14px;border:1px solid transparent;transition:color .3s,border-color .3s}
+.masa-bar button:hover{color:var(--ink)}
+.masa-bar button[aria-pressed=true]{color:var(--y);border-color:var(--y)}
+.masa-kagit{display:block;width:100%;height:min(72vh,720px);background:var(--bg2);border:1px solid var(--line);cursor:crosshair;touch-action:none}
+.masa-alt{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding:18px 0 6px}
+.masa-ipucu{font-size:13px;color:var(--ink2);margin-right:auto}
+.masa-toplam{font:500 11px var(--mont);letter-spacing:.2em;text-transform:uppercase;color:var(--y)}
+.masa-not{font:500 9.5px var(--mont);letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
 
 /* alt sayfalar */
 .page-hero{padding:150px 0 12vh;min-height:62vh;display:flex;flex-direction:column;justify-content:flex-end}

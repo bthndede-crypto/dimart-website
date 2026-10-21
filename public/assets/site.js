@@ -135,6 +135,7 @@
     }
   };
 
+  w.dmSes = Ses; // çizim masası notaları için
   function sesKur() {
     var b = $('#ses-btn'); if (!b) return;
     var olaylar = ['pointerdown', 'keydown', 'touchend'], bekle = null;

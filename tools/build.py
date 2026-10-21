@@ -239,6 +239,7 @@ def head(title, desc, path, ld, page):
 <link rel="stylesheet" href="/assets/site.css">
 <script>try{{if(!sessionStorage.getItem('dm-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro')}}catch(e){{}}</script>
 <script src="/assets/site.js" defer></script>
+<script src="/assets/cizim.js" defer></script>
 <script type="application/ld+json" id="ld">
 {json.dumps({"@context": "https://schema.org", "@graph": ld}, ensure_ascii=False, indent=1)}
 </script>
@@ -262,6 +263,7 @@ MENU = [("/studyo/", "Stüdyo", "Yaklaşım ve ekip", "ic-mimarlik"),
         ("/hizmetler/", "Hizmetler", "Tasarımdan anahtar teslime", "eskiz"),
         ("/projeler/", "Projeler", "Seçili işler", "insaat-anahtar-teslim"),
         ("/blog/", "Blog", "Rehberler ve notlar", "proje-ve-ruhsat"),
+        ("/cizim-masasi/", "Çizim masası", "Planınızı çizin", "eskiz"),
         ("/iletisim/", "İletişim", "Projenizi konuşalım", "mimari-tasarim")]
 
 
@@ -605,6 +607,57 @@ def page_kvkk():
 """ + footer()
 
 
+CIZIM_SSS = [
+    ("Çizim masası nedir?",
+     "Tarayıcıda çalışan ücretsiz bir taslak aracıdır. Milimetrik kâğıt üzerinde dik açılı odalar çizebilir, kapı ve pencere ekleyebilir, zemin malzemesi seçebilir ve odanın alanını metrekare olarak görebilirsiniz."),
+    ("Oda alanı nasıl hesaplanıyor?",
+     "Izgaradaki her kare 50 × 50 cm'dir. Oda kapandığında köşe noktalarından alan hesaplanır ve odanın ortasına metrekare olarak yazılır. Duvar kalınlığı hesaba katılmaz, ölçüler duvar eksenlerine göredir."),
+    ("Çizdiğim planı Dimart'a nasıl gönderirim?",
+     "Planı Dimart'a gönder düğmesi, odaların alanları, kenar ölçüleri, malzemeleri, kapı ve pencere sayılarıyla hazır bir e-posta açar. Görseli indir ile planın görüntüsünü kaydedip e-postaya ekleyebilirsiniz."),
+    ("Çizimim kaydediliyor mu?",
+     "Çiziminiz yalnızca kendi tarayıcınızda saklanır; sayfaya geri döndüğünüzde kaldığınız yerden devam edebilirsiniz. Bize siz göndermediğiniz sürece hiçbir bilgi ulaşmaz."),
+]
+
+
+def page_cizim():
+    ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("Çizim masası", "cizim-masasi/")]),
+          {"@type": "WebApplication", "@id": f"{SITE}/cizim-masasi/#arac", "name": "Dimart Çizim masası",
+           "url": f"{SITE}/cizim-masasi/", "applicationCategory": "DesignApplication", "operatingSystem": "Tarayıcı",
+           "inLanguage": "tr-TR", "isAccessibleForFree": True, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "TRY"},
+           "description": "Tarayıcıda dik açılı oda planı çizme, kapı ve pencere ekleme, zemin malzemesi seçme, 3B görünüm ve metrekare hesaplama aracı.",
+           "provider": {"@id": f"{SITE}/#firma"}},
+          faq_ld(CIZIM_SSS)]
+    araclar = [("duvar", "Duvar", True), ("kapi", "Kapı", False), ("pencere", "Pencere", False), ("malzeme", "Malzeme", False), ("3b", "3B", False)]
+    btn = "".join(f'<button type="button" data-arac="{a}" aria-pressed="{"true" if on else "false"}">{n}</button>' for a, n, on in araclar)
+    return head("Çizim masası: online oda planı çizme ve metrekare hesaplama | Dimart Mimarlık",
+                "Ücretsiz çizim masası: tarayıcıda oda planı çizin, kapı ve pencere ekleyin, zemin malzemesi seçin, 3B görün ve metrekareyi hesaplayın. Taslağınızı Dimart'a gönderin.",
+                "cizim-masasi/", ld, "cizim") + f"""  <section class="page-hero short">
+    {crumbs("Çizim masası")}
+    <h1 data-r>Her şey bir çizgiyle <span class="y">başlar.</span></h1>
+    <p class="lead" data-r>Hayalinizdeki mekânın ilk taslağını burada çizin. Odalarınızı oluşturun, kapı ve pencereleri yerleştirin, zemini seçin, 3B görün; alanlar kendiliğinden hesaplansın. Hazır olunca taslağı bize gönderin, gerisini birlikte çizelim.</p>
+  </section>
+  <section class="masa" id="masa" aria-label="Çizim masası">
+    <div class="masa-bar">
+      <div class="masa-araclar" role="group" aria-label="Araçlar">{btn}</div>
+      <div class="masa-isler"><button type="button" data-is="geri">Geri al</button><button type="button" data-is="temizle">Temizle</button><button type="button" data-is="indir">Görseli indir</button></div>
+    </div>
+    <canvas class="masa-kagit" aria-label="Çizim alanı: tıklayarak oda köşeleri ekleyin"></canvas>
+    <div class="masa-alt">
+      <p class="masa-ipucu" data-ipucu aria-live="polite">Tıklayarak köşeleri ekleyin, ilk köşeye tıklayınca oda kapanır.</p>
+      <p class="masa-toplam" data-toplam>0 oda · 0,00 m²</p>
+      <button type="button" class="go" data-is="gonder">Planı Dimart'a gönder</button>
+    </div>
+    <p class="masa-not">Bir kare 50 × 50 cm · Geri almak için Ctrl/Cmd + Z, çizimi bırakmak için Esc</p>
+  </section>
+  <section class="qa" aria-labelledby="sss">
+    <div class="sec-head" data-r><h2 class="label" id="sss">Sık sorulan sorular</h2><p class="h">Çizim masası</p></div>
+    <div class="faq">
+{faq_html(CIZIM_SSS)}
+    </div>
+  </section>
+""" + footer()
+
+
 def page_404():
     return head("Sayfa bulunamadı | Dimart Mimarlık", "Aradığınız sayfa bulunamadı.", "404.html", [ORG], "404").replace(
         '<link rel="canonical" href="https://dimartmimarlik.com/404.html">\n', '').replace(
@@ -733,6 +786,7 @@ PAGES = {
     "iletisim/index.html": page_iletisim,
     "blog/index.html": page_blog,
     "kvkk/index.html": page_kvkk,
+    "cizim-masasi/index.html": page_cizim,
 }
 for _y in YAZILAR:
     PAGES[f"blog/{_y['slug']}/index.html"] = (lambda y=_y: page_yazi(y))
