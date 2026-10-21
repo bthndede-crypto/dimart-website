@@ -158,16 +158,21 @@
 </head>
 <body>
 <a class="skip" href="#sayfa">İçeriğe geç</a>
-<div class="intro-ov" aria-hidden="true">
+<div class="intro-ov" role="dialog" aria-label="Dimart Mimarlık">
   <div class="intro-in">
     <img src="/assets/dimart-logo-beyaz.svg" alt="" width="176" height="60">
     <i class="intro-line"></i>
     <img class="intro-slogan" src="/assets/slogan-acik.png" alt="" width="260" height="51">
+    <p class="intro-gir"><button type="button" class="intro-ses"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Müzikle girin</button><button type="button" class="intro-sessiz">Sessiz girin</button></p>
   </div>
 </div>
 <header class="top" id="top">
   <a class="brand" href="/" aria-label="Dimart Mimarlık ana sayfa"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="96" height="33"></a>
   <p class="top-loc" aria-hidden="true">İstanbul</p>
+  <div class="util" role="group" aria-label="Eskiz ve müzik">
+    <button type="button" id="eskiz-btn" aria-pressed="false" title="Eskiz: imleçle sayfanın üstüne çizin">Eskiz</button>
+    <button type="button" id="ses-btn" aria-pressed="false" aria-label="Müzik" title="Müziği aç ya da kapat"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ses-t" aria-hidden="true"><span>Müzik açık</span><span>Müzik kapalı</span></span></button>
+  </div>
   <a class="go top-cta" href="/iletisim/">Projenizi konuşalım</a>
   <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav"><span class="mb-t"><span>Menü</span><span>Kapat</span></span><span class="mb-i" aria-hidden="true"><i></i><i></i></span></button>
   <i class="top-bar" aria-hidden="true"></i>
@@ -264,10 +269,6 @@
     <img src="/assets/slogan-acik.png" alt="" width="170" height="33">
   </div>
 </nav>
-<div class="util" role="group" aria-label="Görünüm ve ses">
-  <button type="button" id="eskiz-btn" aria-pressed="false" title="Eskiz: imleçle sayfanın üstüne çizin">Eskiz</button>
-  <button type="button" id="ses-btn" aria-pressed="false" aria-label="Müzik" title="Müziği aç ya da kapat"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ses-t" aria-hidden="true"><span>Müzik açık</span><span>Müzik kapalı</span></span></button>
-</div>
 <main id="sayfa" data-page="yazi">
   <article class="post">
     <header class="post-head">

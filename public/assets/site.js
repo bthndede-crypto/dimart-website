@@ -149,6 +149,7 @@
       store.set('dm-ses', on ? '1' : '0');
       on ? Ses.start() : Ses.stop();
     };
+    Ses.ayarla = set;
     b.addEventListener('click', function (e) {
       e.stopPropagation();
       // açılışta çalmayı bekliyorsa tıklama kapatır
@@ -158,7 +159,7 @@
     if (store.get('dm-ses') !== '0') {
       b.classList.add('wait'); b.setAttribute('aria-pressed', 'true');
       bekle = function (e) {
-        if (e.target.closest && e.target.closest('#ses-btn')) return;
+        if (e.target.closest && e.target.closest('#ses-btn, .intro-ov')) return;
         set(true);
       };
       olaylar.forEach(function (t) { d.addEventListener(t, bekle, true); });
@@ -221,8 +222,14 @@
         return Moz.run(false, 1500);
       });
     };
-    ov.addEventListener('click', bitir);
-    setTimeout(bitir, 2900);
+    // müzik kapatılmadıysa açılış "Müzikle girin" ile biter: tarayıcılar sesi ancak bir tıklamayla başlatır
+    if (store.get('dm-ses') === '0') { ov.addEventListener('click', bitir); setTimeout(bitir, 2900); return; }
+    setTimeout(function () { ov.classList.add('gir'); var g = $('.intro-ses', ov); if (g) g.focus({ preventScroll: true }); }, 2600);
+    ov.addEventListener('click', function (e) {
+      var sessiz = e.target.closest && e.target.closest('.intro-sessiz');
+      if (Ses.ayarla) Ses.ayarla(!sessiz);
+      bitir();
+    });
   }
 
   /* ---------- görünme, paralaks, kaydırma çizgisi ---------- */
@@ -347,8 +354,16 @@
     var cv = d.createElement('canvas'); cv.id = 'eskiz'; cv.setAttribute('aria-hidden', 'true');
     d.body.appendChild(kagit); d.body.appendChild(cv);
     var x = cv.getContext('2d'), dpr = 1, W = 0, H = 0, on = false, raf = 0;
-    var parca = [], kose = [], A = null, P = null, yon = null, son = 0;
-    var OMUR = 2600, SOL = 1400, ESIK = 16, GRID = 24;
+    var parca = [], kose = [], alan = [], yol = [], A = null, P = null, yon = null, son = 0;
+    var NOTA = [293.66, 329.63, 369.99, 440, 493.88, 587.33, 659.25, 739.99], ni = 0;
+    var nota = function (v) { if (!Ses.on) return; ni = (ni + 1 + Math.floor(Math.random() * 3)) % NOTA.length; Ses.bell(NOTA[ni], 0, v || .012); };
+    var tara = d.createElement('canvas'); tara.width = tara.height = 8;
+    var tx = tara.getContext('2d'); tx.strokeStyle = 'rgba(242,183,5,.5)'; tx.lineWidth = 1;
+    tx.beginPath(); tx.moveTo(0, 8); tx.lineTo(8, 0); tx.moveTo(-2, 2); tx.lineTo(2, -2); tx.moveTo(6, 10); tx.lineTo(10, 6); tx.stroke();
+    var desen = null;
+    var ipucu = d.createElement('p'); ipucu.className = 'eskiz-ipucu'; ipucu.setAttribute('aria-hidden', 'true');
+    ipucu.textContent = 'Fareyle çizin · bir odayı kapatın, alanını ölçelim'; d.body.appendChild(ipucu);
+    var OMUR = 3800, SOL = 1600, ESIK = 16, GRID = 24;
     var boyut = function () {
       dpr = Math.min(w.devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
       cv.width = W * dpr; cv.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -356,21 +371,47 @@
     var yasla = function (v) { return Math.round(v / GRID * 2) * GRID / 2; };
     var olcu = function (l) { return (l / 100).toFixed(2).replace('.', ','); };
     var ekle = function (a, c, t) {
-      if (Math.abs(a.x - c.x) + Math.abs(a.y - c.y) < 6) return;
+      if (Math.abs(a.x - c.x) + Math.abs(a.y - c.y) < 6) return c;
+      var s0 = yol[0];
+      // başlangıca dönen çizgi odayı kapatır: tarama, alan ve küçük bir akor
+      if (yol.length >= 3 && Math.abs(c.x - s0.x) + Math.abs(c.y - s0.y) < 40) {
+        var son2 = yol[yol.length - 1], kap = yon === 'x' ? { x: s0.x, y: son2.y } : { x: son2.x, y: s0.y };
+        parca.push({ a: a, b: kap, t: t });
+        if (kap.x !== s0.x || kap.y !== s0.y) parca.push({ a: kap, b: s0, t: t });
+        var pts = yol.slice(1).concat([kap, s0]).filter(function (p, i, l) { return i === 0 || p.x !== l[i - 1].x || p.y !== l[i - 1].y; });
+        var ar = 0, cx = 0, cy = 0;
+        pts.forEach(function (p, i) { var q = pts[(i + 1) % pts.length]; ar += p.x * q.y - q.x * p.y; cx += p.x; cy += p.y; });
+        ar = Math.abs(ar) / 2;
+        if (ar > 2500) {
+          alan.push({ pts: [s0].concat(pts), m: ar / 10000, x: cx / pts.length, y: cy / pts.length, t: t });
+          if (Ses.on) { Ses.bell(293.66, 0, .016); Ses.bell(440, Ses.ctx.currentTime + .12, .012); Ses.bell(587.33, Ses.ctx.currentTime + .24, .01); }
+        }
+        kose.push({ x: kap.x, y: kap.y, t: t });
+        yol = [s0];
+        return s0;
+      }
       parca.push({ a: a, b: c, t: t });
       kose.push({ x: c.x, y: c.y, t: t });
+      yol.push(c);
+      nota();
+      return c;
     };
     var hareket = function (e) {
       kagit.style.setProperty('--fx', e.clientX + 'px'); kagit.style.setProperty('--fy', e.clientY + 'px');
       if (!on) return;
       var n = performance.now(), p = { x: e.clientX, y: e.clientY };
       // uzun duraklama ya da sıçrama: yeni bir çizgi başlat
-      if (!A || n - son > 900 || Math.abs(p.x - P.x) + Math.abs(p.y - P.y) > 220) { A = { x: yasla(p.x), y: yasla(p.y) }; yon = null; kose.push({ x: A.x, y: A.y, t: n }); }
+      if (!A || n - son > 900 || Math.abs(p.x - P.x) + Math.abs(p.y - P.y) > 220) { A = { x: yasla(p.x), y: yasla(p.y) }; yon = null; yol = [A]; kose.push({ x: A.x, y: A.y, t: n }); }
       son = n; P = p;
       var dx = p.x - A.x, dy = p.y - A.y;
       if (!yon) { if (Math.max(Math.abs(dx), Math.abs(dy)) > ESIK) yon = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y'; }
-      else if (yon === 'x' && Math.abs(dy) > ESIK * 1.6) { var c = { x: yasla(p.x), y: A.y }; ekle(A, c, n); A = c; yon = 'y'; Ses.tick(); }
-      else if (yon === 'y' && Math.abs(dx) > ESIK * 1.6) { var c2 = { x: A.x, y: yasla(p.y) }; ekle(A, c2, n); A = c2; yon = 'x'; Ses.tick(); }
+      else if (yon === 'x' && Math.abs(dy) > ESIK * 1.6) { var c = { x: yasla(p.x), y: A.y }; A = ekle(A, c, n); yon = 'y'; }
+      else if (yon === 'y' && Math.abs(dx) > ESIK * 1.6) { var c2 = { x: A.x, y: yasla(p.y) }; A = ekle(A, c2, n); yon = 'x'; }
+      // imleç başlangıç noktasına geldiyse odayı kendiliğinden kapat
+      if (yon && yol.length >= 3) {
+        var s0 = yol[0], uc = yon === 'x' ? { x: p.x, y: A.y } : { x: A.x, y: p.y };
+        if (Math.abs(uc.x - s0.x) + Math.abs(uc.y - s0.y) < 18) { A = ekle(A, yon === 'x' ? { x: s0.x, y: A.y } : { x: A.x, y: s0.y }, n); yon = null; }
+      }
       if (!raf) raf = requestAnimationFrame(ciz);
     };
     var cizgi = function (a, c, al, olc) {
@@ -395,7 +436,17 @@
       var n = performance.now(), al = function (t) { var g = n - t; return g < OMUR ? 1 : Math.max(0, 1 - (g - OMUR) / SOL); };
       parca = parca.filter(function (s) { return al(s.t) > 0; });
       kose = kose.filter(function (k) { return al(k.t) > 0; });
+      alan = alan.filter(function (k) { return al(k.t) > 0; });
       x.clearRect(0, 0, W, H); x.lineWidth = 1;
+      if (!desen) desen = x.createPattern(tara, 'repeat');
+      alan.forEach(function (k) {
+        var g = n - k.t, a = al(k.t) * Math.min(1, g / 500);
+        x.save(); x.globalAlpha = a * .55; x.fillStyle = desen;
+        x.beginPath(); k.pts.forEach(function (p, i) { i ? x.lineTo(p.x, p.y) : x.moveTo(p.x, p.y); }); x.closePath(); x.fill();
+        x.globalAlpha = a; x.fillStyle = '#F2B705'; x.font = '500 11px Montserrat, sans-serif'; x.textAlign = 'center';
+        x.fillText(k.m.toFixed(2).replace('.', ',') + ' m²', k.x, k.y + 4);
+        x.restore();
+      });
       parca.forEach(function (s) { cizgi(s.a, s.b, al(s.t), true); });
       if (on && A && P && n - son < 900) {
         var uc = yon === 'y' ? { x: A.x, y: P.y } : { x: P.x, y: A.y };
@@ -403,17 +454,19 @@
         x.fillStyle = 'rgba(242,183,5,.9)'; x.fillRect(uc.x - 1.5, uc.y - 1.5, 4, 4);
       }
       kose.forEach(function (k) { x.fillStyle = 'rgba(242,183,5,' + al(k.t) + ')'; x.fillRect(k.x - 1.5, k.y - 1.5, 4, 4); });
-      if (parca.length || kose.length || (on && n - son < 900)) raf = requestAnimationFrame(ciz);
+      if (parca.length || kose.length || alan.length || (on && n - son < 900)) raf = requestAnimationFrame(ciz);
     };
     var set = function (v) {
       on = v; h.classList.toggle('eskiz', v); b.setAttribute('aria-pressed', v); store.set('dm-eskiz', v ? '1' : '0');
       if (v) boyut(); A = null;
+      clearTimeout(ipucu._t); ipucu.classList.toggle('on', v);
+      if (v) ipucu._t = setTimeout(function () { ipucu.classList.remove('on'); }, 4200);
     };
     b.addEventListener('click', function (e) { e.stopPropagation(); set(!on); Ses.tick(); });
     w.addEventListener('resize', function () { if (on) boyut(); });
     d.addEventListener('pointermove', hareket, { passive: true });
     d.addEventListener('dm-swap', function () { A = null; });
-    if (store.get('dm-eskiz') === '1' && fine) set(true);
+    if (store.get('dm-eskiz') === '1' && fine) { set(true); ipucu.classList.remove('on'); }
   }
 
 
