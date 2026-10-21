@@ -616,9 +616,9 @@
         h += '<p class="pn-baslik">Pencere tipi</p><div class="pn-liste">' + Object.keys(PEN_TIP).map(function (k) { var p = PEN_TIP[k]; return '<button type="button" data-yenipen="' + k + '" aria-pressed="' + (secPen === k) + '"><span>' + p.ad + '</span><small>' + cmS(p.gen) + '×' + cmS(p.yuk) + '</small></button>'; }).join('') + '</div>' +
           '<p class="pn-not">Tipi seçip bir duvara tıklayın. Ölçüleri sonradan değiştirebilirsiniz.</p>';
       } else if (arac === 'zemin') {
-        h += '<p class="pn-baslik">Zemin</p>' + zeminButon(secZemin) + '<p class="pn-not">Renk, karo ölçüsü ve döşeme yönü için Seç aracıyla odaya tıklayın.</p>';
+        h += '<p class="pn-baslik">Zemin</p>' + zeminButon(secZemin) + '<p class="pn-not">Seçtiğiniz zemin hemen tüm odalara uygulanır (3B\'de de). Yalnızca bir odayı değiştirmek, renk, karo ölçüsü ve döşeme yönü için o odaya tıklayın.</p>';
       } else if (arac === 'boya') {
-        h += '<p class="pn-baslik">Duvar rengi</p>' + boyaButon(secBoya, false) + '<p class="pn-not">Özel renk için Seç aracıyla odaya tıklayın.</p>';
+        h += '<p class="pn-baslik">Duvar rengi</p>' + boyaButon(secBoya, false) + '<p class="pn-not">Seçtiğiniz renk hemen tüm odaların duvarlarına uygulanır (3B\'de de). Yalnızca bir odayı boyamak ya da özel renk için o odaya tıklayın.</p>';
       } else {
         h += '<p class="pn-baslik">Nasıl çalışır</p><ol class="pn-adim">' +
           '<li><b>Duvar</b> ile köşelere tıklayıp odayı kapatın.</li><li><b>Kapı</b> ve <b>Pencere</b> ile tipini seçip duvara tıklayın.</li>' +
@@ -676,13 +676,22 @@
         else if (ds.yenipen) secPen = ds.yenipen;
         else if (ds.kt && s) { anlik(); yeniKapi(plan.acik[s.i], ds.kt); kaydet(); }
         else if (ds.pt && s) { anlik(); yeniPen(plan.acik[s.i], ds.pt); kaydet(); }
-        else if (ds.zemin !== undefined) { if (s && s.tur === 'oda') { anlik(); var o = plan.odalar[s.i]; o.zemin = +ds.zemin; delete o.zk; kaydet(); ses(493.88); } else secZemin = +ds.zemin; }
-        else if (ds.boya !== undefined) { if (s && s.tur === 'oda') { anlik(); plan.odalar[s.i].boya = +ds.boya; delete plan.odalar[s.i].duvarR; kaydet(); ses(493.88); } else secBoya = +ds.boya; }
+        else if (ds.zemin !== undefined || ds.boya !== undefined) {
+          // seçili oda yoksa seçim hemen tüm odalara uygulanır; tek oda için odaya tıklanır
+          var hedef = s && s.tur === 'oda' ? [plan.odalar[s.i]] : plan.odalar;
+          if (ds.zemin !== undefined) secZemin = +ds.zemin; else secBoya = +ds.boya;
+          if (hedef.length) {
+            anlik();
+            hedef.forEach(function (o) { if (ds.zemin !== undefined) { o.zemin = +ds.zemin; delete o.zk; delete o.zrenk; } else { o.boya = +ds.boya; delete o.duvarR; } });
+            kaydet(); ses(493.88);
+            if (ipucu && !(s && s.tur === 'oda') && plan.odalar.length > 1) ipucu.textContent = 'Tüm odalara uygulandı. Yalnızca bir odayı değiştirmek için o odaya tıklayın.';
+          }
+        }
         else if (ds.v !== undefined) { var kk = b.closest('[data-k]'); if (kk) { anlik(); ayarla(kk.dataset.k, ds.v); } }
         else return;
         paneliYenile(); ciz(); ucGuncelle();
         // telefonda seçimden sonra panel kapanır, plana dokunmak için yer açılır
-        if (w.matchMedia && w.matchMedia('(max-width:860px)').matches && (ds.tip || ds.yenikapi || ds.yenipen || (!s && (ds.zemin !== undefined || ds.boya !== undefined)))) {
+        if (w.matchMedia && w.matchMedia('(max-width:860px)').matches && (ds.tip || ds.yenikapi || ds.yenipen || (!s && !plan.odalar.length && (ds.zemin !== undefined || ds.boya !== undefined)))) {
           kok.classList.remove('panel-acik'); if (ipucu) ipucu.textContent = 'Şimdi plana dokunun.';
           var kb = cv.getBoundingClientRect(); if (kb.top < 0 || kb.top > w.innerHeight * .4) w.scrollBy({ top: kb.top - 70, behavior: 'smooth' });
         }
@@ -761,7 +770,7 @@
       if (son.x !== s0.x && son.y !== s0.y) cizilen.push({ x: s0.x, y: son.y });
       var pts = cizilen.filter(function (p, i, l) { var q = l[(i + 1) % l.length]; return !(p.x === q.x && p.y === q.y); });
       if (alanHesap(pts) < .5) { cizilen = []; ciz(); return; }
-      anlik(); plan.odalar.push({ pts: pts, zemin: 0, boya: 0 }); cizilen = []; kaydet();
+      anlik(); plan.odalar.push({ pts: pts, zemin: secZemin || 1, boya: secBoya }); cizilen = []; kaydet();
       ses(293.66, .02); setTimeout(function () { ses(440, .016); }, 120); setTimeout(function () { ses(587.33, .014); }, 240);
       if (ipucu) ipucu.textContent = 'Oda kapandı. Kapı, pencere ve eşya ekleyin; Seç ile odaya tıklayıp adını ve zeminini seçin.';
       ciz();
