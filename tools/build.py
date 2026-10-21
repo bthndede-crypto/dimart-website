@@ -610,6 +610,12 @@ def page_kvkk():
 CIZIM_SSS = [
     ("Çizim masası nedir?",
      "Tarayıcıda çalışan ücretsiz bir taslak aracıdır. Milimetrik kâğıt üzerinde dik açılı odalar çizebilir, kapı ve pencere ekleyebilir, zemin malzemesi seçebilir ve odanın alanını metrekare olarak görebilirsiniz."),
+    ("Hangi eşyaları ekleyebilirim, ölçüleri doğru mu?",
+     "Oturma, yatak odası, yemek, mutfak, banyo ve çalışma alanları için 37 eşya vardır: üçlü ve köşe koltuk, yatak, gardırop, yemek masası, tezgâh, eviye, ocak, buzdolabı, klozet, lavabo, duş, küvet ve daha fazlası. Hepsi piyasadaki yaygın standart ölçülerdedir, örneğin çift kişilik yatak 160 × 200 cm, tezgâh derinliği 60 cm, klozet 40 × 70 cm. Eşyayı seçip R tuşuyla döndürebilir, Seç aracıyla taşıyabilirsiniz."),
+    ("3B görünüm nasıl çalışıyor?",
+     "3B düğmesi, çizdiğiniz odaları 2,80 m duvar yüksekliğiyle, kapı ve pencere boşluklarıyla, seçtiğiniz zemin, duvar rengi ve eşyalarla birlikte gerçek bir üç boyutlu sahneye dönüştürür. Fareyle sürükleyerek döndürebilir, tekerlekle yakınlaşabilir, telefonda iki parmakla gezinebilirsiniz."),
+    ("Hangi zemin malzemeleri ve duvar renkleri var?",
+     "Meşe, ceviz ve balıksırtı parke, traverten, beyaz ve siyah mermer, 60 × 60 seramik, terrazzo, hidrolik karo, mikrobeton, beton ve halı; duvar için beyazdan antrasite yedi renk seçebilirsiniz."),
     ("Oda alanı nasıl hesaplanıyor?",
      "Izgaradaki her kare 50 × 50 cm'dir. Oda kapandığında köşe noktalarından alan hesaplanır ve odanın ortasına metrekare olarak yazılır. Duvar kalınlığı hesaba katılmaz, ölçüler duvar eksenlerine göredir."),
     ("Çizdiğim planı Dimart'a nasıl gönderirim?",
@@ -624,30 +630,37 @@ def page_cizim():
           {"@type": "WebApplication", "@id": f"{SITE}/cizim-masasi/#arac", "name": "Dimart Çizim masası",
            "url": f"{SITE}/cizim-masasi/", "applicationCategory": "DesignApplication", "operatingSystem": "Tarayıcı",
            "inLanguage": "tr-TR", "isAccessibleForFree": True, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "TRY"},
-           "description": "Tarayıcıda dik açılı oda planı çizme, kapı ve pencere ekleme, zemin malzemesi seçme, 3B görünüm ve metrekare hesaplama aracı.",
+           "description": "Tarayıcıda dik açılı oda planı çizme, kapı ve pencere ekleme, standart ölçülerde mobilya, mutfak ve banyo elemanları yerleştirme, zemin malzemesi ve duvar rengi seçme, gerçek 3B görünüm ve metrekare hesaplama aracı.",
            "provider": {"@id": f"{SITE}/#firma"}},
           faq_ld(CIZIM_SSS)]
-    araclar = [("duvar", "Duvar", True), ("kapi", "Kapı", False), ("pencere", "Pencere", False), ("malzeme", "Malzeme", False), ("3b", "3B", False)]
+    araclar = [("duvar", "Duvar", True), ("kapi", "Kapı", False), ("pencere", "Pencere", False), ("esya", "Eşya", False),
+               ("zemin", "Zemin", False), ("boya", "Duvar rengi", False), ("sec", "Seç", False), ("3b", "3B", False)]
     btn = "".join(f'<button type="button" data-arac="{a}" aria-pressed="{"true" if on else "false"}">{n}</button>' for a, n, on in araclar)
     return head("Çizim masası: online oda planı çizme ve metrekare hesaplama | Dimart Mimarlık",
-                "Ücretsiz çizim masası: tarayıcıda oda planı çizin, kapı ve pencere ekleyin, zemin malzemesi seçin, 3B görün ve metrekareyi hesaplayın. Taslağınızı Dimart'a gönderin.",
+                "Ücretsiz online çizim masası: oda planı çizin, kapı, pencere ve standart ölçülerde eşya yerleştirin, zemin ve duvar rengi seçin, 3B gezin, metrekareyi hesaplayın.",
                 "cizim-masasi/", ld, "cizim") + f"""  <section class="page-hero short">
     {crumbs("Çizim masası")}
     <h1 data-r>Her şey bir çizgiyle <span class="y">başlar.</span></h1>
-    <p class="lead" data-r>Hayalinizdeki mekânın ilk taslağını burada çizin. Odalarınızı oluşturun, kapı ve pencereleri yerleştirin, zemini seçin, 3B görün; alanlar kendiliğinden hesaplansın. Hazır olunca taslağı bize gönderin, gerisini birlikte çizelim.</p>
+    <p class="lead" data-r>Hayalinizdeki mekânın ilk taslağını burada çizin. Odalarınızı oluşturun, kapı ve pencereleri yerleştirin; koltuktan yatağa, eviyeden klozete standart ölçülerde eşyaları yerleştirin, zemin malzemesini ve duvar rengini seçin, sonra mekânın içinde 3B gezinin. Alanlar kendiliğinden hesaplanır. Hazır olunca taslağı bize gönderin, gerisini birlikte çizelim.</p>
   </section>
   <section class="masa" id="masa" aria-label="Çizim masası">
     <div class="masa-bar">
       <div class="masa-araclar" role="group" aria-label="Araçlar">{btn}</div>
       <div class="masa-isler"><button type="button" data-is="geri">Geri al</button><button type="button" data-is="temizle">Temizle</button><button type="button" data-is="indir">Görseli indir</button></div>
     </div>
-    <canvas class="masa-kagit" aria-label="Çizim alanı: tıklayarak oda köşeleri ekleyin"></canvas>
+    <div class="masa-govde">
+      <div class="masa-sahne">
+        <canvas class="masa-kagit" aria-label="Çizim alanı: tıklayarak oda köşeleri ekleyin"></canvas>
+        <div class="masa-3b" data-3b aria-label="3B görünüm"></div>
+      </div>
+      <aside class="masa-panel" data-panel aria-label="Seçenekler"></aside>
+    </div>
     <div class="masa-alt">
       <p class="masa-ipucu" data-ipucu aria-live="polite">Tıklayarak köşeleri ekleyin, ilk köşeye tıklayınca oda kapanır.</p>
-      <p class="masa-toplam" data-toplam>0 oda · 0,00 m²</p>
+      <p class="masa-toplam" data-toplam>0 oda · 0 eşya · 0,00 m²</p>
       <button type="button" class="go" data-is="gonder">Planı Dimart'a gönder</button>
     </div>
-    <p class="masa-not">Bir kare 50 × 50 cm · Geri almak için Ctrl/Cmd + Z, çizimi bırakmak için Esc</p>
+    <p class="masa-not">Bir kare 50 × 50 cm · Duvar yüksekliği 2,80 m · R döndürür, Delete siler, Ctrl/Cmd + Z geri alır, Esc bırakır</p>
   </section>
   <section class="qa" aria-labelledby="sss">
     <div class="sec-head" data-r><h2 class="label" id="sss">Sık sorulan sorular</h2><p class="h">Çizim masası</p></div>
