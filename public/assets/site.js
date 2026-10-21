@@ -363,7 +363,18 @@
     var desen = null;
     var ipucu = d.createElement('p'); ipucu.className = 'eskiz-ipucu'; ipucu.setAttribute('aria-hidden', 'true');
     ipucu.textContent = 'Fareyle çizin · bir odayı kapatın, alanını ölçelim'; d.body.appendChild(ipucu);
-    var OMUR = 3800, SOL = 1600, ESIK = 16, GRID = 24;
+    // oda kapanınca: taslağın ölçüleriyle e-posta açan küçük bir davet
+    var davet = d.createElement('a'); davet.className = 'eskiz-davet'; d.body.appendChild(davet);
+    var davetGoster = function (k) {
+      var kenar = k.pts.slice(1).map(function (p, i) { var q = k.pts[i]; return olcu(Math.abs(p.x - q.x) + Math.abs(p.y - q.y)); });
+      var m2 = k.m.toFixed(2).replace('.', ',');
+      davet.href = 'mailto:info@dimartmimarlik.com?subject=' + encodeURIComponent('Sitenizde çizdiğim taslak · ' + m2 + ' m²') +
+        '&body=' + encodeURIComponent('Merhaba,\n\nSitenizdeki eskizde ' + m2 + ' m² bir mekân çizdim. Kenarlar: ' + kenar.join(' · ') + ' m.\n\nProjem hakkında görüşmek istiyorum.\n');
+      davet.innerHTML = '<b>' + m2 + ' m²</b><span>Bu taslakla projenizi konuşalım</span>';
+      ipucu.classList.remove('on'); davet.classList.add('on');
+      clearTimeout(davet._t); davet._t = setTimeout(function () { davet.classList.remove('on'); }, 9000);
+    };
+    var OMUR = 3800, SOL = 1600, ODA = 3500, YUK = 90, ESIK = 16, GRID = 24;
     var boyut = function () {
       dpr = Math.min(w.devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
       cv.width = W * dpr; cv.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -383,7 +394,8 @@
         pts.forEach(function (p, i) { var q = pts[(i + 1) % pts.length]; ar += p.x * q.y - q.x * p.y; cx += p.x; cy += p.y; });
         ar = Math.abs(ar) / 2;
         if (ar > 2500) {
-          alan.push({ pts: [s0].concat(pts), m: ar / 10000, x: cx / pts.length, y: cy / pts.length, t: t });
+          var oda = { pts: [s0].concat(pts), m: ar / 10000, x: cx / pts.length, y: cy / pts.length, t: t };
+          alan.push(oda); davetGoster(oda);
           if (Ses.on) { Ses.bell(293.66, 0, .016); Ses.bell(440, Ses.ctx.currentTime + .12, .012); Ses.bell(587.33, Ses.ctx.currentTime + .24, .01); }
         }
         kose.push({ x: kap.x, y: kap.y, t: t });
@@ -436,15 +448,30 @@
       var n = performance.now(), al = function (t) { var g = n - t; return g < OMUR ? 1 : Math.max(0, 1 - (g - OMUR) / SOL); };
       parca = parca.filter(function (s) { return al(s.t) > 0; });
       kose = kose.filter(function (k) { return al(k.t) > 0; });
-      alan = alan.filter(function (k) { return al(k.t) > 0; });
+      alan = alan.filter(function (k) { return al(k.t + ODA) > 0; });
       x.clearRect(0, 0, W, H); x.lineWidth = 1;
       if (!desen) desen = x.createPattern(tara, 'repeat');
       alan.forEach(function (k) {
-        var g = n - k.t, a = al(k.t) * Math.min(1, g / 500);
-        x.save(); x.globalAlpha = a * .55; x.fillStyle = desen;
+        var g = n - k.t, a = al(k.t + ODA) * Math.min(1, g / 500);
+        // oda yükselir: plan olduğu gibi kalır, duvarlar sağa yatık yükselir (oblik aksonometri)
+        var u = Math.min(1, Math.max(0, (g - 350) / 1300)), hh = YUK * (1 - Math.pow(1 - u, 3)), ox = hh * .5, oy = -hh * .85;
+        var tavan = function () { x.beginPath(); k.pts.forEach(function (p, i) { i ? x.lineTo(p.x + ox, p.y + oy) : x.moveTo(p.x + ox, p.y + oy); }); x.closePath(); };
+        x.save(); x.globalAlpha = a * .5; x.fillStyle = desen;
         x.beginPath(); k.pts.forEach(function (p, i) { i ? x.lineTo(p.x, p.y) : x.moveTo(p.x, p.y); }); x.closePath(); x.fill();
+        if (hh > 1) {
+          x.globalAlpha = a;
+          k.pts.forEach(function (p, i) {
+            if (!i) return; var q = k.pts[i - 1];
+            x.fillStyle = 'rgba(237,232,224,.035)';
+            x.beginPath(); x.moveTo(q.x, q.y); x.lineTo(p.x, p.y); x.lineTo(p.x + ox, p.y + oy); x.lineTo(q.x + ox, q.y + oy); x.closePath(); x.fill();
+            x.strokeStyle = 'rgba(237,232,224,.35)'; x.beginPath(); x.moveTo(p.x + .5, p.y); x.lineTo(p.x + ox + .5, p.y + oy); x.stroke();
+          });
+          tavan(); x.fillStyle = 'rgba(16,14,12,.55)'; x.fill(); x.fillStyle = 'rgba(242,183,5,.06)'; x.fill();
+          x.strokeStyle = 'rgba(237,232,224,.7)'; x.stroke();
+        }
         x.globalAlpha = a; x.fillStyle = '#F2B705'; x.font = '500 11px Montserrat, sans-serif'; x.textAlign = 'center';
-        x.fillText(k.m.toFixed(2).replace('.', ',') + ' m²', k.x, k.y + 4);
+        x.fillText(k.m.toFixed(2).replace('.', ',') + ' m²', k.x + ox, k.y + oy + 4);
+        if (u > .6) { x.globalAlpha = a * (u - .6) / .4; x.fillStyle = 'rgba(237,232,224,.6)'; x.font = '500 8.5px Montserrat, sans-serif'; x.fillText('h 3,00', k.x + ox, k.y + oy + 18); }
         x.restore();
       });
       parca.forEach(function (s) { cizgi(s.a, s.b, al(s.t), true); });
