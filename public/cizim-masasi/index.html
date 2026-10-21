@@ -130,7 +130,7 @@
      "name": "Hangi eşyaları ekleyebilirim, ölçüleri doğru mu?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Oturma, yatak odası, yemek, mutfak, banyo ve çalışma alanları için 37 eşya vardır: üçlü ve köşe koltuk, yatak, gardırop, yemek masası, tezgâh, eviye, ocak, buzdolabı, klozet, lavabo, duş, küvet ve daha fazlası. Hepsi piyasadaki yaygın standart ölçülerdedir, örneğin çift kişilik yatak 160 × 200 cm, tezgâh derinliği 60 cm, klozet 40 × 70 cm. Eşyayı seçip R tuşuyla döndürebilir, Seç aracıyla taşıyabilirsiniz."
+      "text": "Oturma, yatak odası, yemek, mutfak, banyo, antre ve çalışma alanları için 46 eşya vardır: üçlü ve köşe koltuk, yatak, bebek yatağı, gardırop, yemek masası, tezgâh, eviye, ocak, buzdolabı, klozet, lavabo, duş, küvet, portmanto ve daha fazlası. Hepsi piyasadaki yaygın standart ölçülerdedir, örneğin çift kişilik yatak 160 × 200 cm, tezgâh derinliği 60 cm, klozet 40 × 70 cm. Seç aracıyla eşyaya tıklayıp sarı tutamaçla istediğiniz açıya döndürebilir, genişliğini, derinliğini ve rengini değiştirebilirsiniz."
      }
     },
     {
@@ -143,10 +143,18 @@
     },
     {
      "@type": "Question",
+     "name": "Kapı ve pencereleri nasıl ayarlarım?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Daire giriş (çelik), oda, banyo, balkon, çift kanatlı ve sürgü kapı tiplerinden birini seçip duvara tıklayın. Kapının genişliğini, yüksekliğini, menteşe tarafını ve içe ya da dışa açılışını panelden değiştirebilir, duvar boyunca sürükleyebilirsiniz. Pencerelerde genişlik, denizlik yüksekliği ve pencere yüksekliği ayarlanır; standart, geniş, yere kadar, mutfak ve banyo penceresi hazır tipleri vardır."
+     }
+    },
+    {
+     "@type": "Question",
      "name": "Hangi zemin malzemeleri ve duvar renkleri var?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Meşe, ceviz ve balıksırtı parke, traverten, beyaz ve siyah mermer, 60 × 60 seramik, terrazzo, hidrolik karo, mikrobeton, beton ve halı; duvar için beyazdan antrasite yedi renk seçebilirsiniz."
+      "text": "Meşe, ceviz ve balıksırtı parke, traverten, beyaz ve siyah mermer, seramik, terrazzo, hidrolik karo, mikrobeton, beton ve halı vardır. Her zeminin rengini, karo ya da tahta ölçüsünü (örneğin 60 × 60 ya da 120 × 120 cm) ve döşeme yönünü değiştirebilirsiniz. Duvar için yedi hazır renk ve dilediğiniz özel renk seçilebilir. 3B görünümde de bir odaya ya da eşyaya tıklayıp malzemesini değiştirebilirsiniz."
      }
     },
     {
@@ -192,8 +200,8 @@
 <header class="top" id="top">
   <a class="brand" href="/" aria-label="Dimart Mimarlık ana sayfa"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="96" height="33"></a>
   <p class="top-loc" aria-hidden="true">İstanbul</p>
-  <div class="util" role="group" aria-label="Eskiz ve müzik">
-    <button type="button" id="eskiz-btn" aria-pressed="false" title="Eskiz: imleçle sayfanın üstüne çizin">Eskiz</button>
+  <div class="util" role="group" aria-label="Çizim masası ve müzik">
+    <a href="/cizim-masasi/" id="masa-link" title="Planınızı çizin, 3B görün">Çizim masası</a>
     <button type="button" id="ses-btn" aria-pressed="false" aria-label="Müzik" title="Müziği aç ya da kapat"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ses-t" aria-hidden="true"><span>Müzik açık</span><span>Müzik kapalı</span></span></button>
   </div>
   <a class="go top-cta" href="/iletisim/">Projenizi konuşalım</a>
@@ -324,23 +332,26 @@
       <div class="masa-sahne">
         <canvas class="masa-kagit" aria-label="Çizim alanı: tıklayarak oda köşeleri ekleyin"></canvas>
         <div class="masa-3b" data-3b aria-label="3B görünüm"></div>
+        <div class="masa-zum" role="group" aria-label="Yakınlaştırma"><button type="button" data-zum="+" aria-label="Yakınlaştır">+</button><button type="button" data-zum="-" aria-label="Uzaklaştır">−</button><button type="button" data-zum="sig">Sığdır</button></div>
       </div>
       <aside class="masa-panel" data-panel aria-label="Seçenekler"></aside>
+      <button type="button" class="masa-panel-tut" data-panel-tut>Seçenekler</button>
     </div>
     <div class="masa-alt">
       <p class="masa-ipucu" data-ipucu aria-live="polite">Tıklayarak köşeleri ekleyin, ilk köşeye tıklayınca oda kapanır.</p>
       <p class="masa-toplam" data-toplam>0 oda · 0 eşya · 0,00 m²</p>
       <button type="button" class="go" data-is="gonder">Planı Dimart'a gönder</button>
     </div>
-    <p class="masa-not">Bir kare 50 × 50 cm · Duvar yüksekliği 2,80 m · R döndürür, Delete siler, Ctrl/Cmd + Z geri alır, Esc bırakır</p>
+    <p class="masa-not">Bir kare 50 × 50 cm · Duvar yüksekliği 2,80 m · Seç ile tıklayın, sarı tutamaçla döndürün · R döndürür, oklar kaydırır, Delete siler, Ctrl/Cmd + D kopyalar, Ctrl/Cmd + Z geri alır</p>
   </section>
   <section class="qa" aria-labelledby="sss">
     <div class="sec-head" data-r><h2 class="label" id="sss">Sık sorulan sorular</h2><p class="h">Çizim masası</p></div>
     <div class="faq">
       <details data-r><summary>Çizim masası nedir?</summary><p>Tarayıcıda çalışan ücretsiz bir taslak aracıdır. Milimetrik kâğıt üzerinde dik açılı odalar çizebilir, kapı ve pencere ekleyebilir, zemin malzemesi seçebilir ve odanın alanını metrekare olarak görebilirsiniz.</p></details>
-      <details data-r><summary>Hangi eşyaları ekleyebilirim, ölçüleri doğru mu?</summary><p>Oturma, yatak odası, yemek, mutfak, banyo ve çalışma alanları için 37 eşya vardır: üçlü ve köşe koltuk, yatak, gardırop, yemek masası, tezgâh, eviye, ocak, buzdolabı, klozet, lavabo, duş, küvet ve daha fazlası. Hepsi piyasadaki yaygın standart ölçülerdedir, örneğin çift kişilik yatak 160 × 200 cm, tezgâh derinliği 60 cm, klozet 40 × 70 cm. Eşyayı seçip R tuşuyla döndürebilir, Seç aracıyla taşıyabilirsiniz.</p></details>
+      <details data-r><summary>Hangi eşyaları ekleyebilirim, ölçüleri doğru mu?</summary><p>Oturma, yatak odası, yemek, mutfak, banyo, antre ve çalışma alanları için 46 eşya vardır: üçlü ve köşe koltuk, yatak, bebek yatağı, gardırop, yemek masası, tezgâh, eviye, ocak, buzdolabı, klozet, lavabo, duş, küvet, portmanto ve daha fazlası. Hepsi piyasadaki yaygın standart ölçülerdedir, örneğin çift kişilik yatak 160 × 200 cm, tezgâh derinliği 60 cm, klozet 40 × 70 cm. Seç aracıyla eşyaya tıklayıp sarı tutamaçla istediğiniz açıya döndürebilir, genişliğini, derinliğini ve rengini değiştirebilirsiniz.</p></details>
       <details data-r><summary>3B görünüm nasıl çalışıyor?</summary><p>3B düğmesi, çizdiğiniz odaları 2,80 m duvar yüksekliğiyle, kapı ve pencere boşluklarıyla, seçtiğiniz zemin, duvar rengi ve eşyalarla birlikte gerçek bir üç boyutlu sahneye dönüştürür. Fareyle sürükleyerek döndürebilir, tekerlekle yakınlaşabilir, telefonda iki parmakla gezinebilirsiniz.</p></details>
-      <details data-r><summary>Hangi zemin malzemeleri ve duvar renkleri var?</summary><p>Meşe, ceviz ve balıksırtı parke, traverten, beyaz ve siyah mermer, 60 × 60 seramik, terrazzo, hidrolik karo, mikrobeton, beton ve halı; duvar için beyazdan antrasite yedi renk seçebilirsiniz.</p></details>
+      <details data-r><summary>Kapı ve pencereleri nasıl ayarlarım?</summary><p>Daire giriş (çelik), oda, banyo, balkon, çift kanatlı ve sürgü kapı tiplerinden birini seçip duvara tıklayın. Kapının genişliğini, yüksekliğini, menteşe tarafını ve içe ya da dışa açılışını panelden değiştirebilir, duvar boyunca sürükleyebilirsiniz. Pencerelerde genişlik, denizlik yüksekliği ve pencere yüksekliği ayarlanır; standart, geniş, yere kadar, mutfak ve banyo penceresi hazır tipleri vardır.</p></details>
+      <details data-r><summary>Hangi zemin malzemeleri ve duvar renkleri var?</summary><p>Meşe, ceviz ve balıksırtı parke, traverten, beyaz ve siyah mermer, seramik, terrazzo, hidrolik karo, mikrobeton, beton ve halı vardır. Her zeminin rengini, karo ya da tahta ölçüsünü (örneğin 60 × 60 ya da 120 × 120 cm) ve döşeme yönünü değiştirebilirsiniz. Duvar için yedi hazır renk ve dilediğiniz özel renk seçilebilir. 3B görünümde de bir odaya ya da eşyaya tıklayıp malzemesini değiştirebilirsiniz.</p></details>
       <details data-r><summary>Oda alanı nasıl hesaplanıyor?</summary><p>Izgaradaki her kare 50 × 50 cm'dir. Oda kapandığında köşe noktalarından alan hesaplanır ve odanın ortasına metrekare olarak yazılır. Duvar kalınlığı hesaba katılmaz, ölçüler duvar eksenlerine göredir.</p></details>
       <details data-r><summary>Çizdiğim planı Dimart'a nasıl gönderirim?</summary><p>Planı Dimart'a gönder düğmesi, odaların alanları, kenar ölçüleri, malzemeleri, kapı ve pencere sayılarıyla hazır bir e-posta açar. Görseli indir ile planın görüntüsünü kaydedip e-postaya ekleyebilirsiniz.</p></details>
       <details data-r><summary>Çizimim kaydediliyor mu?</summary><p>Çiziminiz yalnızca kendi tarayıcınızda saklanır; sayfaya geri döndüğünüzde kaldığınız yerden devam edebilirsiniz. Bize siz göndermediğiniz sürece hiçbir bilgi ulaşmaz.</p></details>
