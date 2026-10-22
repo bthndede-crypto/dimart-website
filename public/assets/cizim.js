@@ -98,6 +98,42 @@
 
   /* ---------- dokular ---------- */
   var r = function (a) { return Math.random() * a; };
+  /* Kumaş, deri ve kadife için tekrar eden doku: renkli harita + gri kabartma haritası.
+     Bir karo: keten 20 cm, bouclé 16 cm, kadife 40 cm, deri 30 cm. */
+  var kCache = {};
+  function kumasDoku(hex, tur) {
+    var k = hex + tur; if (kCache[k]) return kCache[k];
+    var N = 256, rnd = (function (t) { return function () { t = (t * 16807) % 2147483647; return t / 2147483647; }; })(7 + tur.length * 131);
+    var renk = d.createElement('canvas'), kab = d.createElement('canvas'); renk.width = renk.height = kab.width = kab.height = N;
+    var r = renk.getContext('2d'), b = kab.getContext('2d');
+    r.fillStyle = hex; r.fillRect(0, 0, N, N); b.fillStyle = '#808080'; b.fillRect(0, 0, N, N);
+    var nokta = function (x, y, rr, acik, alfa) {
+      r.fillStyle = acik ? 'rgba(255,255,255,' + alfa + ')' : 'rgba(0,0,0,' + alfa + ')'; r.beginPath(); r.arc(x, y, rr, 0, 7); r.fill();
+      b.fillStyle = acik ? 'rgba(255,255,255,' + alfa * 2.2 + ')' : 'rgba(0,0,0,' + alfa * 2.2 + ')'; b.beginPath(); b.arc(x, y, rr, 0, 7); b.fill();
+    };
+    var i, j;
+    if (tur === 'keten') {
+      // çözgü ve atkı iplikleri: ince çizgiler, ipliklerde hafif kalınlık farkı
+      for (i = 0; i < N; i += 8) {
+        var a1 = .04 + rnd() * .06, a2 = .04 + rnd() * .06;
+        r.fillStyle = 'rgba(0,0,0,' + a1 + ')'; r.fillRect(0, i, N, 3); b.fillStyle = 'rgba(0,0,0,' + a1 * 2.5 + ')'; b.fillRect(0, i, N, 3);
+        r.fillStyle = 'rgba(255,255,255,' + a2 * .6 + ')'; r.fillRect(i + 4, 0, 3, N); b.fillStyle = 'rgba(255,255,255,' + a2 * 2 + ')'; b.fillRect(i + 4, 0, 3, N);
+      }
+      for (i = 0; i < 900; i++) nokta(rnd() * N, rnd() * N, .6 + rnd(), rnd() > .5, .05 + rnd() * .06);
+      for (i = 0; i < 14; i++) { var y0 = rnd() * N; r.fillStyle = 'rgba(0,0,0,.07)'; r.fillRect(0, y0, N, 1); }  // düzensiz kalın iplik
+    } else if (tur === 'boucle') {
+      for (i = 0; i < 2200; i++) { var x = rnd() * N, y = rnd() * N, rr = 2.5 + rnd() * 3; nokta(x, y, rr, false, .045); nokta(x - rr * .3, y - rr * .3, rr * .6, true, .07); }
+    } else if (tur === 'kadife') {
+      for (i = 0; i < 40; i++) { var cx = rnd() * N, cy = rnd() * N, rg = 30 + rnd() * 70, ac = rnd() > .5; var gr = r.createRadialGradient(cx, cy, 0, cx, cy, rg); gr.addColorStop(0, ac ? 'rgba(255,255,255,.07)' : 'rgba(0,0,0,.08)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); r.fillStyle = gr; r.fillRect(0, 0, N, N); }
+      for (i = 0; i < 4000; i++) nokta(rnd() * N, rnd() * N, .5, rnd() > .5, .04);
+    } else { // deri: gözenek ve hafif damar
+      for (i = 0; i < 30; i++) { var dx = rnd() * N, dy = rnd() * N, rg2 = 20 + rnd() * 60; var g2 = r.createRadialGradient(dx, dy, 0, dx, dy, rg2); g2.addColorStop(0, rnd() > .5 ? 'rgba(255,255,255,.06)' : 'rgba(0,0,0,.09)'); g2.addColorStop(1, 'rgba(0,0,0,0)'); r.fillStyle = g2; r.fillRect(0, 0, N, N); }
+      for (i = 0; i < 3500; i++) nokta(rnd() * N, rnd() * N, .5 + rnd() * .9, false, .05 + rnd() * .05);
+      for (i = 0; i < 60; i++) { r.strokeStyle = 'rgba(0,0,0,.05)'; b.strokeStyle = 'rgba(0,0,0,.18)'; var sx = rnd() * N, sy = rnd() * N; [r, b].forEach(function (c) { c.beginPath(); c.moveTo(sx, sy); for (j = 0; j < 4; j++) c.lineTo(sx + (rnd() - .5) * 30, sy + (rnd() - .5) * 30); c.stroke(); }); }
+    }
+    return (kCache[k] = { renk: renk, kab: kab, boy: { keten: .2, boucle: .16, kadife: .4, deri: .3 }[tur] });
+  }
+  var kumasTuru = function (ad) { return /bouclé/i.test(ad) ? 'boucle' : /kadife/i.test(ad) ? 'kadife' : /deri/i.test(ad) ? 'deri' : 'keten'; };
   function desen(m, s) {
     s = s || 128;
     var c = d.createElement('canvas'), x = c.getContext('2d'); c.width = c.height = s;
@@ -960,14 +996,21 @@
         r3.outputEncoding = T.sRGBEncoding; r3.toneMapping = T.NoToneMapping;
         sahne.appendChild(r3.domElement);
         U.s = new T.Scene(); U.s.background = new T.Color(RENK.bg);
+        // ortam ışığı: sıcak bir oda ve ışık panellerinden üretilen yansıma haritası; malzemeler daha gerçek görünür
+        (function () {
+          var es = new T.Scene(), kutuM = function (x, y, z, sx, sy, sz, c) { var m_ = new T.Mesh(new T.BoxGeometry(1, 1, 1), new T.MeshBasicMaterial({ color: c, side: T.BackSide })); m_.position.set(x, y, z); m_.scale.set(sx, sy, sz); es.add(m_); };
+          kutuM(0, 4, 0, 20, 8, 20, new T.Color(.42, .39, .35));
+          var panel = function (x, y, z, sx, sy, sz, k) { var m_ = new T.Mesh(new T.BoxGeometry(1, 1, 1), new T.MeshBasicMaterial({ color: new T.Color(k, k * .96, k * .9) })); m_.position.set(x, y, z); m_.scale.set(sx, sy, sz); es.add(m_); };
+          panel(0, 7.8, 0, 9, .2, 9, 2.2); panel(-9.8, 4, 1, .2, 4, 9, 2.6); panel(5, 4.5, -9.8, 7, 3, .2, 1.4); panel(9.8, 3, 3, .2, 2.5, 5, .9);
+          var pm = new T.PMREMGenerator(r3); U.s.environment = pm.fromScene(es, .04).texture; pm.dispose();
+        })();
         U.k = new T.PerspectiveCamera(42, 1, .1, 200);
         U.c = new T.OrbitControls(U.k, r3.domElement); U.c.maxPolarAngle = Math.PI / 2.05; U.c.minDistance = 1.5; U.c.maxDistance = 60;
         U.c.addEventListener('change', U.ciz);
-        U.s.add(new T.HemisphereLight(0xfff8ee, 0x3a342c, .5));
-        var g = new T.DirectionalLight(0xfff3e6, .62); g.position.set(-8, 14, 6); g.castShadow = true;
+        U.s.add(new T.HemisphereLight(0xfff8ee, 0x3a342c, .22));
+        var g = new T.DirectionalLight(0xfff3e6, .55); g.position.set(-8, 14, 6); g.castShadow = true;
         g.shadow.mapSize.set(2048, 2048); var sc = g.shadow.camera; sc.left = sc.bottom = -15; sc.right = sc.top = 15; g.shadow.bias = -.0005;
         U.isik = g; U.s.add(g); U.s.add(g.target);
-        U.s.add(new T.AmbientLight(0xffffff, .22));
         var yer = new T.Mesh(new T.PlaneGeometry(200, 200), new T.ShadowMaterial({ opacity: .45 }));
         yer.rotation.x = -Math.PI / 2; yer.position.y = -.01; yer.receiveShadow = true; U.s.add(yer);
         U.grup = new T.Group(); U.s.add(U.grup);
@@ -1016,13 +1059,27 @@
         if (kamera || !U.merkez) U.merkez = { x: (minx + maxx) / 2 / METRE, z: (miny + maxy) / 2 / METRE };
         var cx = U.merkez.x, cz = U.merkez.z, X = function (px) { return px / METRE - cx; }, Z = function (py) { return py / METRE - cz; };
         var mat = {}, OZEL = null, GOVDE = [0x8a8174, 0x9a9184, 0xa38b6d, 0x7a5a3c, 0xb08d66, 0xd8d0c2, 0xd6cfc2, 0x6e6b66];
-        var HARITA = null;
+        var HARITA = null, KUMASLAR = [0x8a8174, 0x9a9184, 0xa38b6d, 0xb3a58f, 0xc8bba6, 0xf2efe9];
+        var kumasMat = function (hex, tur) {
+          var kk = 'k|' + hex + '|' + tur; if (mat[kk]) return mat[kk];
+          var dk = kumasDoku(hex, tur), tk = function (c, srgb) { var t = new T.CanvasTexture(c); t.wrapS = t.wrapT = T.RepeatWrapping; t.repeat.set(1 / dk.boy, 1 / dk.boy); t.anisotropy = 8; if (srgb) t.encoding = T.sRGBEncoding; return t; };
+          var op = { map: tk(dk.renk, true), bumpMap: tk(dk.kab), bumpScale: tur === 'boucle' ? .45 : tur === 'keten' ? .28 : .15,
+            roughness: tur === 'deri' ? .42 : tur === 'kadife' ? .78 : .93, metalness: 0, envMapIntensity: tur === 'deri' ? 1 : .55 };
+          if (tur === 'kadife') { op.sheen = 1; op.sheenRoughness = .35; op.sheenColor = new T.Color(hex).lerp(new T.Color(0xffffff), .45); }
+          else if (tur !== 'deri') { op.sheen = .5; op.sheenRoughness = .8; op.sheenColor = new T.Color(hex).lerp(new T.Color(0xffffff), .3); }
+          if (tur === 'deri') { op.clearcoat = .25; op.clearcoatRoughness = .5; }
+          return (mat[kk] = new T.MeshPhysicalMaterial(op));
+        };
         var MT = function (renk, rough, metal) {
+          if (HARITA && HARITA[renk] && PARCA.kumas.l.indexOf(HARITA[renk]) >= 0) return kumasMat(HARITA[renk][1], kumasTuru(HARITA[renk][0]));
+          if (KUMASLAR.indexOf(renk) >= 0 && !(HARITA && HARITA[renk])) {
+            var hx = OZEL || '#' + new T.Color(renk).getHexString(); return kumasMat(hx, 'keten');
+          }
           if (HARITA && HARITA[renk]) {
             var mm = HARITA[renk], kk = 'p|' + mm.join('|');
             if (!mat[kk]) {
               var op = { color: mm[4] !== undefined ? 0xffffff : mm[1], roughness: mm[2], metalness: mm[3] || 0 };
-              if (mm[4] !== undefined) { var tt = new T.CanvasTexture(doku(mm[4], mm[1], 256)); tt.encoding = T.sRGBEncoding; tt.anisotropy = 4; op.map = tt; }
+              if (mm[4] !== undefined) { var tt = new T.CanvasTexture(doku(mm[4], mm[1], 256)); tt.encoding = T.sRGBEncoding; tt.anisotropy = 4; tt.wrapS = tt.wrapT = T.RepeatWrapping; tt.repeat.set(1.2, 1.2); op.map = tt; }
               mat[kk] = new T.MeshStandardMaterial(op);
             }
             return mat[kk];
@@ -1030,8 +1087,22 @@
           if (OZEL && GOVDE.indexOf(renk) >= 0) renk = OZEL;
           var key = renk + '|' + rough + '|' + metal; return mat[key] || (mat[key] = new T.MeshStandardMaterial({ color: renk, roughness: rough === undefined ? .8 : rough, metalness: metal || 0 }));
         };
+        var olcekUV = function (geo, w_, h_, d_) {
+          var uv = geo.attributes.uv, yuz = [[d_, h_], [d_, h_], [w_, d_], [w_, d_], [w_, h_], [w_, h_]];
+          for (var q = 0; q < uv.count; q++) { var f = yuz[Math.floor(q / 4)] || [1, 1]; uv.setXY(q, uv.getX(q) * f[0], uv.getY(q) * f[1]); }
+          return geo;
+        };
+        // döşemeli parçalar için yuvarlak kenarlı kutu (r: kenar yarıçapı)
+        var yumusak = function (par, w_, h_, d_, x_, y_, z_, renk, r_) {
+          r_ = Math.min(r_ || .05, w_ / 2 - .005, h_ / 2 - .005, d_ / 2 - .005);
+          var a = w_ / 2 - r_, b = h_ / 2 - r_, sh = new T.Shape();
+          sh.moveTo(-a, -b); sh.lineTo(a, -b); sh.lineTo(a, b); sh.lineTo(-a, b); sh.lineTo(-a, -b);
+          var geo = new T.ExtrudeGeometry(sh, { depth: Math.max(.001, d_ - 2 * r_), bevelEnabled: true, bevelThickness: r_, bevelSize: r_, bevelSegments: 4, curveSegments: 4 });
+          geo.translate(0, 0, -(d_ - 2 * r_) / 2); geo.computeVertexNormals();
+          var me = new T.Mesh(geo, MT(renk)); me.position.set(x_, y_ + h_ / 2, z_); me.castShadow = true; me.receiveShadow = true; par.add(me); return me;
+        };
         var kutu = function (par, w_, h_, d_, x_, y_, z_, renk, rough, metal) {
-          var me = new T.Mesh(new T.BoxGeometry(w_, h_, d_), MT(renk, rough, metal));
+          var me = new T.Mesh(olcekUV(new T.BoxGeometry(w_, h_, d_), w_, h_, d_), MT(renk, rough, metal));
           me.position.set(x_, y_ + h_ / 2, z_); me.castShadow = true; me.receiveShadow = true; par.add(me); return me;
         };
         var silindir = function (par, r1, r2, h_, x_, y_, z_, renk, rough, metal) {
@@ -1120,17 +1191,34 @@
           OZEL = e.renk || null; HARITA = null;
           if (e.m) { HARITA = {}; Object.keys(e.m).forEach(function (sl) { var mm = PARCA[sl] && PARCA[sl].l[e.m[sl]]; if (mm) KAYNAK(e.tip, sl).forEach(function (c) { HARITA[c] = mm; }); }); }
           switch (e.tip) {
-            case 'koltuk3': case 'koltuk2':
-              kutu(g_, gw, .42, gd, 0, .02, 0, KUMAS, .95); kutu(g_, gw, .4, .2, 0, .42, arka + .1, KUMAS, .95);
-              kutu(g_, .16, .22, gd, -gw / 2 + .08, .42, 0, KUMAS, .95); kutu(g_, .16, .22, gd, gw / 2 - .08, .42, 0, KUMAS, .95);
-              n = e.tip === 'koltuk3' ? 3 : 2; var iw = (gw - .32) / n; for (i = 0; i < n; i++) kutu(g_, iw - .02, .1, gd - .25, -gw / 2 + .16 + iw * (i + .5), .44, .1, 0x9a9184, .95);
+            case 'koltuk3': case 'koltuk2': case 'berjer':
+              (function () {
+                var kol = e.tip === 'berjer' ? .14 : .2, ayak = .1, ic = gw - 2 * kol, kum = e.tip === 'berjer' ? 0xa38b6d : KUMAS;
+                [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (k) { silindir(g_, .022, .018, ayak, k[0] * (gw / 2 - .06), 0, k[1] * (gd / 2 - .06), AHSAP, .5); });
+                yumusak(g_, gw, .2, gd, 0, ayak, 0, kum, .03);                                   // gövde
+                yumusak(g_, gw, gh - ayak, .18, 0, ayak, arka + .09, kum, .05);                     // sırt
+                [-1, 1].forEach(function (k) { yumusak(g_, kol, .52, gd, k * (gw / 2 - kol / 2), ayak, 0, kum, .06); }); // kolçaklar
+                n = e.tip === 'koltuk3' ? 3 : e.tip === 'koltuk2' ? 2 : 1; var iw = ic / n;
+                for (i = 0; i < n; i++) {
+                  var mx = -ic / 2 + iw * (i + .5);
+                  yumusak(g_, iw - .012, .16, gd - .22, mx, ayak + .2, .11, 0x9a9184, .06);       // oturak minderi
+                  var sm = yumusak(g_, iw - .02, .42, .18, mx, ayak + .32, arka + .27, 0x9a9184, .08); sm.rotation.x = -.14;  // sırt minderi
+                }
+              })();
               break;
             case 'kose':
-              kutu(g_, gw, .42, gd * .45, 0, .02, -gd / 2 + gd * .225, KUMAS, .95); kutu(g_, gw * .32, .42, gd * .55, -gw / 2 + gw * .16, .02, gd * .225, KUMAS, .95);
-              kutu(g_, gw, .4, .2, 0, .42, arka + .1, KUMAS, .95); kutu(g_, .2, .4, gd, -gw / 2 + .1, .42, 0, KUMAS, .95);
+              (function () {
+                var ayak = .1, cd = .95, kol = .2;
+                [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (k) { silindir(g_, .022, .018, ayak, k[0] * (gw / 2 - .06), 0, k[1] * (gd / 2 - .06), AHSAP, .5); });
+                yumusak(g_, gw, .2, cd, 0, ayak, arka + cd / 2, KUMAS, .03); yumusak(g_, cd, .2, gd - cd, -gw / 2 + cd / 2, ayak, arka + cd + (gd - cd) / 2, KUMAS, .03);
+                yumusak(g_, gw, gh - ayak, .18, 0, ayak, arka + .09, KUMAS, .05); yumusak(g_, .18, gh - ayak, gd, -gw / 2 + .09, ayak, 0, KUMAS, .05);
+                yumusak(g_, kol, .52, cd, gw / 2 - kol / 2, ayak, arka + cd / 2, KUMAS, .06);
+                var n2 = Math.max(2, Math.round((gw - .18 - kol) / .75)), iw2 = (gw - .18 - kol) / n2;
+                for (i = 0; i < n2; i++) { var mx2 = -gw / 2 + .18 + iw2 * (i + .5); yumusak(g_, iw2 - .012, .16, cd - .2, mx2, ayak + .2, arka + .18 + (cd - .2) / 2, 0x9a9184, .06); var s2 = yumusak(g_, iw2 - .02, .42, .18, mx2, ayak + .32, arka + .27, 0x9a9184, .08); s2.rotation.x = -.14; }
+                yumusak(g_, cd - .2, .16, gd - cd - .02, -gw / 2 + .18 + (cd - .2) / 2, ayak + .2, arka + cd + (gd - cd) / 2, 0x9a9184, .06);
+              })();
               break;
-            case 'berjer': kutu(g_, gw, .42, gd, 0, .02, 0, 0xa38b6d, .95); kutu(g_, gw, .45, .16, 0, .42, arka + .08, 0xa38b6d, .95); kutu(g_, .12, .2, gd, -gw / 2 + .06, .42, 0, 0xa38b6d, .95); kutu(g_, .12, .2, gd, gw / 2 - .06, .42, 0, 0xa38b6d, .95); break;
-            case 'puf': silindir(g_, gw / 2, gw / 2, gh, 0, 0, 0, 0xa38b6d, .95).scale.z = gd / gw; break;
+            case 'puf': yumusak(g_, gw, gh, gd, 0, 0, 0, 0xa38b6d, Math.min(gw, gd) * .18); break;
             case 'lambader': silindir(g_, .16, .16, .03, 0, 0, 0, SIYAH, .4, .5); silindir(g_, .015, .015, gh - .3, 0, 0, 0, SIYAH, .4, .5); var ab = silindir(g_, .14, .2, .3, 0, gh - .3, 0, 0xece3d0, .9); ab.material = new T.MeshStandardMaterial({ color: OZEL || 0xece3d0, emissive: 0x6b5a3a, roughness: .9 }); break;
             case 'sehpa': case 'yansehpa': kutu(g_, gw, .04, gd, 0, gh - .04, 0, ACIK, .5); [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (k) { kutu(g_, .04, gh - .04, .04, k[0] * (gw / 2 - .05), 0, k[1] * (gd / 2 - .05), SIYAH, .4, .6); }); break;
             case 'tv': kutu(g_, gw, gh - .05, gd, 0, .05, 0, AHSAP, .6); kutu(g_, Math.min(1.23, gw * .8), .72, .04, 0, gh + .2, arka + .1, SIYAH, .2, .3); kutu(g_, .3, .2, .1, 0, gh, arka + .1, SIYAH, .4); break;
@@ -1138,9 +1226,9 @@
             case 'hali': kutu(g_, gw, .012, gd, 0, 0, 0, OZEL || 0xb3a58f, 1); break;
             case 'bitki': silindir(g_, .2, .15, .4, 0, 0, 0, 0xc9b9a0, .8); var yap = new T.Mesh(new T.IcosahedronGeometry(.32, 1), MT(0x56683f, .9)); yap.position.y = .85; yap.castShadow = true; g_.add(yap); break;
             case 'yatak2': case 'yatak1':
-              kutu(g_, gw, .3, gd, 0, .05, 0, ACIK, .7); kutu(g_, gw - .04, .2, gd - .06, 0, .35, .02, BEYAZ, .95); kutu(g_, gw, .9, .06, 0, 0, arka + .03, ACIK, .7);
-              kutu(g_, gw - .02, .05, gd * .6, 0, .55, gd * .18, 0xc8bba6, .95);
-              (e.tip === 'yatak2' ? [-.25, .25] : [0]).forEach(function (k) { kutu(g_, Math.min(.6, gw * .4), .12, .4, k * gw, .55, arka + .35, BEYAZ, .95); });
+              kutu(g_, gw, .3, gd, 0, .05, 0, ACIK, .7); yumusak(g_, gw - .04, .22, gd - .08, 0, .33, .03, 0xf2efe9, .05); kutu(g_, gw, 1, .06, 0, 0, arka + .03, ACIK, .7);
+              yumusak(g_, gw + .02, .06, gd * .62, 0, .52, gd * .2, 0xc8bba6, .03);
+              (e.tip === 'yatak2' ? [-.25, .25] : [0]).forEach(function (k) { var y_ = yumusak(g_, Math.min(.6, gw * .42), .13, .38, k * gw, .54, arka + .3, 0xf2efe9, .06); y_.rotation.x = -.25; });
               break;
             case 'bebek': kutu(g_, gw, .08, gd, 0, .3, 0, BEYAZ, .7); [-1, 1].forEach(function (k) { kutu(g_, gw, .55, .03, 0, .3, k * gd / 2, OZEL || BEYAZ, .7); kutu(g_, .03, .55, gd, k * gw / 2, .3, 0, OZEL || BEYAZ, .7); kutu(g_, .04, .3, .04, k * (gw / 2 - .02), 0, gd / 2 - .02, BEYAZ, .7); kutu(g_, .04, .3, .04, k * (gw / 2 - .02), 0, -gd / 2 + .02, BEYAZ, .7); }); break;
             case 'komodin': case 'sifonyer': case 'bufe': case 'dosya': case 'konsol': case 'ayakkabi': case 'makyaj':
