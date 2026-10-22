@@ -4,7 +4,7 @@
   --bg2:#17140F;
   --ink:#EDE8E0;
   --ink2:#C9C2B6;
-  --mute:#7F786D;
+  --mute:#857E73;
   --line:#2B2621;
   --y:#F2B705;
   --side:250px;
@@ -126,11 +126,11 @@ html.menu{overflow:hidden}
 #mozaik.on{display:block;pointer-events:auto}
 .cursor{position:fixed;left:0;top:0;z-index:95;pointer-events:none;width:6px;height:6px;margin:-3px 0 0 -3px;background:var(--y);opacity:0;transition:width .4s var(--ease),height .4s var(--ease),margin .4s var(--ease),background .3s,opacity .3s;display:flex;align-items:center;justify-content:center}
 .cursor span{font:500 9px var(--mont);letter-spacing:.2em;text-transform:uppercase;color:#100E0C;opacity:0;white-space:nowrap;transition:opacity .2s}
-.cursor.show{opacity:1}
+.cursor.show.link,.cursor.show.label{opacity:1}
 .cursor.link{width:26px;height:26px;margin:-13px 0 0 -13px;background:transparent;outline:1px solid var(--y)}
 .cursor.label{width:74px;height:74px;margin:-37px 0 0 -37px;background:var(--y);outline:0}
 .cursor.label span{opacity:1}
-@media (hover:hover) and (pointer:fine){html.js body,html.js a,html.js button,html.js summary{cursor:none}}
+/* sistem imleci her zaman görünür; sarı halka yalnızca bağlantı ve butonların üstünde eşlik eder */
 body::after{content:"";position:fixed;inset:-50%;z-index:70;pointer-events:none;opacity:.05;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation:gren 1s steps(5) infinite}

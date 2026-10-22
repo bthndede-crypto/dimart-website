@@ -242,7 +242,6 @@ def head(title, desc, path, ld, page):
 <link rel="stylesheet" href="/assets/site.css">
 <script>try{{if(!sessionStorage.getItem('dm-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro')}}catch(e){{}}</script>
 <script src="/assets/site.js" defer></script>
-<script src="/assets/cizim.js" defer></script>
 <script type="application/ld+json" id="ld">
 {json.dumps({"@context": "https://schema.org", "@graph": ld}, ensure_ascii=False, indent=1)}
 </script>
@@ -253,7 +252,7 @@ def head(title, desc, path, ld, page):
   <div class="intro-in">
     <img src="/assets/dimart-logo-beyaz.svg" alt="" width="176" height="60">
     <i class="intro-line"></i>
-    <img class="intro-slogan" src="/assets/slogan-acik.png" alt="" width="260" height="51">
+    <img class="intro-slogan" src="/assets/slogan-acik.webp" alt="" width="260" height="51">
     <p class="intro-gir"><button type="button" class="intro-ses"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Müzikle girin</button><button type="button" class="intro-sessiz">Sessiz girin</button></p>
   </div>
 </div>
@@ -300,7 +299,7 @@ def shell(path):
     <a href="mailto:{f['eposta']}">{f['eposta']}</a>
     <a href="{INSTAGRAM}" rel="noopener me" target="_blank">Instagram</a>
     <span>{f['il']}</span>
-    <img src="/assets/slogan-acik.png" alt="" width="170" height="33">
+    <img src="/assets/slogan-acik.webp" alt="" width="170" height="33">
   </div>
 </nav>"""
 
