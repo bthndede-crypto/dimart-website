@@ -24,6 +24,42 @@ HARITA = "https://www.google.com/maps/search/?api=1&query=Elmaksan+Sk.+No%3A14+S
 
 NAV = [("studyo", "Stüdyo"), ("hizmetler", "Hizmetler"), ("projeler", "Projeler"), ("iletisim", "İletişim")]
 
+# Türkçe sayfa -> İngilizce karşılığı (hreflang ve dil düğmesi)
+ESLER = {"": "en/", "studyo/": "en/studio/", "hizmetler/": "en/services/", "projeler/": "en/projects/",
+         "iletisim/": "en/contact/", "kvkk/": "en/privacy/"}
+ESLER_TERS = {v: k for k, v in ESLER.items()}
+
+# Kabuktaki (başlık, menü, altlık) metinler
+METIN = {
+    "tr": {"locale": "tr_TR", "atla": "İçeriğe geç", "muzikle": "Müzikle girin", "sessiz": "Sessiz girin",
+           "ana": "Dimart Mimarlık ana sayfa", "il": "İstanbul", "util": "Çizim masası ve müzik",
+           "masa_t": "Planınızı çizin, 3B görün", "masa": "Çizim masası", "muzik_t": "Müziği aç ya da kapat",
+           "muzik": "Müzik", "acik": "Müzik açık", "kapali": "Müzik kapalı", "cta": "Projenizi konuşalım",
+           "iletisim": "/iletisim/", "menu": "Menü", "kapat": "Kapat", "anamenu": "Ana menü",
+           "f_il": "İletişim", "f_big": 'Projenizi <span class="y">konuşalım.</span>', "tel": "telefon",
+           "eposta": "e-posta", "ofis": "ofis", "harita": "harita", "harita_ac": "Google Haritalar'da aç",
+           "altmenu": "Alt menü", "disiplin": "Mimarlık · İç mimarlık · İnşaat", "gizlilik": ("/kvkk/", "KVKK ve gizlilik"),
+           "muzik_k": "Müzik", "yorum": "yorum", "lisans": "deed.tr", "konum": "Konum", "anasayfa": "Ana sayfa"},
+    "en": {"locale": "en_US", "atla": "Skip to content", "muzikle": "Enter with music", "sessiz": "Enter quietly",
+           "ana": "Dimart Architecture home", "il": "Istanbul", "util": "Drawing table and music",
+           "masa_t": "Sketch your plan and see it in 3D (Turkish)", "masa": "Drawing table", "muzik_t": "Turn the music on or off",
+           "muzik": "Music", "acik": "Music on", "kapali": "Music off", "cta": "Talk to us",
+           "iletisim": "/en/contact/", "menu": "Menu", "kapat": "Close", "anamenu": "Main menu",
+           "f_il": "Contact", "f_big": 'Let\'s talk about <span class="y">your project.</span>', "tel": "phone",
+           "eposta": "email", "ofis": "office", "harita": "map", "harita_ac": "Open in Google Maps",
+           "altmenu": "Footer menu", "disiplin": "Architecture · Interior design · Construction", "gizlilik": ("/en/privacy/", "Privacy"),
+           "muzik_k": "Music", "yorum": "performed by", "lisans": "deed.en", "konum": "Breadcrumb", "anasayfa": "Home"},
+}
+
+
+def dil_of(path):
+    return "en" if path.startswith("en/") else "tr"
+
+
+def es(path):
+    """Sayfanın öbür dildeki karşılığı (yoksa None)."""
+    return ESLER.get(path) or ESLER_TERS.get(path)
+
 ORG = {
     "@type": ["GeneralContractor", "ProfessionalService"],
     "@id": f"{SITE}/#firma",
@@ -212,8 +248,17 @@ def esc_attr(t):
 
 def head(title, desc, path, ld, page):
     url = f"{SITE}/{path}"
+    lang = dil_of(path)
+    m = METIN[lang]
+    karsi = es(path)
+    alt = ""
+    if karsi is not None:
+        tr, en = (path, karsi) if lang == "tr" else (karsi, path)
+        alt = (f'<link rel="alternate" hreflang="tr" href="{SITE}/{tr}">\n'
+               f'<link rel="alternate" hreflang="en" href="{SITE}/{en}">\n'
+               f'<link rel="alternate" hreflang="x-default" href="{SITE}/{tr}">\n')
     return f"""<!doctype html>
-<html lang="tr">
+<html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -221,8 +266,8 @@ def head(title, desc, path, ld, page):
 <meta name="description" content="{esc_attr(desc)}">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="{url}">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="tr_TR">
+{alt}<meta property="og:type" content="website">
+<meta property="og:locale" content="{m['locale']}">
 <meta property="og:site_name" content="Dimart Mimarlık">
 <meta property="og:title" content="{esc_attr(title)}">
 <meta property="og:description" content="{esc_attr(desc)}">
@@ -247,13 +292,13 @@ def head(title, desc, path, ld, page):
 </script>
 </head>
 <body>
-<a class="skip" href="#sayfa">İçeriğe geç</a>
+<a class="skip" href="#sayfa">{m['atla']}</a>
 <div class="intro-ov" role="dialog" aria-label="Dimart Mimarlık">
   <div class="intro-in">
     <img src="/assets/dimart-logo-beyaz.svg" alt="" width="176" height="60">
     <i class="intro-line"></i>
     <img class="intro-slogan" src="/assets/slogan-acik.webp" alt="" width="260" height="51">
-    <p class="intro-gir"><button type="button" class="intro-ses"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Müzikle girin</button><button type="button" class="intro-sessiz">Sessiz girin</button></p>
+    <p class="intro-gir"><button type="button" class="intro-ses"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>{m['muzikle']}</button><button type="button" class="intro-sessiz">{m['sessiz']}</button></p>
   </div>
 </div>
 """ + shell(path) + f"""
@@ -267,27 +312,41 @@ MENU = [("/studyo/", "Stüdyo", "Yaklaşım ve ekip", "ic-mimarlik"),
         ("/blog/", "Blog", "Rehberler ve notlar", "proje-ve-ruhsat"),
         ("/cizim-masasi/", "Çizim masası", "Planınızı çizin", "eskiz"),
         ("/iletisim/", "İletişim", "Projenizi konuşalım", "mimari-tasarim")]
+MENU_EN = [("/en/studio/", "Studio", "Approach and team", "ic-mimarlik"),
+           ("/en/services/", "Services", "From design to turnkey", "eskiz"),
+           ("/en/projects/", "Projects", "Selected work", "insaat-anahtar-teslim"),
+           ("/cizim-masasi/", "Drawing table", "Sketch your plan (Turkish)", "eskiz"),
+           ("/en/contact/", "Contact", "Talk to us", "mimari-tasarim")]
 
 
 def shell(path):
     cur = "/" + path
     f = FIRMA
+    lang = dil_of(path)
+    m = METIN[lang]
+    menu = MENU_EN if lang == "en" else MENU
+    karsi = es(path)
+    if karsi is None:
+        karsi = "" if lang == "en" else "en/"
+    tr_a = f'<a href="/{karsi}" id="dil" hreflang="tr" lang="tr">TR</a>' if lang == "en" else '<a aria-current="true">TR</a>'
+    en_a = '<a aria-current="true">EN</a>' if lang == "en" else f'<a href="/{karsi}" id="dil" hreflang="en" lang="en">EN</a>'
     items = "\n".join(
         f'''      <li><a href="{href}" data-i="{i}"{' aria-current="page"' if cur.startswith(href) else ''}><span class="n">0{i + 1}</span><span class="t">{name}</span><small>{sub}</small></a></li>'''
-        for i, (href, name, sub, _) in enumerate(MENU))
-    previews = "\n".join(frame(cz, f"pv pv{i}", decor=True) for i, (*_, cz) in enumerate(MENU))
+        for i, (href, name, sub, _) in enumerate(menu))
+    previews = "\n".join(frame(cz, f"pv pv{i}", decor=True, lang=lang) for i, (*_, cz) in enumerate(menu))
     return f"""<header class="top" id="top">
-  <a class="brand" href="/" aria-label="Dimart Mimarlık ana sayfa"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="96" height="33"></a>
-  <p class="top-loc" aria-hidden="true">İstanbul</p>
-  <div class="util" role="group" aria-label="Çizim masası ve müzik">
-    <a href="/cizim-masasi/" id="masa-link" title="Planınızı çizin, 3B görün">Çizim masası</a>
-    <button type="button" id="ses-btn" aria-pressed="false" aria-label="Müzik" title="Müziği aç ya da kapat"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ses-t" aria-hidden="true"><span>Müzik açık</span><span>Müzik kapalı</span></span></button>
+  <a class="brand" href="/{'en/' if lang == 'en' else ''}" aria-label="{m['ana']}"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="96" height="33"></a>
+  <p class="top-loc" aria-hidden="true">{m['il']}</p>
+  <div class="util" role="group" aria-label="{m['util']}">
+    <a href="/cizim-masasi/" id="masa-link" title="{m['masa_t']}">{m['masa']}</a>
+    <button type="button" id="ses-btn" aria-pressed="false" aria-label="{m['muzik']}" title="{m['muzik_t']}"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ses-t" aria-hidden="true"><span>{m['acik']}</span><span>{m['kapali']}</span></span></button>
   </div>
-  <a class="go top-cta" href="/iletisim/">Projenizi konuşalım</a>
-  <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav"><span class="mb-t"><span>Menü</span><span>Kapat</span></span><span class="mb-i" aria-hidden="true"><i></i><i></i></span></button>
+  <a class="go top-cta" href="{m['iletisim']}">{m['cta']}</a>
+  <p class="dil" aria-label="Dil / Language">{tr_a}<span aria-hidden="true">/</span>{en_a}</p>
+  <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav"><span class="mb-t"><span>{m['menu']}</span><span>{m['kapat']}</span></span><span class="mb-i" aria-hidden="true"><i></i><i></i></span></button>
   <i class="top-bar" aria-hidden="true"></i>
 </header>
-<nav class="nav" id="nav" aria-label="Ana menü">
+<nav class="nav" id="nav" aria-label="{m['anamenu']}">
   <ol class="nav-list">
 {items}
   </ol>
@@ -298,32 +357,34 @@ def shell(path):
     <a href="tel:{f['tel_link']}">{f['tel']}</a>
     <a href="mailto:{f['eposta']}">{f['eposta']}</a>
     <a href="{INSTAGRAM}" rel="noopener me" target="_blank">Instagram</a>
-    <span>{f['il']}</span>
+    <span>{m['il']}</span>
     <img src="/assets/slogan-acik.webp" alt="" width="170" height="33">
   </div>
 </nav>"""
 
 
-def footer():
+def footer(lang="tr"):
     f = FIRMA
+    m = METIN[lang]
+    menu = MENU_EN if lang == "en" else MENU
     return f"""<footer class="foot">
   <div class="foot-cta" data-r>
-    <p class="label">İletişim</p>
-    <p class="foot-big"><a href="/iletisim/">Projenizi <span class="y">konuşalım.</span></a></p>
+    <p class="label">{m['f_il']}</p>
+    <p class="foot-big"><a href="{m['iletisim']}">{m['f_big']}</a></p>
   </div>
   <dl class="meta foot-nap">
-    <div><dt>telefon</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a></dd></div>
-    <div><dt>e-posta</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
-    <div><dt>ofis</dt><dd>{f['il']}</dd></div>
-    <div><dt>harita</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">Google Haritalar'da aç</a></dd></div>
+    <div><dt>{m['tel']}</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a></dd></div>
+    <div><dt>{m['eposta']}</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
+    <div><dt>{m['ofis']}</dt><dd>{m['il']}</dd></div>
+    <div><dt>{m['harita']}</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">{m['harita_ac']}</a></dd></div>
     <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
   </dl>
-  <nav class="foot-nav" aria-label="Alt menü">{"".join(f'<a href="{h}">{n}</a>' for h, n, *_ in MENU)}</nav>
+  <nav class="foot-nav" aria-label="{m['altmenu']}">{"".join(f'<a href="{h}">{n}</a>' for h, n, *_ in menu)}</nav>
   <div class="legal">
     <span>© 2026 {f['unvan']}</span>
-    <span>Mimarlık · İç mimarlık · İnşaat · {f['il']}</span>
-    <span><a href="/kvkk/">KVKK ve gizlilik</a></span>
-    <span>Müzik: Erik Satie, <i>Gymnopédies</i> · yorum <a href="https://archive.org/details/satie-gnossienne-gymnopedie" rel="noopener" target="_blank">Gregory Tait</a> · <a href="https://creativecommons.org/licenses/by/4.0/deed.tr" rel="noopener license" target="_blank">CC BY 4.0</a></span>
+    <span>{m['disiplin']} · {m['il']}</span>
+    <span><a href="{m['gizlilik'][0]}">{m['gizlilik'][1]}</a></span>
+    <span>{m['muzik_k']}: Erik Satie, <i>Gymnopédies</i> · {m['yorum']} <a href="https://archive.org/details/satie-gnossienne-gymnopedie" rel="noopener" target="_blank">Gregory Tait</a> · <a href="https://creativecommons.org/licenses/by/4.0/{m['lisans']}" rel="noopener license" target="_blank">CC BY 4.0</a></span>
   </div>
 </footer>
 </main>
@@ -351,8 +412,19 @@ def words(text):
     return " ".join(f'<span class="w" style="--i:{i}">{w}</span>' for i, w in enumerate(text.split()))
 
 
-def frame(slug, cls="", speed=None, decor=False):
+CIZIMLER_EN = {
+    "mimari-tasarim": ("Front elevation · 1:100", "Elevation drawing of a two-storey house"),
+    "ic-mimarlik": ("Interior · perspective", "Perspective drawing of a calm interior with an arched opening"),
+    "proje-ve-ruhsat": ("Ground floor plan · 1:50", "Ground floor plan drawing of a house"),
+    "insaat-anahtar-teslim": ("Section A-A · 1:100", "Building section showing slabs, columns and a staircase"),
+    "eskiz": ("Sketch · axonometric", "Axonometric sketch of a house with a cantilevered upper floor"),
+}
+
+
+def frame(slug, cls="", speed=None, decor=False, lang="tr"):
     mat, cap, alt, svg, vb = CIZIMLER[slug]
+    if lang == "en":
+        cap, alt = CIZIMLER_EN[slug]
     sp = f' data-speed="{speed}"' if speed else ""
     a11y = 'aria-hidden="true"' if decor else f'role="img" aria-label="{alt}"'
     return f"""<figure class="frame m-{mat} {cls}"{sp}{'' if decor else ' data-r'}>
@@ -362,8 +434,10 @@ def frame(slug, cls="", speed=None, decor=False):
       </figure>"""
 
 
-def crumbs(name):
-    return f'<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a><span>/</span><span>{name}</span></nav>'
+def crumbs(name, lang="tr"):
+    m = METIN[lang]
+    ana = "/en/" if lang == "en" else "/"
+    return f'<nav class="crumbs" aria-label="{m["konum"]}"><a href="{ana}">{m["anasayfa"]}</a><span>/</span><span>{name}</span></nav>'
 
 
 def page_home():
@@ -794,6 +868,12 @@ def llms():
 
 ## Blog yazıları
 {yazilar}
+
+## English
+- [Home]({SITE}/en/): Istanbul-based architecture and construction firm, design to turnkey
+- [Services]({SITE}/en/services/)
+- [Studio]({SITE}/en/studio/)
+- [Contact]({SITE}/en/contact/)
 """
 
 
@@ -811,6 +891,8 @@ for _y in YAZILAR:
     PAGES[f"blog/{_y['slug']}/index.html"] = (lambda y=_y: page_yazi(y))
 
 if __name__ == "__main__":
+    import en
+    PAGES.update(en.PAGES)
     for path, fn in PAGES.items():
         out = ROOT / path
         out.parent.mkdir(parents=True, exist_ok=True)

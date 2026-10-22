@@ -31,3 +31,9 @@
 - [İnşaat ruhsatı nasıl alınır? Gerekli belgeler ve adımlar](https://dimartmimarlik.com/blog/insaat-ruhsati-nasil-alinir/): Türkiye'de yeni bir yapıya ya da taşıyıcı sistemi etkileyen bir değişikliğe başlamadan önce yapı ruhsatı alınması gerekir. Ruhsat, belediye sınırları içinde belediyeden, dışında ise il özel idaresinden alınır. Başvuru; tapu, imar durumu, onaylı projeler, zemin etüdü ve yapı denetim sözleşmesi gibi belgelerle yapılır. İş bitince yapı kullanma izin belgesi (iskân) alınır.
 - [İç mimarlık süreci nasıl ilerler? İlk görüşmeden teslime 7 adım](https://dimartmimarlik.com/blog/ic-mimarlik-sureci/): Bir iç mimarlık projesi yedi adımda ilerler: ihtiyaç görüşmesi, yerinde rölöve, konsept, uygulama projesi, malzeme seçimi, uygulama ve teslim. Her adımın sonunda yazılı bir çıktı ve işveren onayı olur. Süreyi ve bütçeyi en çok etkileyen şey, kararların uygulama başlamadan verilmiş olmasıdır.
 - [Tadilat ve renovasyon bütçesi nasıl hazırlanır? Maliyeti belirleyen 8 kalem](https://dimartmimarlik.com/blog/tadilat-butcesi-nasil-hazirlanir/): Tadilat bütçesini en çok söküm ve altyapı (tesisat, elektrik), ıslak hacimler, zemin kaplamaları, doğramalar, özel imalat mobilyalar ve işçilik belirler. Sağlıklı bir bütçe için önce kapsam ve malzeme listesi yazılı hale getirilmeli, teklifler aynı liste üzerinden karşılaştırılmalı ve yüzde 10 ile 15 arası beklenmedik gider payı ayrılmalıdır.
+
+## English
+- [Home](https://dimartmimarlik.com/en/): Istanbul-based architecture and construction firm, design to turnkey
+- [Services](https://dimartmimarlik.com/en/services/)
+- [Studio](https://dimartmimarlik.com/en/studio/)
+- [Contact](https://dimartmimarlik.com/en/contact/)
