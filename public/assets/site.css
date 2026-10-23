@@ -307,6 +307,11 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .masa-kagit{display:block;width:100%;height:min(74vh,760px);background:var(--bg2);cursor:crosshair;touch-action:none}
 .masa-3b{display:none;width:100%;height:min(74vh,760px);background:var(--bg2);touch-action:none}
 .masa-3b canvas{display:block;width:100%!important;height:100%!important}
+.masa-3b{position:relative}
+.masa-saat{position:absolute;left:12px;top:12px;display:flex;gap:2px;padding:3px;background:rgba(16,14,12,.92);border:1px solid var(--line);backdrop-filter:blur(6px)}
+.masa-saat button{font:500 9px/1 var(--mont);letter-spacing:.2em;text-transform:uppercase;color:var(--mute);padding:8px 10px;border:1px solid transparent;transition:color .3s,border-color .3s}
+.masa-saat button:hover{color:var(--ink)}
+.masa-saat button[aria-pressed=true]{color:var(--y);border-color:var(--y)}
 .masa.uc [data-arac]:not([data-arac="3b"])[aria-pressed=true]{color:var(--mute);border-color:transparent}
 .masa.uc .masa-kagit{display:none}.masa.uc .masa-3b{display:block}
 .masa-panel{border-left:1px solid var(--line);padding:18px 16px;max-height:min(74vh,760px);overflow:auto;scrollbar-width:thin}
