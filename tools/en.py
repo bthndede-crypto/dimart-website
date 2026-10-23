@@ -1,6 +1,6 @@
 """İngilizce sayfalar (/en/). build.py'nin kabuğunu kullanır; build.py çalışırken içe aktarılır."""
 import build as b
-from build import FIRMA, HARITA, INSTAGRAM, NL, ORG, SITE, crumbs, crumbs_ld, faq_html, faq_ld, footer, frame, head, words
+from build import FIRMA, HARITA, HARITA_NL, INSTAGRAM, NL, ORG, SITE, crumbs, crumbs_ld, faq_html, faq_ld, footer, frame, head, words
 
 SERVICES = [
     ("Architectural design", "mimari-tasarim",
@@ -80,7 +80,7 @@ def page_home():
                 "en/", ld, "home") + f"""  <section class="hero">
     {frame("eskiz", "hero-frame", "0.06", lang="en")}
     <div class="hero-text" data-r>
-      <p class="label">Architecture &amp; construction · Istanbul · Meerlo</p>
+      <p class="label">Architecture &amp; construction · Türkiye · Netherlands</p>
       <h1>From design to turnkey, <span class="y">one line.</span></h1>
       <p class="lead">Dimart designs, documents and builds villas, homes, offices and commercial spaces with its teams in Istanbul and Meerlo, the Netherlands. The team that draws also runs the site, so you work with a single point of contact.</p>
       <p class="links"><a class="go" href="/en/contact/">Talk to us</a><a class="go" href="/en/services/">Services</a></p>
@@ -100,7 +100,7 @@ def page_home():
       <div><dt>disciplines</dt><dd>Architecture, interiors, construction</dd></div>
       <div><dt>model</dt><dd>One team, one contract</dd></div>
       <div><dt>buildings</dt><dd>Villas, homes, offices, commercial</dd></div>
-      <div><dt>offices</dt><dd>Istanbul · Meerlo (NL)</dd></div>
+      <div><dt>offices</dt><dd>Türkiye · Netherlands</dd></div>
     </dl>
   </section>
 
@@ -231,9 +231,8 @@ def page_contact():
     <dl class="meta reg big" data-r>
       <div><dt>phone</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a> (Türkiye)<br><a href="tel:{NL['tel_link']}">{NL['tel']}</a> (Netherlands)</dd></div>
       <div><dt>email</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
-      <div><dt>Istanbul office</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / Istanbul, Türkiye</dd></div>
-      <div><dt>Netherlands office</dt><dd>{NL['adres']},<br>{NL['pk']} {NL['il']}, the Netherlands</dd></div>
-      <div><dt>map</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">Open in Google Maps</a></dd></div>
+      <div><dt>Istanbul office</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / Istanbul, Türkiye<br><a href="{HARITA}" rel="noopener" target="_blank">Show on map</a></dd></div>
+      <div><dt>Netherlands office</dt><dd>{NL['adres']},<br>{NL['pk']} {NL['il']}, the Netherlands<br><a href="{HARITA_NL}" rel="noopener" target="_blank">Show on map</a></dd></div>
       <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
     </dl>
     <div class="prose" data-r>

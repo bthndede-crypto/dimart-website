@@ -23,6 +23,7 @@ FIRMA = {
 NL = {"adres": "Hogenbos 14", "pk": "5864 CL", "il": "Meerlo", "ulke": "Nederland", "tel": "+31 6 29 23 17 11", "tel_link": "+31629231711"}
 INSTAGRAM = "https://www.instagram.com/dimartmimarlik/"
 HARITA = "https://www.google.com/maps/search/?api=1&query=Elmaksan+Sk.+No%3A14+Sancaktepe+%C4%B0stanbul"
+HARITA_NL = "https://www.google.com/maps/search/?api=1&query=Hogenbos+14%2C+5864+CL+Meerlo"
 
 NAV = [("studyo", "Stüdyo"), ("hizmetler", "Hizmetler"), ("projeler", "Projeler"), ("iletisim", "İletişim")]
 
@@ -40,30 +41,30 @@ ESLER = [
 # Kabuktaki (başlık, menü, altlık) metinler
 METIN = {
     "tr": {"locale": "tr_TR", "atla": "İçeriğe geç", "muzikle": "Müzikle girin", "sessiz": "Sessiz girin",
-           "ana": "Dimart Mimarlık ana sayfa", "il": "İstanbul · Meerlo", "util": "Çizim masası ve müzik",
+           "ana": "Dimart Mimarlık ana sayfa", "il": "Türkiye · Hollanda", "util": "Çizim masası ve müzik",
            "masa_t": "Planınızı çizin, 3B görün", "masa": "Çizim masası", "muzik_t": "Müziği aç ya da kapat",
            "muzik": "Müzik", "acik": "Müzik açık", "kapali": "Müzik kapalı", "cta": "Projenizi konuşalım",
            "iletisim": "/iletisim/", "menu": "Menü", "kapat": "Kapat", "anamenu": "Ana menü",
            "f_il": "İletişim", "f_big": 'Projenizi <span class="y">konuşalım.</span>', "tel": "telefon",
-           "eposta": "e-posta", "ofis": "ofis", "harita": "harita", "harita_ac": "Google Haritalar'da aç",
+           "eposta": "e-posta", "ofis": "ofis", "harita": "harita", "harita_ac": (("Türkiye", HARITA), ("Hollanda", HARITA_NL)),
            "altmenu": "Alt menü", "disiplin": "Mimarlık · İç mimarlık · İnşaat", "gizlilik": ("/kvkk/", "KVKK ve gizlilik"),
            "muzik_k": "Müzik", "yorum": "yorum", "lisans": "deed.tr", "konum": "Konum", "anasayfa": "Ana sayfa"},
     "en": {"locale": "en_US", "atla": "Skip to content", "muzikle": "Enter with music", "sessiz": "Enter quietly",
-           "ana": "Dimart Architecture home", "il": "Istanbul · Meerlo", "util": "Drawing table and music",
+           "ana": "Dimart Architecture home", "il": "Türkiye · Netherlands", "util": "Drawing table and music",
            "masa_t": "Sketch your plan and see it in 3D (Turkish)", "masa": "Drawing table", "muzik_t": "Turn the music on or off",
            "muzik": "Music", "acik": "Music on", "kapali": "Music off", "cta": "Talk to us",
            "iletisim": "/en/contact/", "menu": "Menu", "kapat": "Close", "anamenu": "Main menu",
            "f_il": "Contact", "f_big": 'Let\'s talk about <span class="y">your project.</span>', "tel": "phone",
-           "eposta": "email", "ofis": "office", "harita": "map", "harita_ac": "Open in Google Maps",
+           "eposta": "email", "ofis": "office", "harita": "map", "harita_ac": (("Türkiye", HARITA), ("Netherlands", HARITA_NL)),
            "altmenu": "Footer menu", "disiplin": "Architecture · Interior design · Construction", "gizlilik": ("/en/privacy/", "Privacy"),
            "muzik_k": "Music", "yorum": "performed by", "lisans": "deed.en", "konum": "Breadcrumb", "anasayfa": "Home"},
     "nl": {"locale": "nl_NL", "atla": "Naar de inhoud", "muzikle": "Binnenkomen met muziek", "sessiz": "Stil binnenkomen",
-           "ana": "Dimart Architectuur home", "il": "Istanbul · Meerlo", "util": "Tekentafel en muziek",
+           "ana": "Dimart Architectuur home", "il": "Turkije · Nederland", "util": "Tekentafel en muziek",
            "masa_t": "Teken uw plattegrond en bekijk hem in 3D (Turks)", "masa": "Tekentafel", "muzik_t": "Muziek aan of uit",
            "muzik": "Muziek", "acik": "Muziek aan", "kapali": "Muziek uit", "cta": "Laten we praten",
            "iletisim": "/nl/contact/", "menu": "Menu", "kapat": "Sluiten", "anamenu": "Hoofdmenu",
            "f_il": "Contact", "f_big": 'Laten we over uw project <span class="y">praten.</span>', "tel": "telefoon",
-           "eposta": "e-mail", "ofis": "kantoren", "harita": "kaart", "harita_ac": "Openen in Google Maps",
+           "eposta": "e-mail", "ofis": "kantoren", "harita": "kaart", "harita_ac": (("Nederland", HARITA_NL), ("Turkije", HARITA)),
            "altmenu": "Voettekstmenu", "disiplin": "Architectuur · Interieurontwerp · Bouw", "gizlilik": ("/nl/privacy/", "Privacy"),
            "muzik_k": "Muziek", "yorum": "uitgevoerd door", "lisans": "deed.nl", "konum": "Kruimelpad", "anasayfa": "Home"},
 }
@@ -398,6 +399,10 @@ def shell(path):
 </nav>"""
 
 
+def harita_linkleri(m):
+    return " · ".join(f'<a href="{u}" rel="noopener" target="_blank">{n}</a>' for n, u in m["harita_ac"])
+
+
 def footer(lang="tr"):
     f = FIRMA
     m = METIN[lang]
@@ -411,7 +416,7 @@ def footer(lang="tr"):
     <div><dt>{m['tel']}</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a><br><a href="tel:{NL['tel_link']}">{NL['tel']}</a></dd></div>
     <div><dt>{m['eposta']}</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
     <div><dt>{m['ofis']}</dt><dd>{m['il']}</dd></div>
-    <div><dt>{m['harita']}</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">{m['harita_ac']}</a></dd></div>
+    <div><dt>{m['harita']}</dt><dd>{harita_linkleri(m)}</dd></div>
     <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
   </dl>
   <nav class="foot-nav" aria-label="{m['altmenu']}">{"".join(f'<a href="{h}">{n}</a>' for h, n, *_ in menu)}</nav>
@@ -498,7 +503,7 @@ def page_home():
                 "", ld, "home") + f"""  <section class="hero">
     {frame("eskiz", "hero-frame", "0.06")}
     <div class="hero-text" data-r>
-      <p class="label">Mimarlık &amp; müteahhitlik · İstanbul · Meerlo</p>
+      <p class="label">Mimarlık &amp; müteahhitlik · Türkiye · Hollanda</p>
       <h1>Tasarımdan anahtar teslime <span class="y">tek çizgi.</span></h1>
       <p class="lead">Dimart, İstanbul ve Hollanda'daki (Meerlo) ekipleriyle villa, konut, ofis ve ticari mekânları tasarlar, projelendirir ve inşa eder. Çizimi yapan ekip şantiyeyi de yönetir; siz tek muhatapla çalışırsınız.</p>
       <p class="links"><a class="go" href="/iletisim/">Projenizi konuşalım</a><a class="go" href="/hizmetler/">Hizmetler</a></p>
@@ -518,7 +523,7 @@ def page_home():
       <div><dt>disiplin</dt><dd>Mimarlık, iç mimarlık, inşaat</dd></div>
       <div><dt>model</dt><dd>Tek ekip, tek sözleşme</dd></div>
       <div><dt>yapılar</dt><dd>Villa, konut, ofis, ticari mekân</dd></div>
-      <div><dt>ofisler</dt><dd>İstanbul · Meerlo (Hollanda)</dd></div>
+      <div><dt>ofisler</dt><dd>Türkiye · Hollanda</dd></div>
     </dl>
   </section>
 
@@ -658,9 +663,8 @@ def page_iletisim():
     <dl class="meta reg big" data-r>
       <div><dt>telefon</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a> (Türkiye)<br><a href="tel:{NL['tel_link']}">{NL['tel']}</a> (Hollanda)</dd></div>
       <div><dt>e-posta</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
-      <div><dt>İstanbul ofisi</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / {f['il']}, Türkiye</dd></div>
-      <div><dt>Hollanda ofisi</dt><dd>{NL['adres']},<br>{NL['pk']} {NL['il']}, Hollanda</dd></div>
-      <div><dt>harita</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">Google Haritalar'da aç</a></dd></div>
+      <div><dt>İstanbul ofisi</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / {f['il']}, Türkiye<br><a href="{HARITA}" rel="noopener" target="_blank">Haritada göster</a></dd></div>
+      <div><dt>Hollanda ofisi</dt><dd>{NL['adres']},<br>{NL['pk']} {NL['il']}, Hollanda<br><a href="{HARITA_NL}" rel="noopener" target="_blank">Haritada göster</a></dd></div>
       <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
     </dl>
     <div class="prose" data-r>
