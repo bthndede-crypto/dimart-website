@@ -1,6 +1,6 @@
 # Dimart Mimarlık ve Müteahhitlik A.Ş.
 
-> İstanbul merkezli, Hollanda'da (Meerlo) da ofisi bulunan mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, villa ve konut inşaatı, tadilat ve renovasyon, proje ve ruhsat ve anahtar teslim uygulamayı tek ekiple yürütür. İstanbul dışındaki projeleri de üstlenir. Slogan: "Her şey bir çizgiyle başlar."
+> İstanbul merkezli, Hollanda'da (Meerlo) da ofisi bulunan mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, villa ve konut inşaatı, tadilat ve renovasyon, proje ve ruhsat ve anahtar teslim uygulamayı tek ekiple yürütür. İstanbul dışındaki projeleri de üstlenir. Slogan: "Her şey bir çizgiyle başlar." (EN: "Everything begins with a line.", NL: "Alles begint met een lijn.")
 
 ## Hizmetler
 - Mimari tasarım: İhtiyaç analizi, konsept, avan proje ve 3B görselleştirme.
