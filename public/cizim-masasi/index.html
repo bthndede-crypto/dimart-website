@@ -47,22 +47,61 @@
    "image": "https://dimartmimarlik.com/assets/dimart-favicon-512.png",
    "email": "info@dimartmimarlik.com",
    "telephone": "+905324996096",
-   "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Eyüp Sultan Mah. Elmaksan Sk. No:14",
-    "addressLocality": "Sancaktepe",
-    "addressRegion": "İstanbul",
-    "postalCode": "34654",
-    "addressCountry": "TR"
-   },
+   "address": [
+    {
+     "@type": "PostalAddress",
+     "streetAddress": "Eyüp Sultan Mah. Elmaksan Sk. No:14",
+     "addressLocality": "Sancaktepe",
+     "addressRegion": "İstanbul",
+     "postalCode": "34654",
+     "addressCountry": "TR"
+    },
+    {
+     "@type": "PostalAddress",
+     "streetAddress": "Hogenbos 14",
+     "addressLocality": "Meerlo",
+     "addressRegion": "Limburg",
+     "postalCode": "5864 CL",
+     "addressCountry": "NL"
+    }
+   ],
    "hasMap": "https://www.google.com/maps/search/?api=1&query=Elmaksan+Sk.+No%3A14+Sancaktepe+%C4%B0stanbul",
+   "contactPoint": [
+    {
+     "@type": "ContactPoint",
+     "telephone": "+905324996096",
+     "contactType": "customer service",
+     "areaServed": "TR",
+     "availableLanguage": [
+      "tr",
+      "en"
+     ]
+    },
+    {
+     "@type": "ContactPoint",
+     "telephone": "+31629231711",
+     "contactType": "customer service",
+     "areaServed": "NL",
+     "availableLanguage": [
+      "nl",
+      "en",
+      "tr"
+     ]
+    }
+   ],
    "sameAs": [
     "https://www.instagram.com/dimartmimarlik/"
    ],
-   "areaServed": {
-    "@type": "Country",
-    "name": "Türkiye"
-   },
+   "areaServed": [
+    {
+     "@type": "Country",
+     "name": "Türkiye"
+    },
+    {
+     "@type": "Country",
+     "name": "Nederland"
+    }
+   ],
    "knowsAbout": [
     "Mimari tasarım",
     "İç mimarlık",
@@ -209,13 +248,13 @@
 </div>
 <header class="top" id="top">
   <a class="brand" href="/" aria-label="Dimart Mimarlık ana sayfa"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="96" height="33"></a>
-  <p class="top-loc" aria-hidden="true">İstanbul</p>
+  <p class="top-loc" aria-hidden="true">İstanbul · Meerlo</p>
   <div class="util" role="group" aria-label="Çizim masası ve müzik">
     <a href="/cizim-masasi/" id="masa-link" title="Planınızı çizin, 3B görün">Çizim masası</a>
     <button type="button" id="ses-btn" aria-pressed="false" aria-label="Müzik" title="Müziği aç ya da kapat"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ses-t" aria-hidden="true"><span>Müzik açık</span><span>Müzik kapalı</span></span></button>
   </div>
   <a class="go top-cta" href="/iletisim/">Projenizi konuşalım</a>
-  <p class="dil" aria-label="Dil / Language"><a aria-current="true">TR</a><span aria-hidden="true">/</span><a href="/en/" id="dil" hreflang="en" lang="en">EN</a></p>
+  <p class="dil" aria-label="Dil / Language / Taal"><a aria-current="true">TR</a><span aria-hidden="true">/</span><a href="/en/" data-dil="en" hreflang="en" lang="en">EN</a><span aria-hidden="true">/</span><a href="/nl/" data-dil="nl" hreflang="nl" lang="nl">NL</a></p>
   <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav"><span class="mb-t"><span>Menü</span><span>Kapat</span></span><span class="mb-i" aria-hidden="true"><i></i><i></i></span></button>
   <i class="top-bar" aria-hidden="true"></i>
 </header>
@@ -322,9 +361,10 @@
   </div>
   <div class="nav-foot">
     <a href="tel:+905324996096">+90 532 499 60 96</a>
+    <a href="tel:+31629231711">+31 6 29 23 17 11</a>
     <a href="mailto:info@dimartmimarlik.com">info@dimartmimarlik.com</a>
     <a href="https://www.instagram.com/dimartmimarlik/" rel="noopener me" target="_blank">Instagram</a>
-    <span>İstanbul</span>
+    <span>İstanbul · Meerlo</span>
     <img src="/assets/slogan-acik.webp" alt="" width="170" height="33">
   </div>
 </nav>
@@ -375,16 +415,16 @@
     <p class="foot-big"><a href="/iletisim/">Projenizi <span class="y">konuşalım.</span></a></p>
   </div>
   <dl class="meta foot-nap">
-    <div><dt>telefon</dt><dd><a href="tel:+905324996096">+90 532 499 60 96</a></dd></div>
+    <div><dt>telefon</dt><dd><a href="tel:+905324996096">+90 532 499 60 96</a><br><a href="tel:+31629231711">+31 6 29 23 17 11</a></dd></div>
     <div><dt>e-posta</dt><dd><a href="mailto:info@dimartmimarlik.com">info@dimartmimarlik.com</a></dd></div>
-    <div><dt>ofis</dt><dd>İstanbul</dd></div>
+    <div><dt>ofis</dt><dd>İstanbul · Meerlo</dd></div>
     <div><dt>harita</dt><dd><a href="https://www.google.com/maps/search/?api=1&query=Elmaksan+Sk.+No%3A14+Sancaktepe+%C4%B0stanbul" rel="noopener" target="_blank">Google Haritalar'da aç</a></dd></div>
     <div><dt>instagram</dt><dd><a href="https://www.instagram.com/dimartmimarlik/" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
   </dl>
   <nav class="foot-nav" aria-label="Alt menü"><a href="/studyo/">Stüdyo</a><a href="/hizmetler/">Hizmetler</a><a href="/projeler/">Projeler</a><a href="/blog/">Blog</a><a href="/cizim-masasi/">Çizim masası</a><a href="/iletisim/">İletişim</a></nav>
   <div class="legal">
     <span>© 2026 Dimart Mimarlık ve Müteahhitlik A.Ş.</span>
-    <span>Mimarlık · İç mimarlık · İnşaat · İstanbul</span>
+    <span>Mimarlık · İç mimarlık · İnşaat · İstanbul · Meerlo</span>
     <span><a href="/kvkk/">KVKK ve gizlilik</a></span>
     <span>Müzik: Erik Satie, <i>Gymnopédies</i> · yorum <a href="https://archive.org/details/satie-gnossienne-gymnopedie" rel="noopener" target="_blank">Gregory Tait</a> · <a href="https://creativecommons.org/licenses/by/4.0/deed.tr" rel="noopener license" target="_blank">CC BY 4.0</a></span>
   </div>

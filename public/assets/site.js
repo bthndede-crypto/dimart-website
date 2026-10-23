@@ -278,7 +278,8 @@
     var u = new URL(a.href, location.href);
     if (u.origin !== location.origin || !/(\/|\.html)$/.test(u.pathname)) return null;
     // dil değişince kabuk (menü, başlık) da değişir: tam sayfa yükle
-    if ((u.pathname.indexOf('/en/') === 0) !== (location.pathname.indexOf('/en/') === 0)) return null;
+    var dil = function (p) { var m = /^\/(en|nl)\//.exec(p); return m ? m[1] : 'tr'; };
+    if (dil(u.pathname) !== dil(location.pathname)) return null;
     return u;
   }
   function git(url, push) {
@@ -314,8 +315,9 @@
     });
     $$('link[hreflang]', d.head).forEach(function (l) { l.remove(); });
     $$('link[hreflang]', yeni.head).forEach(function (l) { d.head.appendChild(d.importNode(l, true)); });
-    var dil = $('#dil'), dilY = yeni.getElementById('dil');
-    if (dil && dilY) dil.setAttribute('href', dilY.getAttribute('href'));
+    $$('.dil a[data-dil]').forEach(function (a) {
+      var b = yeni.querySelector('.dil a[data-dil="' + a.getAttribute('data-dil') + '"]'); if (b) a.setAttribute('href', b.getAttribute('href'));
+    });
     var sy = $('#sayfa'); sy.setAttribute('tabindex', '-1');
     sy.focus({ preventScroll: true });
   }

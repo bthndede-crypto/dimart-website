@@ -1,6 +1,6 @@
 # Dimart Mimarlık ve Müteahhitlik A.Ş.
 
-> İstanbul merkezli mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, villa ve konut inşaatı, tadilat ve renovasyon, proje ve ruhsat ve anahtar teslim uygulamayı tek ekiple yürütür. İstanbul dışındaki projeleri de üstlenir. Slogan: "Her şey bir çizgiyle başlar."
+> İstanbul merkezli, Hollanda'da (Meerlo) da ofisi bulunan mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, villa ve konut inşaatı, tadilat ve renovasyon, proje ve ruhsat ve anahtar teslim uygulamayı tek ekiple yürütür. İstanbul dışındaki projeleri de üstlenir. Slogan: "Her şey bir çizgiyle başlar."
 
 ## Hizmetler
 - Mimari tasarım: İhtiyaç analizi, konsept, avan proje ve 3B görselleştirme.
@@ -10,11 +10,12 @@
 
 ## İletişim
 - Adres: Eyüp Sultan Mah. Elmaksan Sk. No:14, 34654 Sancaktepe / İstanbul, Türkiye
-- Telefon: +90 532 499 60 96
+- Telefon: +90 532 499 60 96 (Türkiye), +31 6 29 23 17 11 (Hollanda)
+- Hollanda ofisi: Hogenbos 14, 5864 CL Meerlo, Hollanda
 - E-posta: info@dimartmimarlik.com
 - Web: https://dimartmimarlik.com/
 - Instagram: https://www.instagram.com/dimartmimarlik/
-- Merkez: İstanbul
+- Ofisler: İstanbul (merkez) ve Meerlo, Hollanda
 
 ## Sayfalar
 - [Stüdyo](https://dimartmimarlik.com/studyo/): yaklaşım ve çalışma bölgesi
@@ -33,7 +34,13 @@
 - [Tadilat ve renovasyon bütçesi nasıl hazırlanır? Maliyeti belirleyen 8 kalem](https://dimartmimarlik.com/blog/tadilat-butcesi-nasil-hazirlanir/): Tadilat bütçesini en çok söküm ve altyapı (tesisat, elektrik), ıslak hacimler, zemin kaplamaları, doğramalar, özel imalat mobilyalar ve işçilik belirler. Sağlıklı bir bütçe için önce kapsam ve malzeme listesi yazılı hale getirilmeli, teklifler aynı liste üzerinden karşılaştırılmalı ve yüzde 10 ile 15 arası beklenmedik gider payı ayrılmalıdır.
 
 ## English
-- [Home](https://dimartmimarlik.com/en/): Istanbul-based architecture and construction firm, design to turnkey
+- [Home](https://dimartmimarlik.com/en/): architecture and construction firm with offices in Istanbul and Meerlo (NL), design to turnkey
 - [Services](https://dimartmimarlik.com/en/services/)
 - [Studio](https://dimartmimarlik.com/en/studio/)
 - [Contact](https://dimartmimarlik.com/en/contact/)
+
+## Nederlands
+- [Home](https://dimartmimarlik.com/nl/): architect en aannemer met kantoren in Meerlo en Istanbul
+- [Diensten](https://dimartmimarlik.com/nl/diensten/)
+- [Studio](https://dimartmimarlik.com/nl/studio/)
+- [Contact](https://dimartmimarlik.com/nl/contact/)

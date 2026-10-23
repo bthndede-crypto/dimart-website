@@ -19,20 +19,28 @@ FIRMA = {
     "tel_link": "+905324996096",
     "eposta": "info@dimartmimarlik.com",
 }
+# Hollanda ofisi
+NL = {"adres": "Hogenbos 14", "pk": "5864 CL", "il": "Meerlo", "ulke": "Nederland", "tel": "+31 6 29 23 17 11", "tel_link": "+31629231711"}
 INSTAGRAM = "https://www.instagram.com/dimartmimarlik/"
 HARITA = "https://www.google.com/maps/search/?api=1&query=Elmaksan+Sk.+No%3A14+Sancaktepe+%C4%B0stanbul"
 
 NAV = [("studyo", "Stüdyo"), ("hizmetler", "Hizmetler"), ("projeler", "Projeler"), ("iletisim", "İletişim")]
 
-# Türkçe sayfa -> İngilizce karşılığı (hreflang ve dil düğmesi)
-ESLER = {"": "en/", "studyo/": "en/studio/", "hizmetler/": "en/services/", "projeler/": "en/projects/",
-         "iletisim/": "en/contact/", "kvkk/": "en/privacy/"}
-ESLER_TERS = {v: k for k, v in ESLER.items()}
+# Aynı sayfanın dillerdeki karşılıkları (hreflang ve dil düğmesi)
+DILLER = ["tr", "en", "nl"]
+ESLER = [
+    {"tr": "", "en": "en/", "nl": "nl/"},
+    {"tr": "studyo/", "en": "en/studio/", "nl": "nl/studio/"},
+    {"tr": "hizmetler/", "en": "en/services/", "nl": "nl/diensten/"},
+    {"tr": "projeler/", "en": "en/projects/", "nl": "nl/projecten/"},
+    {"tr": "iletisim/", "en": "en/contact/", "nl": "nl/contact/"},
+    {"tr": "kvkk/", "en": "en/privacy/", "nl": "nl/privacy/"},
+]
 
 # Kabuktaki (başlık, menü, altlık) metinler
 METIN = {
     "tr": {"locale": "tr_TR", "atla": "İçeriğe geç", "muzikle": "Müzikle girin", "sessiz": "Sessiz girin",
-           "ana": "Dimart Mimarlık ana sayfa", "il": "İstanbul", "util": "Çizim masası ve müzik",
+           "ana": "Dimart Mimarlık ana sayfa", "il": "İstanbul · Meerlo", "util": "Çizim masası ve müzik",
            "masa_t": "Planınızı çizin, 3B görün", "masa": "Çizim masası", "muzik_t": "Müziği aç ya da kapat",
            "muzik": "Müzik", "acik": "Müzik açık", "kapali": "Müzik kapalı", "cta": "Projenizi konuşalım",
            "iletisim": "/iletisim/", "menu": "Menü", "kapat": "Kapat", "anamenu": "Ana menü",
@@ -41,7 +49,7 @@ METIN = {
            "altmenu": "Alt menü", "disiplin": "Mimarlık · İç mimarlık · İnşaat", "gizlilik": ("/kvkk/", "KVKK ve gizlilik"),
            "muzik_k": "Müzik", "yorum": "yorum", "lisans": "deed.tr", "konum": "Konum", "anasayfa": "Ana sayfa"},
     "en": {"locale": "en_US", "atla": "Skip to content", "muzikle": "Enter with music", "sessiz": "Enter quietly",
-           "ana": "Dimart Architecture home", "il": "Istanbul", "util": "Drawing table and music",
+           "ana": "Dimart Architecture home", "il": "Istanbul · Meerlo", "util": "Drawing table and music",
            "masa_t": "Sketch your plan and see it in 3D (Turkish)", "masa": "Drawing table", "muzik_t": "Turn the music on or off",
            "muzik": "Music", "acik": "Music on", "kapali": "Music off", "cta": "Talk to us",
            "iletisim": "/en/contact/", "menu": "Menu", "kapat": "Close", "anamenu": "Main menu",
@@ -49,16 +57,28 @@ METIN = {
            "eposta": "email", "ofis": "office", "harita": "map", "harita_ac": "Open in Google Maps",
            "altmenu": "Footer menu", "disiplin": "Architecture · Interior design · Construction", "gizlilik": ("/en/privacy/", "Privacy"),
            "muzik_k": "Music", "yorum": "performed by", "lisans": "deed.en", "konum": "Breadcrumb", "anasayfa": "Home"},
+    "nl": {"locale": "nl_NL", "atla": "Naar de inhoud", "muzikle": "Binnenkomen met muziek", "sessiz": "Stil binnenkomen",
+           "ana": "Dimart Architectuur home", "il": "Istanbul · Meerlo", "util": "Tekentafel en muziek",
+           "masa_t": "Teken uw plattegrond en bekijk hem in 3D (Turks)", "masa": "Tekentafel", "muzik_t": "Muziek aan of uit",
+           "muzik": "Muziek", "acik": "Muziek aan", "kapali": "Muziek uit", "cta": "Laten we praten",
+           "iletisim": "/nl/contact/", "menu": "Menu", "kapat": "Sluiten", "anamenu": "Hoofdmenu",
+           "f_il": "Contact", "f_big": 'Laten we over uw project <span class="y">praten.</span>', "tel": "telefoon",
+           "eposta": "e-mail", "ofis": "kantoren", "harita": "kaart", "harita_ac": "Openen in Google Maps",
+           "altmenu": "Voettekstmenu", "disiplin": "Architectuur · Interieurontwerp · Bouw", "gizlilik": ("/nl/privacy/", "Privacy"),
+           "muzik_k": "Muziek", "yorum": "uitgevoerd door", "lisans": "deed.nl", "konum": "Kruimelpad", "anasayfa": "Home"},
 }
 
 
 def dil_of(path):
-    return "en" if path.startswith("en/") else "tr"
+    for d in DILLER[1:]:
+        if path.startswith(d + "/"):
+            return d
+    return "tr"
 
 
 def es(path):
-    """Sayfanın öbür dildeki karşılığı (yoksa None)."""
-    return ESLER.get(path) or ESLER_TERS.get(path)
+    """Sayfanın tüm dillerdeki karşılıkları (yoksa None)."""
+    return next((g for g in ESLER if path in g.values()), None)
 
 ORG = {
     "@type": ["GeneralContractor", "ProfessionalService"],
@@ -72,17 +92,28 @@ ORG = {
     "image": f"{SITE}/assets/dimart-favicon-512.png",
     "email": FIRMA["eposta"],
     "telephone": FIRMA["tel_link"],
-    "address": {
+    "address": [{
         "@type": "PostalAddress",
         "streetAddress": FIRMA["adres"],
         "addressLocality": FIRMA["ilce"],
         "addressRegion": FIRMA["il"],
         "postalCode": FIRMA["pk"],
         "addressCountry": "TR",
-    },
+    }, {
+        "@type": "PostalAddress",
+        "streetAddress": NL["adres"],
+        "addressLocality": NL["il"],
+        "addressRegion": "Limburg",
+        "postalCode": NL["pk"],
+        "addressCountry": "NL",
+    }],
     "hasMap": HARITA,
+    "contactPoint": [
+        {"@type": "ContactPoint", "telephone": FIRMA["tel_link"], "contactType": "customer service", "areaServed": "TR", "availableLanguage": ["tr", "en"]},
+        {"@type": "ContactPoint", "telephone": NL["tel_link"], "contactType": "customer service", "areaServed": "NL", "availableLanguage": ["nl", "en", "tr"]},
+    ],
     "sameAs": [INSTAGRAM],
-    "areaServed": {"@type": "Country", "name": "Türkiye"},
+    "areaServed": [{"@type": "Country", "name": "Türkiye"}, {"@type": "Country", "name": "Nederland"}],
     "knowsAbout": ["Mimari tasarım", "İç mimarlık", "Mimari proje", "İnşaat ruhsatı", "Konut inşaatı",
                    "Villa inşaatı", "Müstakil ev inşaatı", "Anahtar teslim inşaat", "Tadilat ve renovasyon",
                    "Ev ve daire tadilatı", "Mutfak ve banyo yenileme", "Ofis iç mimarisi",
@@ -130,7 +161,7 @@ SSS = [
     ("Dimart Mimarlık hangi hizmetleri veriyor?",
      "Mimari tasarım, iç mimarlık, proje ve ruhsat süreçleri, inşaat ve anahtar teslim uygulama. Tasarımdan teslime kadar tüm süreci tek ekip yürütür."),
     ("Dimart Mimarlık nerede?",
-     "Ofisimiz İstanbul'dadır. Açık adres ve yol tarifi için İletişim sayfasına bakabilirsiniz; keşif ve şantiye yönetimi için projenin bulunduğu yere geliyoruz."),
+     "Ofislerimiz İstanbul'da ve Hollanda'nın Meerlo kentindedir. Açık adresler ve yol tarifi için İletişim sayfasına bakabilirsiniz; keşif ve şantiye yönetimi için projenin bulunduğu yere geliyoruz."),
     ("Villa ve müstakil ev inşaatı yapıyor musunuz?",
      "Evet. Villa ve müstakil ev projelerinde tasarımdan ruhsata, kaba inşaattan ince işlere kadar tüm süreci anahtar teslim olarak üstleniyoruz."),
     ("Ev ve daire tadilatı yapıyor musunuz?",
@@ -142,7 +173,7 @@ SSS = [
     ("Bir projeye nasıl başlıyoruz?",
      "Önce yerinde keşif yapar, ihtiyacınızı ve bütçenizi dinleriz. Ardından kapsamı, süreci ve takvimi içeren bir öneri hazırlarız."),
     ("Dimart Mimarlık'a nasıl ulaşırım?",
-     "+90 532 499 60 96 numaralı telefondan veya info@dimartmimarlik.com adresinden ulaşabilirsiniz."),
+     "Türkiye'den +90 532 499 60 96, Hollanda'dan +31 6 29 23 17 11 numaralı telefonlardan veya info@dimartmimarlik.com adresinden ulaşabilirsiniz."),
 ]
 
 SUREC = [
@@ -250,13 +281,11 @@ def head(title, desc, path, ld, page):
     url = f"{SITE}/{path}"
     lang = dil_of(path)
     m = METIN[lang]
-    karsi = es(path)
+    grup = es(path)
     alt = ""
-    if karsi is not None:
-        tr, en = (path, karsi) if lang == "tr" else (karsi, path)
-        alt = (f'<link rel="alternate" hreflang="tr" href="{SITE}/{tr}">\n'
-               f'<link rel="alternate" hreflang="en" href="{SITE}/{en}">\n'
-               f'<link rel="alternate" hreflang="x-default" href="{SITE}/{tr}">\n')
+    if grup is not None:
+        alt = "".join(f'<link rel="alternate" hreflang="{d}" href="{SITE}/{grup[d]}">\n' for d in DILLER)
+        alt += f'<link rel="alternate" hreflang="x-default" href="{SITE}/{grup["tr"]}">\n'
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
@@ -317,6 +346,12 @@ MENU_EN = [("/en/studio/", "Studio", "Approach and team", "ic-mimarlik"),
            ("/en/projects/", "Projects", "Selected work", "insaat-anahtar-teslim"),
            ("/cizim-masasi/", "Drawing table", "Sketch your plan (Turkish)", "eskiz"),
            ("/en/contact/", "Contact", "Talk to us", "mimari-tasarim")]
+MENU_NL = [("/nl/studio/", "Studio", "Aanpak en team", "ic-mimarlik"),
+           ("/nl/diensten/", "Diensten", "Van ontwerp tot sleutelklaar", "eskiz"),
+           ("/nl/projecten/", "Projecten", "Geselecteerd werk", "insaat-anahtar-teslim"),
+           ("/cizim-masasi/", "Tekentafel", "Teken uw plattegrond (Turks)", "eskiz"),
+           ("/nl/contact/", "Contact", "Laten we praten", "mimari-tasarim")]
+MENULER = {"tr": MENU, "en": MENU_EN, "nl": MENU_NL}
 
 
 def shell(path):
@@ -324,25 +359,24 @@ def shell(path):
     f = FIRMA
     lang = dil_of(path)
     m = METIN[lang]
-    menu = MENU_EN if lang == "en" else MENU
-    karsi = es(path)
-    if karsi is None:
-        karsi = "" if lang == "en" else "en/"
-    tr_a = f'<a href="/{karsi}" id="dil" hreflang="tr" lang="tr">TR</a>' if lang == "en" else '<a aria-current="true">TR</a>'
-    en_a = '<a aria-current="true">EN</a>' if lang == "en" else f'<a href="/{karsi}" id="dil" hreflang="en" lang="en">EN</a>'
+    menu = MENULER[lang]
+    grup = es(path) or ESLER[0]
+    diller = '<span aria-hidden="true">/</span>'.join(
+        '<a aria-current="true">' + d.upper() + '</a>' if d == lang else
+        f'<a href="/{grup[d]}" data-dil="{d}" hreflang="{d}" lang="{d}">{d.upper()}</a>' for d in DILLER)
     items = "\n".join(
         f'''      <li><a href="{href}" data-i="{i}"{' aria-current="page"' if cur.startswith(href) else ''}><span class="n">0{i + 1}</span><span class="t">{name}</span><small>{sub}</small></a></li>'''
         for i, (href, name, sub, _) in enumerate(menu))
     previews = "\n".join(frame(cz, f"pv pv{i}", decor=True, lang=lang) for i, (*_, cz) in enumerate(menu))
     return f"""<header class="top" id="top">
-  <a class="brand" href="/{'en/' if lang == 'en' else ''}" aria-label="{m['ana']}"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="96" height="33"></a>
+  <a class="brand" href="/{ESLER[0][lang]}" aria-label="{m['ana']}"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="96" height="33"></a>
   <p class="top-loc" aria-hidden="true">{m['il']}</p>
   <div class="util" role="group" aria-label="{m['util']}">
     <a href="/cizim-masasi/" id="masa-link" title="{m['masa_t']}">{m['masa']}</a>
     <button type="button" id="ses-btn" aria-pressed="false" aria-label="{m['muzik']}" title="{m['muzik_t']}"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ses-t" aria-hidden="true"><span>{m['acik']}</span><span>{m['kapali']}</span></span></button>
   </div>
   <a class="go top-cta" href="{m['iletisim']}">{m['cta']}</a>
-  <p class="dil" aria-label="Dil / Language">{tr_a}<span aria-hidden="true">/</span>{en_a}</p>
+  <p class="dil" aria-label="Dil / Language / Taal">{diller}</p>
   <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav"><span class="mb-t"><span>{m['menu']}</span><span>{m['kapat']}</span></span><span class="mb-i" aria-hidden="true"><i></i><i></i></span></button>
   <i class="top-bar" aria-hidden="true"></i>
 </header>
@@ -355,6 +389,7 @@ def shell(path):
   </div>
   <div class="nav-foot">
     <a href="tel:{f['tel_link']}">{f['tel']}</a>
+    <a href="tel:{NL['tel_link']}">{NL['tel']}</a>
     <a href="mailto:{f['eposta']}">{f['eposta']}</a>
     <a href="{INSTAGRAM}" rel="noopener me" target="_blank">Instagram</a>
     <span>{m['il']}</span>
@@ -366,14 +401,14 @@ def shell(path):
 def footer(lang="tr"):
     f = FIRMA
     m = METIN[lang]
-    menu = MENU_EN if lang == "en" else MENU
+    menu = MENULER[lang]
     return f"""<footer class="foot">
   <div class="foot-cta" data-r>
     <p class="label">{m['f_il']}</p>
     <p class="foot-big"><a href="{m['iletisim']}">{m['f_big']}</a></p>
   </div>
   <dl class="meta foot-nap">
-    <div><dt>{m['tel']}</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a></dd></div>
+    <div><dt>{m['tel']}</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a><br><a href="tel:{NL['tel_link']}">{NL['tel']}</a></dd></div>
     <div><dt>{m['eposta']}</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
     <div><dt>{m['ofis']}</dt><dd>{m['il']}</dd></div>
     <div><dt>{m['harita']}</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">{m['harita_ac']}</a></dd></div>
@@ -421,10 +456,19 @@ CIZIMLER_EN = {
 }
 
 
+CIZIMLER_NL = {
+    "mimari-tasarim": ("Voorgevel · 1:100", "Geveltekening van een woning met twee bouwlagen"),
+    "ic-mimarlik": ("Interieur · perspectief", "Perspectieftekening van een rustig interieur met een boogopening"),
+    "proje-ve-ruhsat": ("Plattegrond begane grond · 1:50", "Plattegrond van de begane grond van een woning"),
+    "insaat-anahtar-teslim": ("Doorsnede A-A · 1:100", "Doorsnede met vloeren, kolommen en een trap"),
+    "eskiz": ("Schets · axonometrie", "Axonometrische schets van een woning met een uitkragende verdieping"),
+}
+
+
 def frame(slug, cls="", speed=None, decor=False, lang="tr"):
     mat, cap, alt, svg, vb = CIZIMLER[slug]
-    if lang == "en":
-        cap, alt = CIZIMLER_EN[slug]
+    if lang != "tr":
+        cap, alt = (CIZIMLER_EN if lang == "en" else CIZIMLER_NL)[slug]
     sp = f' data-speed="{speed}"' if speed else ""
     a11y = 'aria-hidden="true"' if decor else f'role="img" aria-label="{alt}"'
     return f"""<figure class="frame m-{mat} {cls}"{sp}{'' if decor else ' data-r'}>
@@ -436,7 +480,7 @@ def frame(slug, cls="", speed=None, decor=False, lang="tr"):
 
 def crumbs(name, lang="tr"):
     m = METIN[lang]
-    ana = "/en/" if lang == "en" else "/"
+    ana = "/" + ESLER[0][lang]
     return f'<nav class="crumbs" aria-label="{m["konum"]}"><a href="{ana}">{m["anasayfa"]}</a><span>/</span><span>{name}</span></nav>'
 
 
@@ -454,9 +498,9 @@ def page_home():
                 "", ld, "home") + f"""  <section class="hero">
     {frame("eskiz", "hero-frame", "0.06")}
     <div class="hero-text" data-r>
-      <p class="label">Mimarlık &amp; müteahhitlik · İstanbul</p>
+      <p class="label">Mimarlık &amp; müteahhitlik · İstanbul · Meerlo</p>
       <h1>Tasarımdan anahtar teslime <span class="y">tek çizgi.</span></h1>
-      <p class="lead">Dimart, İstanbul'daki ekibiyle villa, konut, ofis ve ticari mekânları tasarlar, projelendirir ve inşa eder. Çizimi yapan ekip şantiyeyi de yönetir; siz tek muhatapla çalışırsınız.</p>
+      <p class="lead">Dimart, İstanbul ve Hollanda'daki (Meerlo) ekipleriyle villa, konut, ofis ve ticari mekânları tasarlar, projelendirir ve inşa eder. Çizimi yapan ekip şantiyeyi de yönetir; siz tek muhatapla çalışırsınız.</p>
       <p class="links"><a class="go" href="/iletisim/">Projenizi konuşalım</a><a class="go" href="/hizmetler/">Hizmetler</a></p>
     </div>
     <p class="cue" aria-hidden="true">kaydırın</p>
@@ -474,7 +518,7 @@ def page_home():
       <div><dt>disiplin</dt><dd>Mimarlık, iç mimarlık, inşaat</dd></div>
       <div><dt>model</dt><dd>Tek ekip, tek sözleşme</dd></div>
       <div><dt>yapılar</dt><dd>Villa, konut, ofis, ticari mekân</dd></div>
-      <div><dt>ofis</dt><dd>İstanbul</dd></div>
+      <div><dt>ofisler</dt><dd>İstanbul · Meerlo (Hollanda)</dd></div>
     </dl>
   </section>
 
@@ -512,7 +556,7 @@ def page_studyo():
                 "studyo/", ld, "studyo") + f"""  <section class="page-hero">
     {crumbs("Stüdyo")}
     <h1 data-r>Çizen de, <span class="y">inşa eden de biziz.</span></h1>
-    <p class="lead" data-r>Dimart Mimarlık ve Müteahhitlik, mimari tasarım, iç mimarlık ve inşaatı tek ekipte birleştiren, İstanbul merkezli bir mimarlık ve müteahhitlik stüdyosudur.</p>
+    <p class="lead" data-r>Dimart Mimarlık ve Müteahhitlik, mimari tasarım, iç mimarlık ve inşaatı tek ekipte birleştiren, İstanbul merkezli ve Hollanda'nın Meerlo kentinde de ofisi bulunan bir mimarlık ve müteahhitlik stüdyosudur.</p>
   </section>
   <section class="split">
     {frame("ic-mimarlik", "", "0.05")}
@@ -526,9 +570,10 @@ def page_studyo():
   <section class="split rev" aria-labelledby="bolge">
     <div data-r><h2 class="label" id="bolge">Çalışma biçimi</h2><p class="h">Ofiste çizer, sahada yaparız</p></div>
     <dl class="meta reg" data-r>
-      <div><dt>ofis</dt><dd>{f['adres']}, {f['pk']} {f['ilce']} / {f['il']}</dd></div>
+      <div><dt>İstanbul ofisi</dt><dd>{f['adres']}, {f['pk']} {f['ilce']} / {f['il']}</dd></div>
+      <div><dt>Hollanda ofisi</dt><dd>{NL['adres']}, {NL['pk']} {NL['il']}, Hollanda</dd></div>
       <div><dt>yapı türleri</dt><dd>Villa, müstakil ev, konut, ofis, ticari ve turizm yapıları</dd></div>
-      <div><dt>çalışma biçimi</dt><dd>Keşif ve şantiye yönetimi yerinde, tasarım ve koordinasyon İstanbul ofisinde</dd></div>
+      <div><dt>çalışma biçimi</dt><dd>Keşif ve şantiye yönetimi yerinde, tasarım ve koordinasyon İstanbul ve Meerlo ofislerinde</dd></div>
     </dl>
   </section>
 """ + footer()
@@ -602,8 +647,8 @@ def page_iletisim():
     ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("İletişim", "iletisim/")]),
           {"@type": "ContactPage", "url": f"{SITE}/iletisim/", "about": {"@id": f"{SITE}/#firma"}}]
     f = FIRMA
-    return head("İletişim | Dimart Mimarlık, Sancaktepe İstanbul",
-                f"Dimart Mimarlık iletişim: {f['tel']}, {f['eposta']}. {f['adres']}, {f['ilce']} / {f['il']}.",
+    return head("İletişim | Dimart Mimarlık, İstanbul ve Meerlo (Hollanda)",
+                f"Dimart Mimarlık iletişim: {f['tel']}, {NL['tel']}, {f['eposta']}. İstanbul ofisi {f['adres']}, {f['ilce']} / {f['il']}; Hollanda ofisi {NL['adres']}, {NL['pk']} {NL['il']}.",
                 "iletisim/", ld, "iletisim") + f"""  <section class="page-hero">
     {crumbs("İletişim")}
     <h1 data-r>Projenizi <span class="y">konuşalım.</span></h1>
@@ -611,9 +656,10 @@ def page_iletisim():
   </section>
   <section class="split">
     <dl class="meta reg big" data-r>
-      <div><dt>telefon</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a></dd></div>
+      <div><dt>telefon</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a> (Türkiye)<br><a href="tel:{NL['tel_link']}">{NL['tel']}</a> (Hollanda)</dd></div>
       <div><dt>e-posta</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
-      <div><dt>adres</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / {f['il']}, Türkiye</dd></div>
+      <div><dt>İstanbul ofisi</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / {f['il']}, Türkiye</dd></div>
+      <div><dt>Hollanda ofisi</dt><dd>{NL['adres']},<br>{NL['pk']} {NL['il']}, Hollanda</dd></div>
       <div><dt>harita</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">Google Haritalar'da aç</a></dd></div>
       <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
     </dl>
@@ -644,7 +690,7 @@ def page_kvkk():
 <p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu'nun (KVKK) 10. maddesi uyarınca, {f['unvan']} ("Dimart") tarafından kişisel verilerinizin nasıl işlendiğini açıklamak için hazırlanmıştır.</p>
 
 <h2>Veri sorumlusu</h2>
-<p>{f['unvan']}<br>{f['adres']}, {f['pk']} {f['ilce']} / {f['il']}<br>E-posta: <a href="mailto:{f['eposta']}">{f['eposta']}</a> · Telefon: <a href="tel:{f['tel_link']}">{f['tel']}</a></p>
+<p>{f['unvan']}<br>{f['adres']}, {f['pk']} {f['ilce']} / {f['il']}<br>Hollanda ofisi: {NL['adres']}, {NL['pk']} {NL['il']}, Hollanda<br>E-posta: <a href="mailto:{f['eposta']}">{f['eposta']}</a> · Telefon: <a href="tel:{f['tel_link']}">{f['tel']}</a></p>
 
 <h2>Hangi verileri işliyoruz?</h2>
 <ul>
@@ -848,18 +894,19 @@ def llms():
     yazilar = "\n".join(f"- [{y['baslik']}]({SITE}/blog/{y['slug']}/): {y['ozet']}" for y in YAZILAR)
     return f"""# {f['unvan']}
 
-> İstanbul merkezli mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, villa ve konut inşaatı, tadilat ve renovasyon, proje ve ruhsat ve anahtar teslim uygulamayı tek ekiple yürütür. İstanbul dışındaki projeleri de üstlenir. Slogan: "Her şey bir çizgiyle başlar."
+> İstanbul merkezli, Hollanda'da (Meerlo) da ofisi bulunan mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, villa ve konut inşaatı, tadilat ve renovasyon, proje ve ruhsat ve anahtar teslim uygulamayı tek ekiple yürütür. İstanbul dışındaki projeleri de üstlenir. Slogan: "Her şey bir çizgiyle başlar."
 
 ## Hizmetler
 {svc}
 
 ## İletişim
 - Adres: {f['adres']}, {f['pk']} {f['ilce']} / {f['il']}, Türkiye
-- Telefon: {f['tel']}
+- Telefon: {f['tel']} (Türkiye), {NL['tel']} (Hollanda)
+- Hollanda ofisi: {NL['adres']}, {NL['pk']} {NL['il']}, Hollanda
 - E-posta: {f['eposta']}
 - Web: {SITE}/
 - Instagram: {INSTAGRAM}
-- Merkez: İstanbul
+- Ofisler: İstanbul (merkez) ve Meerlo, Hollanda
 
 ## Sayfalar
 - [Stüdyo]({SITE}/studyo/): yaklaşım ve çalışma bölgesi
@@ -872,10 +919,16 @@ def llms():
 {yazilar}
 
 ## English
-- [Home]({SITE}/en/): Istanbul-based architecture and construction firm, design to turnkey
+- [Home]({SITE}/en/): architecture and construction firm with offices in Istanbul and Meerlo (NL), design to turnkey
 - [Services]({SITE}/en/services/)
 - [Studio]({SITE}/en/studio/)
 - [Contact]({SITE}/en/contact/)
+
+## Nederlands
+- [Home]({SITE}/nl/): architect en aannemer met kantoren in Meerlo en Istanbul
+- [Diensten]({SITE}/nl/diensten/)
+- [Studio]({SITE}/nl/studio/)
+- [Contact]({SITE}/nl/contact/)
 """
 
 
@@ -894,7 +947,9 @@ for _y in YAZILAR:
 
 if __name__ == "__main__":
     import en
+    import nl
     PAGES.update(en.PAGES)
+    PAGES.update(nl.PAGES)
     for path, fn in PAGES.items():
         out = ROOT / path
         out.parent.mkdir(parents=True, exist_ok=True)

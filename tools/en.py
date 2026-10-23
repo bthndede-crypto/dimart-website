@@ -1,6 +1,6 @@
 """İngilizce sayfalar (/en/). build.py'nin kabuğunu kullanır; build.py çalışırken içe aktarılır."""
 import build as b
-from build import FIRMA, HARITA, INSTAGRAM, ORG, SITE, crumbs, crumbs_ld, faq_html, faq_ld, footer, frame, head, words
+from build import FIRMA, HARITA, INSTAGRAM, NL, ORG, SITE, crumbs, crumbs_ld, faq_html, faq_ld, footer, frame, head, words
 
 SERVICES = [
     ("Architectural design", "mimari-tasarim",
@@ -35,7 +35,7 @@ FAQ = [
     ("What does Dimart Architecture do?",
      "Architectural design, interior design, construction drawings and building permits, construction and turnkey delivery. One team runs the whole process from design to handover."),
     ("Where is Dimart Architecture based?",
-     "Our office is in Istanbul. You can find the full address and directions on the Contact page; for site visits and site management we come to wherever the project is."),
+     "We have offices in Istanbul and in Meerlo, the Netherlands. You can find the full addresses on the Contact page; for site visits and site management we come to wherever the project is."),
     ("Do you build villas and detached houses?",
      "Yes. For villas and detached houses we take on the whole process as a turnkey job, from design and permits to the shell and the finishing works."),
     ("Do you renovate homes and apartments?",
@@ -47,7 +47,7 @@ FAQ = [
     ("Do you work with international clients?",
      "Yes. We can meet in English, share drawings and progress reports digitally and run the site on your behalf while you are abroad."),
     ("How do I contact Dimart Architecture?",
-     f"Call {FIRMA['tel']} or email {FIRMA['eposta']}."),
+     f"Call {FIRMA['tel']} (Türkiye) or {NL['tel']} (Netherlands), or email {FIRMA['eposta']}."),
 ]
 
 PROCESS = [
@@ -76,13 +76,13 @@ def page_home():
     steps = "\n".join(f'      <li data-r style="--d:{i}"><span class="n">0{i + 1}</span><h3>{a}</h3><p>{t}</p></li>'
                       for i, (a, t) in enumerate(PROCESS))
     return head("Dimart Architecture | Architects and Builders in Istanbul",
-                "Architecture and construction in Istanbul: architectural design, interior design, villa and residential construction, renovation, permits and turnkey delivery, all from one team at Dimart.",
+                "Architecture and construction from Istanbul and Meerlo (NL): architectural design, interior design, villa and residential construction, renovation, permits and turnkey delivery, all from one team at Dimart.",
                 "en/", ld, "home") + f"""  <section class="hero">
     {frame("eskiz", "hero-frame", "0.06", lang="en")}
     <div class="hero-text" data-r>
-      <p class="label">Architecture &amp; construction · Istanbul</p>
+      <p class="label">Architecture &amp; construction · Istanbul · Meerlo</p>
       <h1>From design to turnkey, <span class="y">one line.</span></h1>
-      <p class="lead">Dimart designs, documents and builds villas, homes, offices and commercial spaces with its team in Istanbul. The team that draws also runs the site, so you work with a single point of contact.</p>
+      <p class="lead">Dimart designs, documents and builds villas, homes, offices and commercial spaces with its teams in Istanbul and Meerlo, the Netherlands. The team that draws also runs the site, so you work with a single point of contact.</p>
       <p class="links"><a class="go" href="/en/contact/">Talk to us</a><a class="go" href="/en/services/">Services</a></p>
     </div>
     <p class="cue" aria-hidden="true">scroll</p>
@@ -100,7 +100,7 @@ def page_home():
       <div><dt>disciplines</dt><dd>Architecture, interiors, construction</dd></div>
       <div><dt>model</dt><dd>One team, one contract</dd></div>
       <div><dt>buildings</dt><dd>Villas, homes, offices, commercial</dd></div>
-      <div><dt>office</dt><dd>Istanbul</dd></div>
+      <div><dt>offices</dt><dd>Istanbul · Meerlo (NL)</dd></div>
     </dl>
   </section>
 
@@ -130,7 +130,7 @@ def page_studio():
                 "en/studio/", ld, "studyo") + f"""  <section class="page-hero">
     {crumbs("Studio", "en")}
     <h1 data-r>We draw it, <span class="y">and we build it.</span></h1>
-    <p class="lead" data-r>Dimart Mimarlık ve Müteahhitlik is an Istanbul-based architecture and construction studio that brings architectural design, interior design and construction together in one team.</p>
+    <p class="lead" data-r>Dimart Mimarlık ve Müteahhitlik is an architecture and construction studio based in Istanbul, with a second office in Meerlo, the Netherlands. It brings architectural design, interior design and construction together in one team.</p>
   </section>
   <section class="split">
     {frame("ic-mimarlik", "", "0.05", lang="en")}
@@ -144,10 +144,11 @@ def page_studio():
   <section class="split rev" aria-labelledby="way">
     <div data-r><h2 class="label" id="way">How we work</h2><p class="h">We draw in the office and build on site</p></div>
     <dl class="meta reg" data-r>
-      <div><dt>office</dt><dd>{f['adres']}, {f['pk']} {f['ilce']} / Istanbul</dd></div>
+      <div><dt>Istanbul office</dt><dd>{f['adres']}, {f['pk']} {f['ilce']} / Istanbul</dd></div>
+      <div><dt>Netherlands office</dt><dd>{NL['adres']}, {NL['pk']} {NL['il']}, the Netherlands</dd></div>
       <div><dt>building types</dt><dd>Villas, detached houses, residential, offices, commercial and hospitality</dd></div>
-      <div><dt>way of working</dt><dd>Surveys and site management on location, design and coordination in our Istanbul office</dd></div>
-      <div><dt>languages</dt><dd>Turkish and English</dd></div>
+      <div><dt>way of working</dt><dd>Surveys and site management on location, design and coordination in our Istanbul and Meerlo offices</dd></div>
+      <div><dt>languages</dt><dd>Turkish, English and Dutch</dd></div>
     </dl>
   </section>
 """ + footer("en")
@@ -219,18 +220,19 @@ def page_contact():
     f = FIRMA
     ld = [ORG, crumbs_ld([("Home", "en/"), ("Contact", "en/contact/")]),
           {"@type": "ContactPage", "url": f"{SITE}/en/contact/", "inLanguage": "en", "about": {"@id": f"{SITE}/#firma"}}]
-    return head("Contact | Dimart Architecture, Istanbul",
-                f"Contact Dimart Architecture: {f['tel']}, {f['eposta']}. {f['adres']}, {f['ilce']} / Istanbul.",
+    return head("Contact | Dimart Architecture, Istanbul and Meerlo (NL)",
+                f"Contact Dimart Architecture: {f['tel']}, {NL['tel']}, {f['eposta']}. Offices in Istanbul and at {NL['adres']}, {NL['pk']} {NL['il']}, the Netherlands.",
                 "en/contact/", ld, "iletisim") + f"""  <section class="page-hero">
     {crumbs("Contact", "en")}
     <h1 data-r>Let's talk about <span class="y">your project.</span></h1>
-    <p class="lead" data-r>Call us or send an email; we will listen to what you need and suggest a process and a schedule. You are also welcome at our office. We speak Turkish and English.</p>
+    <p class="lead" data-r>Call us or send an email; we will listen to what you need and suggest a process and a schedule. You are also welcome at our offices in Istanbul and Meerlo. We speak Turkish, English and Dutch.</p>
   </section>
   <section class="split">
     <dl class="meta reg big" data-r>
-      <div><dt>phone</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a></dd></div>
+      <div><dt>phone</dt><dd><a href="tel:{f['tel_link']}">{f['tel']}</a> (Türkiye)<br><a href="tel:{NL['tel_link']}">{NL['tel']}</a> (Netherlands)</dd></div>
       <div><dt>email</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
-      <div><dt>address</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / Istanbul, Türkiye</dd></div>
+      <div><dt>Istanbul office</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / Istanbul, Türkiye</dd></div>
+      <div><dt>Netherlands office</dt><dd>{NL['adres']},<br>{NL['pk']} {NL['il']}, the Netherlands</dd></div>
       <div><dt>map</dt><dd><a href="{HARITA}" rel="noopener" target="_blank">Open in Google Maps</a></dd></div>
       <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
     </dl>
