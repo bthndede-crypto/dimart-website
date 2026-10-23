@@ -5,6 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from blog import YAZILAR  # noqa: E402
+from bolge import BOLGELER, DIGER  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent / "public"
 SITE = "https://dimartmimarlik.com"
@@ -431,7 +432,7 @@ def footer(lang="tr"):
     <div><dt>{m['harita']}</dt><dd>{harita_linkleri(m)}</dd></div>
     <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimart.mimarlik</a></dd></div>
   </dl>
-  <nav class="foot-nav" aria-label="{m['altmenu']}">{"".join(f'<a href="{h}">{n}</a>' for h, n, *_ in menu)}</nav>
+  <nav class="foot-nav" aria-label="{m['altmenu']}">{"".join(f'<a href="{h}">{n}</a>' for h, n, *_ in menu)}{'<a href="/bolgeler/">Hizmet bölgeleri</a>' if lang == "tr" else ""}</nav>
   <div class="legal">
     <span>© 2026 {f['unvan']}</span>
     <span>{m['disiplin']} · {m['il']}</span>
@@ -635,6 +636,13 @@ def page_hizmetler():
     <div class="sec-head" data-r><h2 class="label" id="sss">Sık sorulan sorular</h2><p class="h">Merak edilenler</p></div>
     <div class="faq">
 {faq_html(SSS[:7])}
+    </div>
+  </section>
+  <section class="split rev" aria-labelledby="bolgeler">
+    <div data-r><h2 class="label" id="bolgeler">Hizmet bölgeleri</h2><p class="h">Anadolu Yakası'nda yakınınızdayız</p></div>
+    <div class="prose" data-r>
+      <p>Ofisimiz Sancaktepe'de. {", ".join(f'<a href="/bolgeler/{b["slug"]}/">{b["ad"]}</a>' for b in BOLGELER)} başta olmak üzere Anadolu Yakası'nın tüm ilçelerinde çalışıyoruz.</p>
+      <p class="links"><a class="go" href="/bolgeler/">Tüm bölgeler</a></p>
     </div>
   </section>
 """ + footer()
@@ -908,6 +916,99 @@ def page_yazi(y):
 """ + footer()
 
 
+def bolge_listesi(bolgeler):
+    return "\n".join(f'      <li data-r style="--d:{i % 3}"><a href="/bolgeler/{b['slug']}/"><span class="n">{i + 1:02d}</span><h3>{b['ad']}</h3><p>{b['ozet']}</p></a></li>'
+                     for i, b in enumerate(bolgeler))
+
+
+def page_bolgeler():
+    url = f"{SITE}/bolgeler/"
+    ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("Hizmet bölgeleri", "bolgeler/")]),
+          {"@type": "CollectionPage", "url": url, "name": "İstanbul Anadolu Yakası hizmet bölgeleri",
+           "about": {"@id": f"{SITE}/#firma"},
+           "hasPart": [{"@type": "WebPage", "name": f"{b['ad']} mimarlık ve iç mimarlık", "url": f"{url}{b['slug']}/"} for b in BOLGELER]}]
+    adlar = ", ".join(b["ad"] for b in BOLGELER)
+    return head("Anadolu Yakası mimarlık, iç mimarlık ve tadilat: hizmet bölgeleri | Dimart Mimarlık",
+                f"Dimart Mimarlık İstanbul Anadolu Yakası'nda mimari tasarım, iç mimarlık, tadilat ve anahtar teslim inşaat yapıyor: {adlar}.",
+                "bolgeler/", ld, "bolgeler") + f"""  <section class="page-hero">
+    {crumbs("Hizmet bölgeleri")}
+    <h1 data-r>Anadolu Yakası'nda, <span class="y">yakınınızdayız.</span></h1>
+    <p class="lead" data-r>Ofisimiz Sancaktepe'de. Anadolu Yakası'nın her ilçesinde mimari tasarım, iç mimarlık, tadilat ve anahtar teslim inşaat yapıyoruz. Yakın olmak; keşfe çabuk gelmek, şantiyeyi sık görmek ve işi yakından takip etmek demek.</p>
+  </section>
+  <section class="areas bolge-liste" aria-labelledby="ilceler">
+    <div class="sec-head" data-r><h2 class="label" id="ilceler">İlçeler</h2><p class="h">Çalıştığımız bölgeler</p></div>
+    <ol>
+{bolge_listesi(BOLGELER)}
+    </ol>
+  </section>
+  <section class="split rev">
+    <div data-r><h2 class="label">Diğer ilçeler</h2><p class="h">Listede yoksa da sorun</p></div>
+    <div class="prose" data-r>
+      <p>{", ".join(DIGER)} gibi komşu ilçelerdeki projeleri de üstleniyoruz. Ofislerimiz Türkiye ve Hollanda'da; Anadolu Yakası dışındaki işler için de bizi arayabilirsiniz.</p>
+      <p class="links"><a class="go" href="/iletisim/">Projenizi konuşalım</a><a class="go" href="/hizmetler/">Hizmetler</a></p>
+    </div>
+  </section>
+""" + footer()
+
+
+def page_bolge(b):
+    url = f"{SITE}/bolgeler/{b['slug']}/"
+    alan = {"@type": "AdministrativeArea", "name": f"{b['ad']}, İstanbul",
+            "containedInPlace": {"@type": "City", "name": "İstanbul"}}
+    ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("Hizmet bölgeleri", "bolgeler/"), (b["ad"], f"bolgeler/{b['slug']}/")]),
+          {"@type": "WebPage", "@id": f"{url}#sayfa", "url": url, "name": f"{b['ad']} mimarlık, iç mimarlık ve tadilat",
+           "about": {"@id": f"{SITE}/#firma"}, "inLanguage": "tr-TR"}]
+    ld += [{"@type": "Service", "name": f"{ad} · {b['ad']}",
+            "serviceType": ad, "description": aciklama, "provider": {"@id": f"{SITE}/#firma"}, "areaServed": alan}
+           for ad, aciklama in b["isler"]]
+    ld.append(faq_ld(b["sss"]))
+    isler = "\n".join(f'      <li data-r style="--d:{i % 2}"><span class="n">{i + 1:02d}</span><h3>{a}</h3><p>{t}</p></li>'
+                      for i, (a, t) in enumerate(b["isler"]))
+    diger = [o for o in BOLGELER if o["slug"] != b["slug"]]
+    komsu = " · ".join(f'<a href="/bolgeler/{o["slug"]}/">{o["ad"]}</a>' for o in diger)
+    return head(f"{b['ad']} mimarlık, iç mimarlık ve tadilat | Dimart Mimarlık",
+                f"{b['de']} mimari tasarım, iç mimarlık, tadilat ve anahtar teslim inşaat. {b['ozet']} Keşif için: {FIRMA['tel']}.",
+                f"bolgeler/{b['slug']}/", ld, "bolge") + f"""  <section class="page-hero">
+    <nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a><span>/</span><a href="/bolgeler/">Hizmet bölgeleri</a><span>/</span><span>{b['ad']}</span></nav>
+    <h1 data-r>{b['de']} mimarlık, <span class="y">iç mimarlık ve tadilat.</span></h1>
+    <p class="lead" data-r>{b['ozet']} Tasarımı yapan ekip uygulamayı da yürütür; keşiften teslime tek muhatapla çalışırsınız.</p>
+  </section>
+  <section class="split">
+    <dl class="meta reg" data-r>
+      <div><dt>ilçe</dt><dd>{b['ad']}, İstanbul</dd></div>
+      <div><dt>mahalleler</dt><dd>{" · ".join(b['mahalle'])} ve çevresi</dd></div>
+      <div><dt>hizmetler</dt><dd>Mimari tasarım · İç mimarlık · Proje ve ruhsat · Tadilat · Anahtar teslim inşaat</dd></div>
+      <div><dt>keşif</dt><dd><a href="tel:{FIRMA['tel_link']}">{FIRMA['tel']}</a> · <a href="mailto:{FIRMA['eposta']}">{FIRMA['eposta']}</a></dd></div>
+    </dl>
+    <div class="prose" data-r>
+      <p class="label">{b['ad']} ve yapıları</p>
+      <p>{b['doku']}</p>
+      <p>{b['not']}</p>
+    </div>
+  </section>
+  <section class="areas" aria-labelledby="isler">
+    <div class="sec-head" data-r><h2 class="label" id="isler">{b['ad']} için</h2><p class="h">En çok istenen işler</p></div>
+    <ol>
+{isler}
+    </ol>
+  </section>
+  <section class="qa" aria-labelledby="sss">
+    <div class="sec-head" data-r><h2 class="label" id="sss">Sık sorulan sorular</h2><p class="h">{b['ad']} için merak edilenler</p></div>
+    <div class="faq">
+{faq_html(b['sss'])}
+    </div>
+  </section>
+  <section class="split rev">
+    <div data-r><h2 class="label">Projenizi konuşalım</h2><p class="h">Önce yerinde görelim</p></div>
+    <div class="prose" data-r>
+      <p>{b['de']} bir projeniz varsa arayın ya da yazın; yerinde keşif yapıp ihtiyacınızı ve bütçenizi dinleyelim, size kapsam ve takvim önerelim. Planınızı <a href="/cizim-masasi/">çizim masasında</a> kabaca çizip bize gönderebilirsiniz de.</p>
+      <p class="links"><a class="go" href="tel:{FIRMA['tel_link']}">Hemen arayın</a><a class="go" href="/iletisim/">İletişim</a></p>
+      <p class="bolge-komsu"><span class="label">Diğer bölgeler</span><br>{komsu}</p>
+    </div>
+  </section>
+""" + footer()
+
+
 def llms():
     f = FIRMA
     svc = "\n".join(f"- {ad}: {kisa}" for _, ad, _, kisa, *_ in HIZMETLER)
@@ -933,6 +1034,7 @@ def llms():
 - [Hizmetler]({SITE}/hizmetler/): hizmetlerin ayrıntıları
 - [Projeler]({SITE}/projeler/)
 - [Blog]({SITE}/blog/): rehberler
+- [Hizmet bölgeleri]({SITE}/bolgeler/): İstanbul Anadolu Yakası ilçeleri ({", ".join(b["ad"] for b in BOLGELER)})
 - [İletişim]({SITE}/iletisim/)
 
 ## Blog yazıları
@@ -962,6 +1064,9 @@ PAGES = {
     "kvkk/index.html": page_kvkk,
     "cizim-masasi/index.html": page_cizim,
 }
+PAGES["bolgeler/index.html"] = page_bolgeler
+for _b in BOLGELER:
+    PAGES[f"bolgeler/{_b['slug']}/index.html"] = (lambda b=_b: page_bolge(b))
 for _y in YAZILAR:
     PAGES[f"blog/{_y['slug']}/index.html"] = (lambda y=_y: page_yazi(y))
 
@@ -975,7 +1080,7 @@ if __name__ == "__main__":
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(fn(), encoding="utf-8")
     (ROOT / "404.html").write_text(page_404(), encoding="utf-8")
-    urls = "\n".join(f"  <url><loc>{SITE}/{p.replace('index.html', '')}</loc><lastmod>2026-10-22</lastmod></url>" for p in PAGES)
+    urls = "\n".join(f"  <url><loc>{SITE}/{p.replace('index.html', '')}</loc><lastmod>2026-10-23</lastmod></url>" for p in PAGES)
     (ROOT / "sitemap.xml").write_text(
         f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n',
         encoding="utf-8")
