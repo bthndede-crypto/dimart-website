@@ -21,7 +21,7 @@ FIRMA = {
 }
 # Hollanda ofisi
 NL = {"adres": "Hogenbos 14", "pk": "5864 CL", "il": "Meerlo", "ulke": "Nederland", "tel": "+31 6 29 23 17 11", "tel_link": "+31629231711"}
-INSTAGRAM = "https://www.instagram.com/dimartmimarlik/"
+INSTAGRAM = "https://www.instagram.com/dimart.mimarlik/"
 HARITA = "https://www.google.com/maps/search/?api=1&query=Elmaksan+Sk.+No%3A14+Sancaktepe+%C4%B0stanbul"
 HARITA_NL = "https://www.google.com/maps/search/?api=1&query=Hogenbos+14%2C+5864+CL+Meerlo"
 
@@ -278,6 +278,12 @@ def esc_attr(t):
     return t.replace('"', "&quot;")
 
 
+def surum(ad):
+    # dosya değişince adresi de değişir; tarayıcı ve Cloudflare eski sürümü göstermez
+    import hashlib
+    return hashlib.md5((ROOT / "assets" / ad).read_bytes()).hexdigest()[:8]
+
+
 def head(title, desc, path, ld, page):
     url = f"{SITE}/{path}"
     lang = dil_of(path)
@@ -314,9 +320,9 @@ def head(title, desc, path, ld, page):
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/montserrat-latin-2f5adf.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v={surum('site.css')}">
 <script>try{{if(!sessionStorage.getItem('dm-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro')}}catch(e){{}}</script>
-<script src="/assets/site.js" defer></script>
+<script src="/assets/site.js?v={surum('site.js')}" defer></script>
 <script type="application/ld+json" id="ld">
 {json.dumps({"@context": "https://schema.org", "@graph": ld}, ensure_ascii=False, indent=1)}
 </script>
@@ -325,9 +331,9 @@ def head(title, desc, path, ld, page):
 <a class="skip" href="#sayfa">{m['atla']}</a>
 <div class="intro-ov" role="dialog" aria-label="Dimart Mimarlık">
   <div class="intro-in">
-    <img src="/assets/dimart-logo-beyaz.svg" alt="" width="176" height="60">
+    <img class="intro-logo" src="/assets/dimart-yazi-beyaz.svg" alt="" width="280" height="37">
     <i class="intro-line"></i>
-    {slogan_img(m, 260 / 520, "intro-slogan")}
+    {slogan_img(m, 360 / 520, "intro-slogan")}
     <p class="intro-gir"><button type="button" class="intro-ses"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>{m['muzikle']}</button><button type="button" class="intro-sessiz">{m['sessiz']}</button></p>
   </div>
 </div>
@@ -370,7 +376,7 @@ def shell(path):
         for i, (href, name, sub, _) in enumerate(menu))
     previews = "\n".join(frame(cz, f"pv pv{i}", decor=True, lang=lang) for i, (*_, cz) in enumerate(menu))
     return f"""<header class="top" id="top">
-  <a class="brand" href="/{ESLER[0][lang]}" aria-label="{m['ana']}"><img src="/assets/dimart-logo-beyaz.svg" alt="Dimart Mimarlık" width="96" height="33"></a>
+  <a class="brand" href="/{ESLER[0][lang]}" aria-label="{m['ana']}"><img src="/assets/dimart-yazi-beyaz.svg" alt="Dimart Mimarlık" width="128" height="17"></a>
   <p class="top-loc" aria-hidden="true">{m['il']}</p>
   <div class="util" role="group" aria-label="{m['util']}">
     <a href="/cizim-masasi/" id="masa-link" title="{m['masa_t']}">{m['masa']}</a>
@@ -423,7 +429,7 @@ def footer(lang="tr"):
     <div><dt>{m['eposta']}</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
     <div><dt>{m['ofis']}</dt><dd>{m['il']}</dd></div>
     <div><dt>{m['harita']}</dt><dd>{harita_linkleri(m)}</dd></div>
-    <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
+    <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimart.mimarlik</a></dd></div>
   </dl>
   <nav class="foot-nav" aria-label="{m['altmenu']}">{"".join(f'<a href="{h}">{n}</a>' for h, n, *_ in menu)}</nav>
   <div class="legal">
@@ -671,7 +677,7 @@ def page_iletisim():
       <div><dt>e-posta</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
       <div><dt>İstanbul ofisi</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / {f['il']}, Türkiye<br><a href="{HARITA}" rel="noopener" target="_blank">Haritada göster</a></dd></div>
       <div><dt>Hollanda ofisi</dt><dd>{NL['adres']},<br>{NL['pk']} {NL['il']}, Hollanda<br><a href="{HARITA_NL}" rel="noopener" target="_blank">Haritada göster</a></dd></div>
-      <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
+      <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimart.mimarlik</a></dd></div>
     </dl>
     <div class="prose" data-r>
       <p class="label">Görüşmeye gelirken</p>
@@ -783,7 +789,7 @@ def page_cizim():
     <h1 data-r>Her şey bir çizgiyle <span class="y">başlar.</span></h1>
     <p class="lead" data-r>Hayalinizdeki mekânın ilk taslağını burada çizin. Odalarınızı oluşturun, kapı ve pencereleri yerleştirin; koltuktan yatağa, eviyeden klozete standart ölçülerde eşyaları yerleştirin, zemin malzemesini ve duvar rengini seçin, sonra mekânın içinde 3B gezinin. Alanlar kendiliğinden hesaplanır. Hazır olunca taslağı bize gönderin, gerisini birlikte çizelim.</p>
   </section>
-  <section class="masa" id="masa" aria-label="Çizim masası">
+  <section class="masa" id="masa" aria-label="Çizim masası" data-js="/assets/cizim.js?v={surum('cizim.js')}">
     <div class="masa-bar">
       <div class="masa-araclar" role="group" aria-label="Araçlar">{btn}</div>
       <div class="masa-isler"><button type="button" data-is="geri">Geri al</button><button type="button" data-is="temizle">Temizle</button><button type="button" data-is="indir">Görseli indir</button><button type="button" data-is="foto">Fotoğraf</button></div>

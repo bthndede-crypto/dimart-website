@@ -296,7 +296,7 @@
     var W = 0, H = 0, dpr = 1, z = 1, ox = 0, oy = 0, dokunma = false, ilk = true;
     var TOL = function () { return (dokunma ? 2 : 1) / Math.min(z, 1.5); };
     var plan = { odalar: [], acik: [], esya: [] }, gecmis = [], cizilen = [], fare = null, arac = 'duvar';
-    var secZemin = 1, secBoya = 1, secTip = 'koltuk3', secKapi = 'oda', secPen = 'standart', sec = null, surukle = null, uc = false, hayaletA = 0, uzerinde = null;
+    var secZemin = 1, secBoya = 1, secTip = 'koltuk3', secKapi = 'oda', secPen = 'standart', secOrtu = '', secKap = 'boya', sec = null, surukle = null, uc = false, hayaletA = 0, uzerinde = null;
     try {
       var k = JSON.parse(localStorage.getItem(ANAHTAR));
       if (k && k.odalar) {
@@ -641,14 +641,14 @@
             '<p class="pn-not">Kapıyı duvar boyunca sürükleyerek kaydırabilirsiniz.</p>';
         } else {
           h += '<p class="pn-baslik">Seçili pencere</p><p class="pn-ad">' + ((PEN_TIP[a.pt] || {}).ad || 'Pencere') + '</p>' +
+            '<p class="pn-baslik">Perde ve örtü</p><div class="pn-liste" data-k="ortu">' + Object.keys(ORTU).map(function (k) { return '<button type="button" data-v="' + k + '" aria-pressed="' + (ortuTip(a) === k) + '"><span>' + ORTU[k][0] + '</span><small>' + ORTU[k][1] + '</small></button>'; }).join('') + '</div>' +
+            (ortuTip(a) !== 'yok' ? aralik(ortuTip(a) === 'tul' || ortuTip(a) === 'fon' ? 'Kapalılık (perde ne kadar çekili)' : ortuTip(a) === 'dikey' ? 'Kapalılık (şerit açısı)' : 'Kapalılık (ne kadar inik)', 'ortuK', ortuK(a), 0, 100, 5, '%' + ortuK(a)) +
+              renkler(ortuTip(a) === 'jaluzi' ? 'Jaluzi rengi' : 'Kumaş rengi', 'ortuR', a.ortuR || '', ortuTip(a) === 'jaluzi' ? ['#F2F0EB', '#D9D6D0', '#C4A57A', '#B08D66', '#7A5A3C', '#3B3A38', '#1E1D1B'] : ['#F4F0E8', '#E9E3D6', '#CDBFA6', '#B9B6B0', '#8E8C88', '#5B6548', '#2F3B55', '#9B5D4A', '#3B3A38'], 'Tipin rengi') : '') +
             '<div class="pn-alan"><span>Pencere tipi</span><div class="pn-liste">' + Object.keys(PEN_TIP).map(function (k) { var p = PEN_TIP[k]; return '<button type="button" data-pt="' + k + '" aria-pressed="' + (a.pt === k) + '"><span>' + p.ad + '</span><small>' + cmS(p.gen) + '×' + cmS(p.yuk) + '</small></button>'; }).join('') + '</div></div>' +
             aralik('Genişlik', 'gen', cmS(acikGen(a)), 40, 500, 5, cmS(acikGen(a)) + ' cm') +
             aralik('Denizlik yüksekliği', 'esik', cmS(acikEsik(a)), 0, 200, 5, cmS(acikEsik(a)) + ' cm') +
             aralik('Pencere yüksekliği', 'yuk', cmS(acikYuk(a)), 30, 270, 5, cmS(acikYuk(a)) + ' cm') +
             renkler('Doğrama rengi', 'renk', a.renk || '', ['#F2F0EB', '#B08D66', '#7A5A3C', '#8E8C88', '#3B3A38', '#1E1D1B'], 'Antrasit') +
-            '<p class="pn-baslik">Perde ve örtü</p><div class="pn-liste" data-k="ortu">' + Object.keys(ORTU).map(function (k) { return '<button type="button" data-v="' + k + '" aria-pressed="' + (ortuTip(a) === k) + '"><span>' + ORTU[k][0] + '</span><small>' + ORTU[k][1] + '</small></button>'; }).join('') + '</div>' +
-            (ortuTip(a) !== 'yok' ? aralik(ortuTip(a) === 'tul' || ortuTip(a) === 'fon' ? 'Kapalılık (perde ne kadar çekili)' : ortuTip(a) === 'dikey' ? 'Kapalılık (şerit açısı)' : 'Kapalılık (ne kadar inik)', 'ortuK', ortuK(a), 0, 100, 5, '%' + ortuK(a)) +
-              renkler(ortuTip(a) === 'jaluzi' ? 'Jaluzi rengi' : 'Kumaş rengi', 'ortuR', a.ortuR || '', ortuTip(a) === 'jaluzi' ? ['#F2F0EB', '#D9D6D0', '#C4A57A', '#B08D66', '#7A5A3C', '#3B3A38', '#1E1D1B'] : ['#F4F0E8', '#E9E3D6', '#CDBFA6', '#B9B6B0', '#8E8C88', '#5B6548', '#2F3B55', '#9B5D4A', '#3B3A38'], 'Tipin rengi') : '') +
             '<div class="pn-is pn-son"><button type="button" data-pis="sil">Sil</button>' + geriDon + '</div>' +
             '<p class="pn-not">Pencereyi duvar boyunca sürükleyerek kaydırabilirsiniz.</p>';
         }
@@ -692,16 +692,21 @@
           '<p class="pn-not">Tipi seçip bir duvara tıklayın. Eklenen kapının genişliğini, kanadını ve açılış yönünü buradan değiştirebilirsiniz.</p>';
       } else if (arac === 'pencere') {
         h += '<p class="pn-baslik">Pencere tipi</p><div class="pn-liste">' + Object.keys(PEN_TIP).map(function (k) { var p = PEN_TIP[k]; return '<button type="button" data-yenipen="' + k + '" aria-pressed="' + (secPen === k) + '"><span>' + p.ad + '</span><small>' + cmS(p.gen) + '×' + cmS(p.yuk) + '</small></button>'; }).join('') + '</div>' +
-          '<p class="pn-not">Tipi seçip bir duvara tıklayın. Ölçüleri sonradan değiştirebilirsiniz.</p>';
+          '<p class="pn-baslik">Perde ve örtü</p><div class="pn-liste"><button type="button" data-yeniortu="" aria-pressed="' + !secOrtu + '"><span>Otomatik</span><small>Geniş pencereye tül</small></button>' +
+          Object.keys(ORTU).map(function (k) { return '<button type="button" data-yeniortu="' + k + '" aria-pressed="' + (secOrtu === k) + '"><span>' + ORTU[k][0] + '</span><small>' + ORTU[k][1] + '</small></button>'; }).join('') + '</div>' +
+          '<p class="pn-not">Tipi ve perdeyi seçip bir duvara tıklayın. Ölçüleri, perdenin rengini ve ne kadar kapalı olduğunu sonradan Seç ile pencereye dokunarak değiştirebilirsiniz.</p>';
       } else if (arac === 'zemin') {
         h += '<p class="pn-baslik">Zemin</p>' + zeminButon(secZemin) + '<p class="pn-not">Seçtiğiniz zemin hemen tüm odalara uygulanır (3B\'de de). Yalnızca bir odayı değiştirmek, renk, karo ölçüsü ve döşeme yönü için o odaya tıklayın.</p>';
       } else if (arac === 'boya') {
-        h += '<p class="pn-baslik">Duvar rengi</p>' + boyaButon(secBoya, false) + '<p class="pn-not">Seçtiğiniz renk hemen tüm odaların duvarlarına uygulanır (3B\'de de). Yalnızca bir odayı boyamak ya da özel renk için o odaya tıklayın.</p>';
+        h += '<p class="pn-baslik">Duvar rengi</p>' + boyaButon(secBoya, false) +
+          '<p class="pn-baslik">Duvar kaplaması</p><div class="pn-liste">' + Object.keys(KAPLAMA).map(function (t) { return '<button type="button" data-yenikap="' + t + '" aria-pressed="' + (secKap === t) + '"><span>' + KAPLAMA[t].ad + '</span><small>' + KAPLAMA[t].not + '</small></button>'; }).join('') + '</div>' +
+          '<p class="pn-not">Seçtiğiniz renk ve kaplama hemen tüm odaların duvarlarına uygulanır (3B\'de de). Yalnızca bir odayı değiştirmek, kaplama yüksekliği ve tonu için o odaya, tek bir duvar için 3B\'de o duvara dokunun.</p>';
       } else {
         h += '<p class="pn-baslik">Nasıl çalışır</p><ol class="pn-adim">' +
           '<li><b>Duvar</b> ile köşelere tıklayıp odayı kapatın.</li><li><b>Kapı</b> ve <b>Pencere</b> ile tipini seçip duvara tıklayın.</li>' +
           '<li><b>Eşya</b> listesinden seçip plana yerleştirin.</li><li><b>Seç</b> ile her şeye tıklayın: döndürün (<b>R</b> tuşu ya da sarı tutamak), ölçüsünü, rengini, malzemesini değiştirin.</li>' +
-          '<li><b>3B</b> ile içinde gezinin; 3B görünümde de tıklayıp düzenleyebilirsiniz.</li></ol>' +
+          '<li><b>3B</b> ile içinde gezinin; 3B görünümde de tıklayıp düzenleyebilirsiniz. Köşedeki düğmelerle sabah, öğle, akşam ve gece ışığını deneyin.</li>' +
+          '<li>Pencereye dokununca <b>perde, stor, jaluzi</b>; odaya dokununca <b>duvar kaplaması</b> (lambri, mermer, tuğla…) seçenekleri çıkar.</li></ol>' +
           '<p class="pn-not">Ölçek: bir kare 50 × 50 cm. Duvar yüksekliği 2,80 m. Eşyalar standart ölçülerdedir.</p>';
       }
       var mobilAc = !!s || ['esya', 'kapi', 'pencere', 'zemin', 'boya'].indexOf(arac) >= 0;
@@ -764,6 +769,12 @@
         else if (ds.slot && s && s.tur === 'esya') { anlik(); var es2 = plan.esya[s.i]; es2.m = es2.m || {}; if (ds.mi === '') delete es2.m[ds.slot]; else { es2.m[ds.slot] = +ds.mi; delete es2.renk; } if (!Object.keys(es2.m).length) delete es2.m; kaydet(); ses(493.88); }
         else if (ds.yenikapi) secKapi = ds.yenikapi;
         else if (ds.yenipen) secPen = ds.yenipen;
+        else if (ds.yeniortu !== undefined) secOrtu = ds.yeniortu;
+        else if (ds.yenikap) {
+          var hk = s && s.tur === 'oda' ? [plan.odalar[s.i]] : plan.odalar;
+          if (hk.length) { anlik(); hk.forEach(function (o) { if (ds.yenikap === 'boya') { delete o.kap; delete o.kapH; } else o.kap = ds.yenikap; delete o.kapR; }); kaydet(); ses(493.88); }
+          secKap = ds.yenikap;
+        }
         else if (ds.kt && s) { anlik(); yeniKapi(plan.acik[s.i], ds.kt); kaydet(); }
         else if (ds.pt && s) { anlik(); yeniPen(plan.acik[s.i], ds.pt); kaydet(); }
         else if (ds.zemin !== undefined || ds.boya !== undefined) {
@@ -940,7 +951,7 @@
           else {
             var yeni = { oda: dv.oda, kenar: dv.kenar, t: dv.t, tur: arac };
             anlik(); plan.acik.push(yeni);
-            if (arac === 'kapi') yeniKapi(yeni, secKapi); else yeniPen(yeni, secPen);
+            if (arac === 'kapi') yeniKapi(yeni, secKapi); else { yeniPen(yeni, secPen); if (secOrtu) yeni.ortu = secOrtu; }
             sec = { tur: 'acik', i: plan.acik.length - 1 }; kaydet(); ses(arac === 'kapi' ? 440 : 659.25);
             if (ipucu) ipucu.textContent = (arac === 'kapi' ? 'Kapı' : 'Pencere') + ' eklendi. Ölçüsünü ve yönünü sağdaki panelden ayarlayın, duvar boyunca sürükleyin.';
           }
@@ -1088,7 +1099,8 @@
       hazirla: function () {
         var T = w.THREE;
         var r3 = U.r = new T.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
-        r3.setPixelRatio(Math.min(w.devicePixelRatio || 1, 2)); r3.shadowMap.enabled = true; r3.shadowMap.type = T.PCFSoftShadowMap;
+        var tel = w.matchMedia && w.matchMedia('(max-width:860px), (pointer:coarse)').matches; U.tel = tel; // telefonda daha hafif çizim
+        r3.setPixelRatio(Math.min(w.devicePixelRatio || 1, tel ? 1.5 : 2)); r3.shadowMap.enabled = true; r3.shadowMap.type = T.PCFSoftShadowMap;
         r3.outputEncoding = T.sRGBEncoding; r3.toneMapping = T.ACESFilmicToneMapping; r3.toneMappingExposure = .78;
         sahne.appendChild(r3.domElement);
         U.s = new T.Scene(); U.s.background = new T.Color(RENK.bg);
@@ -1109,7 +1121,7 @@
         U.gok = new T.HemisphereLight(0xfff8ee, 0x3a342c, .12); U.s.add(U.gok);
         // güneş: sıcak, yumuşak kenarlı gölge
         var g = new T.DirectionalLight(0xffeedd, 1.9); g.position.set(-8, 14, 6); g.castShadow = true;
-        g.shadow.mapSize.set(2048, 2048); var sc = g.shadow.camera; sc.left = sc.bottom = -15; sc.right = sc.top = 15; sc.near = 1; sc.far = 60;
+        g.shadow.mapSize.set(tel ? 1024 : 2048, tel ? 1024 : 2048); var sc = g.shadow.camera; sc.left = sc.bottom = -15; sc.right = sc.top = 15; sc.near = 1; sc.far = 60;
         g.shadow.bias = -.0004; g.shadow.radius = 6; g.shadow.blurSamples = 16;
         U.isik = g; U.s.add(g); U.s.add(g.target);
         // gün saati düğmeleri 3B görünümün köşesinde
@@ -1163,7 +1175,7 @@
           }
           var acc = d.createElement('canvas'); acc.width = W; acc.height = H; var ax = acc.getContext('2d'), N = 24, i = 0;
           var bitir = function () {
-            r3.toneMapping = T.ACESFilmicToneMapping; U.s.background = new T.Color(RENK.bg); kam.clearViewOffset(); kam.far = uzak; kam.updateProjectionMatrix(); g.position.copy(gp); golge(2048);
+            r3.toneMapping = T.ACESFilmicToneMapping; U.s.background = new T.Color(RENK.bg); kam.clearViewOffset(); kam.far = uzak; kam.updateProjectionMatrix(); g.position.copy(gp); golge(U.tel ? 1024 : 2048);
             if (comp) { comp.passes.forEach(function (ps) { if (ps.dispose) ps.dispose(); }); comp.renderTarget1.dispose(); comp.renderTarget2.dispose(); }
             r3.setPixelRatio(pr); if (U.vurgu) U.vurgu.visible = true; U.yeniden();
             ax.globalAlpha = 1; ax.fillStyle = 'rgba(237,232,224,.75)'; ax.font = '500 ' + Math.round(12 * olc) + 'px Montserrat, sans-serif';

@@ -233,7 +233,7 @@ def page_contact():
       <div><dt>email</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
       <div><dt>Istanbul office</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / Istanbul, Türkiye<br><a href="{HARITA}" rel="noopener" target="_blank">Show on map</a></dd></div>
       <div><dt>Netherlands office</dt><dd>{NL['adres']},<br>{NL['pk']} {NL['il']}, the Netherlands<br><a href="{HARITA_NL}" rel="noopener" target="_blank">Show on map</a></dd></div>
-      <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
+      <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimart.mimarlik</a></dd></div>
     </dl>
     <div class="prose" data-r>
       <p class="label">Before we meet</p>

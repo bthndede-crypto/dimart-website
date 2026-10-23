@@ -235,7 +235,7 @@ def page_contact():
       <div><dt>e-mail</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
       <div><dt>kantoor Nederland</dt><dd>{NL['adres']},<br>{NL['pk']} {NL['il']}<br><a href="{HARITA_NL}" rel="noopener" target="_blank">Toon op kaart</a></dd></div>
       <div><dt>kantoor Istanbul</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / Istanbul, Turkije<br><a href="{HARITA}" rel="noopener" target="_blank">Toon op kaart</a></dd></div>
-      <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
+      <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimart.mimarlik</a></dd></div>
     </dl>
     <div class="prose" data-r>
       <p class="label">Voor het eerste gesprek</p>
