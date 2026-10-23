@@ -1,5 +1,5 @@
 """Nederlandse pagina's (/nl/). Gebruikt de schil van build.py; wordt geladen wanneer build.py draait."""
-from build import FIRMA, INSTAGRAM, NL, ORG, SITE, crumbs, crumbs_ld, faq_html, faq_ld, footer, frame, head, words
+from build import FIRMA, HARITA, HARITA_NL, INSTAGRAM, NL, ORG, SITE, crumbs, crumbs_ld, faq_html, faq_ld, footer, frame, head, words
 
 DIENSTEN = [
     ("Architectonisch ontwerp", "mimari-tasarim",
@@ -83,7 +83,7 @@ def page_home():
                 "nl/", ld, "home") + f"""  <section class="hero">
     {frame("eskiz", "hero-frame", "0.06", lang="nl")}
     <div class="hero-text" data-r>
-      <p class="label">Architectuur &amp; bouw · Meerlo · Istanbul</p>
+      <p class="label">Architectuur &amp; bouw · Nederland · Turkije</p>
       <h1>Van ontwerp tot sleutel, <span class="y">één lijn.</span></h1>
       <p class="lead">Dimart ontwerpt, tekent en bouwt villa's, woningen, kantoren en commerciële ruimtes met teams in Meerlo en Istanbul. Het team dat tekent, leidt ook de bouwplaats, zodat u met één aanspreekpunt werkt.</p>
       <p class="links"><a class="go" href="/nl/contact/">Laten we praten</a><a class="go" href="/nl/diensten/">Diensten</a></p>
@@ -103,7 +103,7 @@ def page_home():
       <div><dt>disciplines</dt><dd>Architectuur, interieur, bouw</dd></div>
       <div><dt>model</dt><dd>Eén team, één contract</dd></div>
       <div><dt>gebouwen</dt><dd>Villa's, woningen, kantoren, commercieel</dd></div>
-      <div><dt>kantoren</dt><dd>Meerlo · Istanbul</dd></div>
+      <div><dt>kantoren</dt><dd>Nederland · Turkije</dd></div>
     </dl>
   </section>
 
@@ -233,8 +233,8 @@ def page_contact():
     <dl class="meta reg big" data-r>
       <div><dt>telefoon</dt><dd><a href="tel:{NL['tel_link']}">{NL['tel']}</a> (Nederland)<br><a href="tel:{f['tel_link']}">{f['tel']}</a> (Turkije)</dd></div>
       <div><dt>e-mail</dt><dd><a href="mailto:{f['eposta']}">{f['eposta']}</a></dd></div>
-      <div><dt>kantoor Nederland</dt><dd>{NL['adres']},<br>{NL['pk']} {NL['il']}</dd></div>
-      <div><dt>kantoor Istanbul</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / Istanbul, Turkije</dd></div>
+      <div><dt>kantoor Nederland</dt><dd>{NL['adres']},<br>{NL['pk']} {NL['il']}<br><a href="{HARITA_NL}" rel="noopener" target="_blank">Toon op kaart</a></dd></div>
+      <div><dt>kantoor Istanbul</dt><dd>{f['adres']},<br>{f['pk']} {f['ilce']} / Istanbul, Turkije<br><a href="{HARITA}" rel="noopener" target="_blank">Toon op kaart</a></dd></div>
       <div><dt>instagram</dt><dd><a href="{INSTAGRAM}" rel="noopener me" target="_blank">@dimartmimarlik</a></dd></div>
     </dl>
     <div class="prose" data-r>

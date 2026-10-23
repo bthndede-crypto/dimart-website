@@ -65,6 +65,11 @@
     mutfak: { ad: 'Mutfak penceresi', gen: 1.2, esik: 1.05, yuk: 1 },
     banyo: { ad: 'Banyo penceresi', gen: .6, esik: 1.6, yuk: .6 }
   };
+  // pencere örtüleri: [ad, açıklama]
+  var ORTU = {
+    yok: ['Yok', 'Açık pencere'], tul: ['Tül', 'İnce, ışık geçiren'], fon: ['Fon + tül', 'Kalın fon, arkada tül'], stor: ['Stor', 'Sarılan düz kumaş'],
+    zebra: ['Zebra', 'Şeritli çift katman'], jaluzi: ['Jaluzi', 'Yatay ahşap ya da alüminyum'], plise: ['Plise', 'Akordeon katlı'], dikey: ['Dikey', 'Dikey şeritli']
+  };
   var ODA_ADLARI = ['Oda', 'Salon', 'Mutfak', 'Salon ve mutfak', 'Yatak odası', 'Ebeveyn yatak odası', 'Çocuk odası', 'Banyo', 'WC', 'Antre', 'Koridor', 'Çalışma odası', 'Giyinme odası', 'Kiler', 'Balkon', 'Ofis'];
 
   /* ---------- eşya kütüphanesi: genişlik × derinlik × yükseklik (cm) ---------- */
@@ -325,6 +330,8 @@
     };
 
     /* açıklık geometri */
+    var ortuTip = function (a) { return a.ortu || (acikGen(a) >= .5 && acikEsik(a) + acikYuk(a) > 1.2 ? 'tul' : 'yok'); };
+    var ortuK = function (a) { return a.ortuK === undefined ? (ortuTip(a) === 'tul' || ortuTip(a) === 'fon' ? 25 : 45) : a.ortuK; };
     var acikGen = function (a) { return a.gen || (a.tur === 'kapi' ? .9 : 1.2); };
     var acikEsik = function (a) { return a.esik === undefined ? .9 : a.esik; };
     var acikYuk = function (a) { return a.yuk || 1.2; };
@@ -544,6 +551,7 @@
         var a = plan.acik[s.i];
         if (k === 'gen') return cmS(acikGen(a)) + ' cm'; if (k === 'h') return cmS(kapiH(a)) + ' cm';
         if (k === 'esik') return cmS(acikEsik(a)) + ' cm'; if (k === 'yuk') return cmS(acikYuk(a)) + ' cm';
+        if (k === 'ortuK') return '%' + ortuK(a);
       }
       if (s.tur === 'oda') { var o = plan.odalar[s.i], z = ZEMIN[o.zemin]; if (k === 'zk' && z.k) { var v = o.zk || z.k; return z.kare ? v + ' × ' + v + ' cm' : v + ' cm'; } }
       return '';
@@ -617,6 +625,9 @@
             aralik('Denizlik yüksekliği', 'esik', cmS(acikEsik(a)), 0, 200, 5, cmS(acikEsik(a)) + ' cm') +
             aralik('Pencere yüksekliği', 'yuk', cmS(acikYuk(a)), 30, 270, 5, cmS(acikYuk(a)) + ' cm') +
             renkler('Doğrama rengi', 'renk', a.renk || '', ['#F2F0EB', '#B08D66', '#7A5A3C', '#8E8C88', '#3B3A38', '#1E1D1B'], 'Antrasit') +
+            '<p class="pn-baslik">Perde ve örtü</p><div class="pn-liste" data-k="ortu">' + Object.keys(ORTU).map(function (k) { return '<button type="button" data-v="' + k + '" aria-pressed="' + (ortuTip(a) === k) + '"><span>' + ORTU[k][0] + '</span><small>' + ORTU[k][1] + '</small></button>'; }).join('') + '</div>' +
+            (ortuTip(a) !== 'yok' ? aralik(ortuTip(a) === 'tul' || ortuTip(a) === 'fon' ? 'Kapalılık (perde ne kadar çekili)' : ortuTip(a) === 'dikey' ? 'Kapalılık (şerit açısı)' : 'Kapalılık (ne kadar inik)', 'ortuK', ortuK(a), 0, 100, 5, '%' + ortuK(a)) +
+              renkler(ortuTip(a) === 'jaluzi' ? 'Jaluzi rengi' : 'Kumaş rengi', 'ortuR', a.ortuR || '', ortuTip(a) === 'jaluzi' ? ['#F2F0EB', '#D9D6D0', '#C4A57A', '#B08D66', '#7A5A3C', '#3B3A38', '#1E1D1B'] : ['#F4F0E8', '#E9E3D6', '#CDBFA6', '#B9B6B0', '#8E8C88', '#5B6548', '#2F3B55', '#9B5D4A', '#3B3A38'], 'Tipin rengi') : '') +
             '<div class="pn-is pn-son"><button type="button" data-pis="sil">Sil</button>' + geriDon + '</div>' +
             '<p class="pn-not">Pencereyi duvar boyunca sürükleyerek kaydırabilirsiniz.</p>';
         }
@@ -685,6 +696,9 @@
         else if (k === 'yuk') a.yuk = Math.max(.3, Math.min(+v / 100, DUVAR_H - .05 - acikEsik(a)));
         else if (k === 'kanat') a.kanat = v; else if (k === 'mentese') a.mentese = +v; else if (k === 'yon') a.yon = +v;
         else if (k === 'renk') { if (v) a.renk = v; else delete a.renk; }
+        else if (k === 'ortu') { a.ortu = v; delete a.ortuK; delete a.ortuR; }
+        else if (k === 'ortuK') a.ortuK = +v;
+        else if (k === 'ortuR') { if (v) a.ortuR = v; else delete a.ortuR; }
       } else if (s.tur === 'oda') {
         var o = plan.odalar[s.i];
         if (k === 'ad') { if (v) o.ad = v; else delete o.ad; }
@@ -955,7 +969,7 @@
         var kenar = o.pts.map(function (p, j) { var q = o.pts[(j + 1) % o.pts.length]; return m(Math.abs(q.x - p.x) + Math.abs(q.y - p.y)); });
         var ac = plan.acik.filter(function (a) { return a.oda === i; });
         var kapi = ac.filter(function (a) { return a.tur === 'kapi'; }).map(function (a) { return ((KAPI_TIP[a.kt] || {}).ad || 'Kapı') + ' ' + cmS(acikGen(a)) + ' cm'; });
-        var pen = ac.filter(function (a) { return a.tur === 'pencere'; }).map(function (a) { return cmS(acikGen(a)) + '×' + cmS(acikYuk(a)) + ' cm'; });
+        var pen = ac.filter(function (a) { return a.tur === 'pencere'; }).map(function (a) { return cmS(acikGen(a)) + '×' + cmS(acikYuk(a)) + ' cm' + (ortuTip(a) !== 'yok' ? ' (' + ORTU[ortuTip(a)][0].toLowerCase() + ')' : ''); });
         var z = ZEMIN[o.zemin];
         return 'Oda ' + (i + 1) + (o.ad ? ' (' + o.ad + ')' : '') + ': ' + al.toFixed(2).replace('.', ',') + ' m² · kenarlar ' + kenar.join(' · ') + ' m' +
           (o.zemin ? ' · zemin: ' + z.ad + (z.k ? ' ' + (o.zk || z.k) + (z.kare ? '×' + (o.zk || z.k) : '') + ' cm' : '') + (o.zrenk ? ' (' + o.zrenk + ')' : '') : '') +
@@ -1159,6 +1173,7 @@
         var bekle = [], bekleM = [], TX = U.tx || (U.tx = {}), DZ = U.dz || (U.dz = {});
         var iste = function (ad) { if (fotoHazir(ad)) return !FI[ad].bozuk; if (!FI[ad] && bekle.indexOf(ad) < 0) bekle.push(ad); return false; };
         var isteM = function (ad) { if (MD[ad] && MD[ad].sahne) return true; if (!MD[ad] && bekleM.indexOf(ad) < 0) bekleM.push(ad); return false; };
+        var srgbHex = function (h) { return new T.Color(h).getHex(); };
         var srgb = function (c) { return new T.Color(c).convertSRGBToLinear(); }; // renkler ekranda seçildiği tonda görünsün
         var lin = function (c) { return c <= .04045 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); };
         var tonla = function (hex, ort) { var c = new T.Color(hex); return new T.Color(lin(c.r) / lin(ort[0]), lin(c.g) / lin(ort[1]), lin(c.b) / lin(ort[2])); };
@@ -1267,10 +1282,68 @@
         };
         var camMat = new T.MeshPhysicalMaterial({ color: 0xdfeaee, roughness: .04, metalness: 0, transmission: 0, transparent: true, opacity: .22, envMapIntensity: 1.4, clearcoat: 1 });
         var perdeMat = mat.perde || (mat.perde = new T.MeshStandardMaterial({ color: 0xf4f0e8, roughness: .95, side: T.DoubleSide, transparent: true, opacity: .82, envMapIntensity: .5 }));
-        var perde = function (pw, ph) {
-          var geo = new T.PlaneGeometry(pw, ph, 36, 1), pos = geo.attributes.position;
+        var perde = function (pw, ph, m_) {
+          var geo = new T.PlaneGeometry(pw, ph, Math.max(8, Math.round(pw / .02)), 1), pos = geo.attributes.position;
           for (var q = 0; q < pos.count; q++) pos.setZ(q, Math.sin(pos.getX(q) / .11 * Math.PI) * .028);
-          geo.computeVertexNormals(); var me = new T.Mesh(geo, perdeMat); me.receiveShadow = true; return me;
+          geo.computeVertexNormals(); var me = new T.Mesh(geo, m_ || perdeMat); me.receiveShadow = true; me.castShadow = !!m_; return me;
+        };
+        // pencere örtüleri: tül, fon + tül, stor, zebra, jaluzi, plise, dikey
+        var tulMat = function (renk) { var kk = 'tul|' + renk; return mat[kk] || (mat[kk] = new T.MeshStandardMaterial({ color: srgb(renk), roughness: .95, side: T.DoubleSide, transparent: true, opacity: .78, envMapIntensity: .5 })); };
+        var kumasCift = function (renk) { var kk = 'kc|' + renk; if (mat[kk]) return mat[kk]; var m_ = kumasMat(renk, 'keten').clone(); m_.side = T.DoubleSide; return (mat[kk] = m_); };
+        var zebraMat = function (renk) {
+          var kk = 'zb|' + renk; if (mat[kk]) return mat[kk];
+          var c = d.createElement('canvas'); c.width = 4; c.height = 64; var x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, 4, 64); x.fillStyle = '#5a5a5a'; x.fillRect(0, 32, 4, 32);
+          var t = new T.CanvasTexture(c); t.wrapS = t.wrapT = T.RepeatWrapping; t.magFilter = T.NearestFilter;
+          return (mat[kk] = new T.MeshStandardMaterial({ color: srgb(renk), roughness: .9, side: T.DoubleSide, transparent: true, alphaMap: t, envMapIntensity: .5 }));
+        };
+        var ORTU_R = { tul: '#F4F0E8', fon: '#CDBFA6', stor: '#E9E3D6', zebra: '#E9E3D6', jaluzi: '#B08D66', plise: '#E9E3D6', dikey: '#E4DED3' };
+        var ortuKur = function (grp, a, s0, e0, es_, yk, ici) {
+          var gen = e0 - s0, tip = a.ortu || (gen >= .5 && es_ + yk > 1.2 ? 'tul' : 'yok'); if (tip === 'yok') return;
+          var K = (a.ortuK === undefined ? (tip === 'tul' || tip === 'fon' ? 25 : 45) : a.ortuK) / 100, mid = (s0 + e0) / 2;
+          var renk = a.ortuR || ORTU_R[tip], z0 = ici * (KAL / 2 + .07), ust = Math.min(DUVAR_H - .03, es_ + yk + .14);
+          var cubuk = function (w_, y_, z_) { var c = silindir(grp, .011, .011, w_, 0, 0, 0, METAL, .3, .8); c.rotation.z = Math.PI / 2; c.position.set(mid, y_, z_); };
+          var asagi = function (L_) { return Math.max(.06, (ust - .08 - es_ + .04) * L_); };
+          if (tip === 'tul' || tip === 'fon') {
+            var ph = DUVAR_H - .1, ytul = ph / 2 + .03;
+            cubuk(gen + .5, DUVAR_H - .06, z0 + ici * .03);
+            if (tip === 'tul') [-1, 1].forEach(function (yz) {
+              var pw = .22 + (gen / 2 + .03) * K, pd = perde(pw, ph, null); pd.material = tulMat(renk);
+              pd.position.set(yz < 0 ? s0 - .2 + pw / 2 : e0 + .2 - pw / 2, ytul, z0); grp.add(pd);
+            });
+            else {
+              var tl = perde(gen + .4, ph, null); tl.material = tulMat('#F4F0E8'); tl.position.set(mid, ytul, z0 - ici * .02); grp.add(tl);
+              [-1, 1].forEach(function (yz) {
+                var pw = .3 + (gen / 2) * K, pd = perde(pw, ph, kumasCift(renk));
+                pd.position.set(yz < 0 ? s0 - .25 + pw / 2 : e0 + .25 - pw / 2, ytul, z0 + ici * .05); grp.add(pd);
+              });
+            }
+            return;
+          }
+          var gw_ = gen + .06, L = asagi(K), ty = ust - .08;
+          if (tip !== 'dikey') kutu(grp, gw_ + .02, .06, .07, mid, ty, z0, tip === 'jaluzi' ? srgbHex(renk) : 0xe8e4dc, .5);
+          if (tip === 'stor' || tip === 'zebra') {
+            var pl = new T.Mesh(new T.PlaneGeometry(gw_, L), tip === 'zebra' ? zebraMat(renk) : kumasCift(renk));
+            if (tip === 'zebra') { pl.material.alphaMap.repeat.set(1, L / .1); }
+            pl.position.set(mid, ty - L / 2, z0); pl.castShadow = true; grp.add(pl);
+            kutu(grp, gw_, .025, .02, mid, ty - L - .025, z0, 0xd9d4ca, .4, .3);
+          } else if (tip === 'plise') {
+            var n = Math.max(2, Math.round(L / .025)), geo = new T.PlaneGeometry(gw_, L, 1, n), pos = geo.attributes.position;
+            for (var q = 0; q < pos.count; q++) pos.setZ(q, (Math.round((pos.getY(q) + L / 2) / (L / n)) % 2) * .014 * ici);
+            geo.computeVertexNormals(); var pm_ = new T.Mesh(geo, kumasCift(renk)); pm_.position.set(mid, ty - L / 2, z0); pm_.castShadow = true; grp.add(pm_);
+            kutu(grp, gw_, .02, .03, mid, ty - L - .02, z0, 0xd9d4ca, .4, .3);
+          } else if (tip === 'jaluzi') {
+            var adim = .022, ns = Math.max(1, Math.floor(L / adim)), sm = MT(srgbHex(renk), .55),
+              im = new T.InstancedMesh(new T.BoxGeometry(gw_ - .01, .0025, .025), sm, ns), mx_ = new T.Matrix4(), qt = new T.Quaternion().setFromEuler(new T.Euler(.45 * ici, 0, 0));
+            for (var j = 0; j < ns; j++) { mx_.compose(new T.Vector3(mid, ty - .01 - j * adim, z0), qt, new T.Vector3(1, 1, 1)); im.setMatrixAt(j, mx_); }
+            im.castShadow = true; grp.add(im);
+            kutu(grp, gw_, .02, .03, mid, ty - .01 - ns * adim - .02, z0, srgbHex(renk), .5);
+          } else if (tip === 'dikey') {
+            var alt_ = es_ > .3 ? es_ - .06 : .02, H_ = ust - alt_ - .04, nd = Math.ceil((gen + .2) / .085), dm = kumasCift(renk),
+              id = new T.InstancedMesh(new T.BoxGeometry(.089, H_, .002), dm, nd), m4 = new T.Matrix4(), q4 = new T.Quaternion().setFromEuler(new T.Euler(0, (1 - K) * 1.35, 0));
+            for (var jj = 0; jj < nd; jj++) { m4.compose(new T.Vector3(s0 - .1 + .0425 + jj * .085, alt_ + H_ / 2, z0), q4, new T.Vector3(1, 1, 1)); id.setMatrixAt(jj, m4); }
+            id.castShadow = true; grp.add(id);
+            kutu(grp, gen + .24, .04, .06, mid, ust - .04, z0, 0xe8e4dc, .5);
+          }
         };
         var KUMAS = 0x8a8174, AHSAP = 0x7a5a3c, ACIK = 0xb08d66, BEYAZ = 0xeeebe5, METAL = 0x9a9a9a, SIYAH = 0x232220, SERAMIK = 0xf4f2ee;
         // gerçek model: kutusu eşyanın ölçüsüne oturtulur; döşeme ya da ahşap seçildiyse o parça değişir
@@ -1373,10 +1446,7 @@
                 kutu(grp, gen, .05, .06, mid, es_, 0, dr, .5); kutu(grp, gen, .05, .06, mid, es_ + yk - .05, 0, dr, .5);
                 kutu(grp, .05, yk, .06, k.s + .025, es_, 0, dr, .5); kutu(grp, .05, yk, .06, k.e - .025, es_, 0, dr, .5);
                 if (gen > .8) kutu(grp, .045, yk, .06, mid, es_, 0, dr, .5);
-                if (gen >= .5 && es_ + yk > 1.2) [-1, 1].forEach(function (yz) { // tül perdeler
-                  var pw = Math.min(.7, gen * .32) + .1, ph = DUVAR_H - .08, pd = perde(pw, ph);
-                  pd.position.set(yz < 0 ? k.s - .08 + pw / 2 : k.e + .08 - pw / 2, ph / 2 + .03, ici * (KAL / 2 + .08)); grp.add(pd);
-                });
+                ortuKur(grp, a, k.s, k.e, es_, yk, ici);
               }
               bas = k.e;
             });
