@@ -70,6 +70,22 @@
     yok: ['Yok', 'Açık pencere'], tul: ['Tül', 'İnce, ışık geçiren'], fon: ['Fon + tül', 'Kalın fon, arkada tül'], stor: ['Stor', 'Sarılan düz kumaş'],
     zebra: ['Zebra', 'Şeritli çift katman'], jaluzi: ['Jaluzi', 'Yatay ahşap ya da alüminyum'], plise: ['Plise', 'Akordeon katlı'], dikey: ['Dikey', 'Dikey şeritli']
   };
+  // duvar kaplamaları: f doku, k karo ölçüsü (m), p pürüzlülük, z kalınlık (m)
+  var KAPLAMA = {
+    boya: { ad: 'Boya', not: 'Mat iç cephe boyası' }, lambri: { ad: 'Ahşap lambri', not: 'Dikey çıtalı', f: 'mese', p: .6, z: .02 },
+    mermer: { ad: 'Beyaz mermer', not: 'Büyük plaka', f: 'mermer-beyaz', p: .3, z: .015 }, mermerS: { ad: 'Siyah mermer', not: 'Nero marquina', f: 'mermer-siyah', p: .3, z: .015 },
+    traverten: { ad: 'Traverten', not: '60 × 60 cm, mat', f: 'traverten', p: .7, k: .6, z: .015 }, seramik: { ad: 'Seramik', not: '30 × 30 cm', f: 'seramik', p: .35, k: .3, z: .012 },
+    tugla: { ad: 'Tuğla', not: 'Klinker tuğla', f: 'tugla', p: .9, z: .03 }, tas: { ad: 'Doğal taş', not: 'Kesme taş', f: 'tas', p: .9, z: .035 },
+    mikrobeton: { ad: 'Mikrobeton', not: 'Derzsiz, mat', f: 'mikrobeton', p: .8, z: .006 }, beton: { ad: 'Brüt beton', not: 'Endüstriyel', f: 'beton', p: .85, z: .006 }
+  };
+  var KTON = ['#F2F0EB', '#E4DACA', '#CDBB9C', '#B08D66', '#7A5A3C', '#9AA78F', '#6E7F78', '#3F4B5C', '#3B3A38', '#1E1D1B'];
+  // gün saati: güneşin yeri, rengi ve gücü, gök ışığı, pozlama, ortam yansıması, odalardaki lambalar
+  var SAAT = {
+    sabah: { ad: 'Sabah', g: [-12, 6, 10], r: 0xfff0dc, i: 1.7, h: .14, p: .8, env: 'gun', l: 0 },
+    ogle: { ad: 'Öğle', g: [-8, 14, 6], r: 0xffeedd, i: 1.9, h: .12, p: .78, env: 'gun', l: 0 },
+    aksam: { ad: 'Akşam', g: [12, 3.4, -5], r: 0xff9356, i: 1.7, h: .06, p: .8, env: 'aksam', l: .35 },
+    gece: { ad: 'Gece', g: [6, 12, -8], r: 0x7f93c4, i: .1, h: .015, p: .95, env: 'gece', l: 1 }
+  };
   var ODA_ADLARI = ['Oda', 'Salon', 'Mutfak', 'Salon ve mutfak', 'Yatak odası', 'Ebeveyn yatak odası', 'Çocuk odası', 'Banyo', 'WC', 'Antre', 'Koridor', 'Çalışma odası', 'Giyinme odası', 'Kiler', 'Balkon', 'Ofis'];
 
   /* ---------- eşya kütüphanesi: genişlik × derinlik × yükseklik (cm) ---------- */
@@ -330,6 +346,7 @@
     };
 
     /* açıklık geometri */
+    var kaplama = function (o, kenar) { var v = o.vd && o.vd[kenar]; return v ? { t: v.t, r: v.r, h: DUVAR_H } : { t: o.kap || 'boya', r: o.kapR, h: o.kapH ? o.kapH / 100 : DUVAR_H }; };
     var ortuTip = function (a) { return a.ortu || (acikGen(a) >= .5 && acikEsik(a) + acikYuk(a) > 1.2 ? 'tul' : 'yok'); };
     var ortuK = function (a) { return a.ortuK === undefined ? (ortuTip(a) === 'tul' || ortuTip(a) === 'fon' ? 25 : 45) : a.ortuK; };
     var acikGen = function (a) { return a.gen || (a.tur === 'kapi' ? .9 : 1.2); };
@@ -553,13 +570,17 @@
         if (k === 'esik') return cmS(acikEsik(a)) + ' cm'; if (k === 'yuk') return cmS(acikYuk(a)) + ' cm';
         if (k === 'ortuK') return '%' + ortuK(a);
       }
-      if (s.tur === 'oda') { var o = plan.odalar[s.i], z = ZEMIN[o.zemin]; if (k === 'zk' && z.k) { var v = o.zk || z.k; return z.kare ? v + ' × ' + v + ' cm' : v + ' cm'; } }
+      if (s.tur === 'oda') { var o = plan.odalar[s.i], z = ZEMIN[o.zemin]; if (k === 'kapH') return !o.kapH || o.kapH >= 280 ? 'Tavana kadar' : o.kapH + ' cm'; if (k === 'zk' && z.k) { var v = o.zk || z.k; return z.kare ? v + ' × ' + v + ' cm' : v + ' cm'; } }
       return '';
     };
     var degerYaz = function (k) {
       var b = panel && panel.querySelector('[data-deger="' + k + '"]'); if (b) b.textContent = degerMetni(k);
       var s = gecerliSec(), inp = panel && panel.querySelector('input[type=range][data-k="' + k + '"]');
       if (inp && d.activeElement !== inp && s && s.tur === 'esya' && k === 'a') inp.value = plan.esya[s.i].a || 0;
+    };
+    var kaplamaListe = function (k, v, odaGibi) {
+      return '<div class="pn-liste" data-k="' + k + '">' + (odaGibi ? '<button type="button" data-v="oda" aria-pressed="' + (v === 'oda') + '"><span>Odadaki gibi</span><small>Ayrı kaplama yok</small></button>' : '') +
+        Object.keys(KAPLAMA).map(function (t) { return '<button type="button" data-v="' + t + '" aria-pressed="' + (v === t) + '"><span>' + KAPLAMA[t].ad + '</span><small>' + KAPLAMA[t].not + '</small></button>'; }).join('') + '</div>';
     };
     var zeminButon = function (secili) {
       var h = '<div class="pn-renk">';
@@ -633,6 +654,13 @@
         }
       } else if (s.tur === 'oda') {
         var o = plan.odalar[s.i], z = ZEMIN[o.zemin];
+        if (s.kenar !== undefined && o.pts[s.kenar]) {
+          var p1 = o.pts[s.kenar], p2 = o.pts[(s.kenar + 1) % o.pts.length], vd = o.vd && o.vd[s.kenar];
+          h += '<p class="pn-baslik">Seçili duvar</p><p class="pn-olcu">' + (Math.hypot(p2.x - p1.x, p2.y - p1.y) / METRE).toFixed(2).replace('.', ',') + ' m</p>' +
+            kaplamaListe('vd', vd ? vd.t : 'oda', true) +
+            (vd ? renkler(vd.t === 'boya' ? 'Bu duvarın rengi' : 'Kaplama tonu', 'vdR', vd.r || '', vd.t === 'boya' ? BOYA.map(function (b) { return b.r; }) : KTON, vd.t === 'boya' ? 'Odanın rengi' : 'Doğal tonu') : '') +
+            '<div class="pn-is"><button type="button" data-pis="tumoda">Tüm odayı göster</button></div>';
+        }
         h += '<p class="pn-baslik">Seçili oda</p><p class="pn-olcu">' + alanHesap(o.pts).toFixed(2).replace('.', ',') + ' m²</p>' +
           '<label class="pn-alan"><span>Oda adı</span><select data-k="ad"><option value="">Seçin</option>' + ODA_ADLARI.map(function (n) { return '<option' + (o.ad === n ? ' selected' : '') + '>' + n + '</option>'; }).join('') + '</select></label>' +
           '<p class="pn-baslik">Zemin</p>' + zeminButon(o.zemin);
@@ -642,6 +670,9 @@
             secim('Döşeme yönü', 'zaci', [[0, '0°'], [45, '45°'], [90, '90°'], [135, '135°']], o.zaci || 0);
         }
         h += '<p class="pn-baslik">Duvar rengi</p>' + boyaButon(o.boya || 0, o.duvarR) + renkler('Özel duvar rengi', 'duvarR', o.duvarR || '', [], 'Listedeki renk') +
+          '<p class="pn-baslik">Duvar kaplaması</p>' + kaplamaListe('kap', o.kap || 'boya', false) +
+          (o.kap ? aralik('Kaplama yüksekliği', 'kapH', o.kapH || 280, 60, 280, 10, degerMetni('kapH')) + renkler('Kaplama tonu', 'kapR', o.kapR || '', KTON, 'Doğal tonu') : '') +
+          (s.kenar === undefined ? '<p class="pn-not">Yalnızca bir duvarı farklı yapmak için (vurgu duvarı) 3B görünümde o duvara tıklayın.</p>' : '') +
           '<div class="pn-is pn-son"><button type="button" data-pis="sil">Odayı sil</button></div>';
       }
       return h;
@@ -706,6 +737,15 @@
         if (k === 'zk') o.zk = +v;
         if (k === 'zrenk') { if (v) o.zrenk = v; else delete o.zrenk; }
         if (k === 'duvarR') { if (v) o.duvarR = v; else delete o.duvarR; }
+        if (k === 'kap') { if (v === 'boya') { delete o.kap; delete o.kapH; } else o.kap = v; delete o.kapR; }
+        if (k === 'kapH') { if (+v >= 280) delete o.kapH; else o.kapH = +v; }
+        if (k === 'kapR') { if (v) o.kapR = v; else delete o.kapR; }
+        if ((k === 'vd' || k === 'vdR') && s.kenar !== undefined) {
+          o.vd = o.vd || {};
+          if (k === 'vd') { if (v === 'oda') delete o.vd[s.kenar]; else o.vd[s.kenar] = { t: v }; }
+          else if (o.vd[s.kenar]) { if (v) o.vd[s.kenar].r = v; else delete o.vd[s.kenar].r; }
+          if (!Object.keys(o.vd).length) delete o.vd;
+        }
       }
       kaydet();
     };
@@ -761,6 +801,7 @@
     function islem(n) {
       var s = gecerliSec();
       if (n === 'liste') { sec = null; paneliKur(); ciz(); return; }
+      if (n === 'tumoda' && sec) { delete sec.kenar; paneliKur(); if (uc) U.vurgula(); return; }
       if (!s) return;
       anlik();
       if (s.tur === 'esya') {
@@ -973,7 +1014,8 @@
         var z = ZEMIN[o.zemin];
         return 'Oda ' + (i + 1) + (o.ad ? ' (' + o.ad + ')' : '') + ': ' + al.toFixed(2).replace('.', ',') + ' m² · kenarlar ' + kenar.join(' · ') + ' m' +
           (o.zemin ? ' · zemin: ' + z.ad + (z.k ? ' ' + (o.zk || z.k) + (z.kare ? '×' + (o.zk || z.k) : '') + ' cm' : '') + (o.zrenk ? ' (' + o.zrenk + ')' : '') : '') +
-          ' · duvar: ' + (o.duvarR || BOYA[o.boya || 0].ad) + (kapi.length ? ' · kapılar: ' + kapi.join(', ') : '') + (pen.length ? ' · pencereler: ' + pen.join(', ') : '');
+          ' · duvar: ' + (o.duvarR || BOYA[o.boya || 0].ad) + (o.kap ? ' · kaplama: ' + KAPLAMA[o.kap].ad + (o.kapH ? ' (' + o.kapH + ' cm)' : '') : '') +
+          (o.vd ? ' · vurgu duvarı: ' + Object.keys(o.vd).map(function (k) { return KAPLAMA[o.vd[k].t].ad; }).join(', ') : '') + (kapi.length ? ' · kapılar: ' + kapi.join(', ') : '') + (pen.length ? ' · pencereler: ' + pen.join(', ') : '');
       });
       if (!satir.length) { if (ipucu) ipucu.textContent = 'Önce bir oda çizin.'; return; }
       var say = {}; plan.esya.forEach(function (e) { var t = TIP[e.tip], ad = t.ad + (e.w || e.d ? ' ' + (e.w || t.w) + '×' + (e.d || t.d) : ''); say[ad] = (say[ad] || 0) + 1; });
@@ -989,7 +1031,7 @@
       mese: [1.9, [.72, .53, .33], .5], ceviz: [2, [.42, .26, .08], .5], balik: [1.9, [.57, .42, .26], .5],
       traverten: [1.2, [.88, .8, .67], .35], 'mermer-beyaz': [2, [.95, .95, .94], .15], 'mermer-siyah': [2, [.24, .25, .24], .15],
       seramik: [2, [.74, .75, .73], .12], terrazzo: [1, [.84, .81, .76], .25], mikrobeton: [1.1, [.72, .72, .72], .45], beton: [2, [.39, .38, .36], .5],
-      hali: [1.7, [.74, .69, .58], .8], siva: [2, [.84, .83, .81], .3],
+      hali: [1.7, [.74, .69, .58], .8], siva: [2, [.84, .83, .81], .3], tugla: [1, [.62, .45, .36], .9], tas: [1.4, [.44, .43, .38], 1],
       keten: [.4, [.77, .75, .72], .9], boucle: [.3, [.94, .94, .94], 1.4], kadife: [.6, [.45, .44, .37], .5], deri: [.45, [.23, .15, .13], .6]
     };
     var FI = {};
@@ -1051,22 +1093,30 @@
         sahne.appendChild(r3.domElement);
         U.s = new T.Scene(); U.s.background = new T.Color(RENK.bg);
         // ortam ışığı: sıcak bir oda ve ışık panellerinden üretilen yansıma haritası; malzemeler daha gerçek görünür
-        (function () {
+        // gün saatine göre üç ortam: gündüz, akşam (turuncu, loş), gece (karanlık, yalnızca lamba yansımaları)
+        U.env = {};
+        [['gun', [.42, .39, .35], 1, [1, .96, .9]], ['aksam', [.26, .2, .16], .55, [1, .72, .45]], ['gece', [.02, .02, .03], .14, [1, .8, .55]]].forEach(function (e) {
           var es = new T.Scene(), kutuM = function (x, y, z, sx, sy, sz, c) { var m_ = new T.Mesh(new T.BoxGeometry(1, 1, 1), new T.MeshBasicMaterial({ color: c, side: T.BackSide })); m_.position.set(x, y, z); m_.scale.set(sx, sy, sz); es.add(m_); };
-          kutuM(0, 4, 0, 20, 8, 20, new T.Color(.42, .39, .35));
-          var panel = function (x, y, z, sx, sy, sz, k) { var m_ = new T.Mesh(new T.BoxGeometry(1, 1, 1), new T.MeshBasicMaterial({ color: new T.Color(k, k * .96, k * .9) })); m_.position.set(x, y, z); m_.scale.set(sx, sy, sz); es.add(m_); };
+          kutuM(0, 4, 0, 20, 8, 20, new T.Color(e[1][0], e[1][1], e[1][2]));
+          var panel = function (x, y, z, sx, sy, sz, k) { k *= e[2]; var m_ = new T.Mesh(new T.BoxGeometry(1, 1, 1), new T.MeshBasicMaterial({ color: new T.Color(k * e[3][0], k * e[3][1], k * e[3][2]) })); m_.position.set(x, y, z); m_.scale.set(sx, sy, sz); es.add(m_); };
           panel(0, 7.8, 0, 9, .2, 9, 2.2); panel(-9.8, 4, 1, .2, 4, 9, 2.6); panel(5, 4.5, -9.8, 7, 3, .2, 1.4); panel(9.8, 3, 3, .2, 2.5, 5, .9);
-          var pm = new T.PMREMGenerator(r3); U.s.environment = pm.fromScene(es, .04).texture; pm.dispose();
-        })();
+          var pm = new T.PMREMGenerator(r3); U.env[e[0]] = pm.fromScene(es, .04).texture; pm.dispose();
+        });
+        U.s.environment = U.env.gun;
         U.k = new T.PerspectiveCamera(42, 1, .1, 200);
         U.c = new T.OrbitControls(U.k, r3.domElement); U.c.maxPolarAngle = Math.PI / 2.05; U.c.minDistance = 1.5; U.c.maxDistance = 60;
         U.c.addEventListener('change', U.ciz);
-        U.s.add(new T.HemisphereLight(0xfff8ee, 0x3a342c, .12));
+        U.gok = new T.HemisphereLight(0xfff8ee, 0x3a342c, .12); U.s.add(U.gok);
         // güneş: sıcak, yumuşak kenarlı gölge
         var g = new T.DirectionalLight(0xffeedd, 1.9); g.position.set(-8, 14, 6); g.castShadow = true;
         g.shadow.mapSize.set(2048, 2048); var sc = g.shadow.camera; sc.left = sc.bottom = -15; sc.right = sc.top = 15; sc.near = 1; sc.far = 60;
         g.shadow.bias = -.0004; g.shadow.radius = 6; g.shadow.blurSamples = 16;
         U.isik = g; U.s.add(g); U.s.add(g.target);
+        // gün saati düğmeleri 3B görünümün köşesinde
+        var sd = d.createElement('div'); sd.className = 'masa-saat'; sd.setAttribute('role', 'group'); sd.setAttribute('aria-label', 'Gün saati');
+        sd.innerHTML = Object.keys(SAAT).map(function (k) { return '<button type="button" data-saat="' + k + '">' + SAAT[k].ad + '</button>'; }).join('');
+        sd.addEventListener('click', function (ev) { var b = ev.target.closest('[data-saat]'); if (!b) return; try { localStorage.setItem('dimart-saat', b.dataset.saat); } catch (e) {} U.saatSecili = b.dataset.saat; ses(493.88); U.kur(false); });
+        sahne.appendChild(sd); U.saatDug = sd;
         var yer = new T.Mesh(new T.PlaneGeometry(200, 200), new T.ShadowMaterial({ opacity: .45 }));
         yer.rotation.x = -Math.PI / 2; yer.position.y = -.01; yer.receiveShadow = true; U.s.add(yer);
         U.grup = new T.Group(); U.s.add(U.grup);
@@ -1084,7 +1134,7 @@
             if (arac === 'zemin') { od.zemin = secZemin; delete od.zk; } else { od.boya = secBoya; delete od.duvarR; }
             kaydet(); ses(493.88); ciz(); U.kur(false); return;
           }
-          sec = bulunan ? { tur: bulunan.tur, i: bulunan.i } : null;
+          sec = bulunan ? { tur: bulunan.tur, i: bulunan.i } : null; if (sec && bulunan.kenar !== undefined) sec.kenar = bulunan.kenar;
           if (sec && arac !== 'sec') { arac = 'sec'; basili(); }
           paneliKur(); ciz(); U.vurgula(); if (sec) ses(523.25, .01);
         });
@@ -1150,17 +1200,28 @@
         (U.duvarlar || []).forEach(function (d_) { var dis = (k.x - d_.mx) * d_.nx + (k.z - d_.mz) * d_.nz < 0; d_.g.scale.y = dis && U.kesit ? .1 : 1; });
         U.r.render(U.s, U.k);
       },
+      saatAd: function () {
+        if (!U.saatSecili) { try { U.saatSecili = localStorage.getItem('dimart-saat'); } catch (e) {} }
+        return SAAT[U.saatSecili] ? U.saatSecili : 'ogle';
+      },
+      // ışıkları seçili gün saatine göre ayarlar
+      saat: function () {
+        var T = w.THREE, ad = U.saatAd(), S_ = SAAT[ad], g = U.isik;
+        g.position.set(S_.g[0], S_.g[1], S_.g[2]); g.color.setHex(S_.r); g.intensity = S_.i; g.castShadow = S_.i > .5;
+        U.gok.intensity = S_.h; U.r.toneMappingExposure = S_.p; U.s.environment = U.env[S_.env];
+        if (U.saatDug) Array.prototype.forEach.call(U.saatDug.children, function (b) { b.setAttribute('aria-pressed', String(b.dataset.saat === ad)); });
+      },
       vurgula: function () {
         if (!U.r) return;
         if (U.vurgu) { U.s.remove(U.vurgu); U.vurgu.geometry.dispose(); U.vurgu = null; }
         var s = gecerliSec(), hedef = null;
-        if (s) U.grup.traverse(function (o) { var v = o.userData && o.userData.sec; if (!hedef && v && v.tur === s.tur && v.i === s.i && (s.tur !== 'oda' || o.userData.zemin)) hedef = o; });
+        if (s) U.grup.traverse(function (o) { var v = o.userData && o.userData.sec; if (!hedef && v && v.tur === s.tur && v.i === s.i && (s.tur !== 'oda' || (s.kenar !== undefined ? v.kenar === s.kenar : o.userData.zemin))) hedef = o; });
         if (hedef) { U.vurgu = new w.THREE.BoxHelper(hedef, 0xF2B705); U.s.add(U.vurgu); }
         U.ciz();
       },
       kur: function (kamera) {
         var T = w.THREE, G = U.grup;
-        U.duvarlar = []; if (U.kesit === undefined) U.kesit = true;
+        U.duvarlar = []; if (U.kesit === undefined) U.kesit = true; U.saat();
         while (G.children.length) { var c0 = G.children.pop(); c0.traverse(function (o) { if (o.userData.kalici) return; if (o.geometry) o.geometry.dispose(); if (o.material && o.material.map && !o.material.map.userData.kalici) o.material.map.dispose(); }); }
         if (!plan.odalar.length) { U.vurgula(); return; }
         var minx = 1e9, maxx = -1e9, miny = 1e9, maxy = -1e9;
@@ -1224,6 +1285,38 @@
           var F = FOTO.siva;
           return (mat[kk] = new T.MeshStandardMaterial({ map: fotoTx('siva', 'r', .5), color: tonla(renk, F[1]), normalMap: fotoTx('siva', 'n', .5),
             normalScale: new T.Vector2(F[2], F[2]), roughnessMap: fotoTx('siva', 'p', .5), roughness: 1, envMapIntensity: .6 }));
+        };
+        // duvar kaplaması: doku hazırsa gerçek malzeme, değilse ortalama renginde düz malzeme
+        var kapMat = function (kp) {
+          var K = KAPLAMA[kp.t], kk = 'kp|' + kp.t + '|' + (kp.r || ''); if (mat[kk]) return mat[kk];
+          var F = FOTO[K.f], renk = kp.r ? tonla(kp.r, F[1]) : new T.Color(1, 1, 1);
+          if (!iste(K.f)) return (mat[kk + '|g'] = mat[kk + '|g'] || new T.MeshStandardMaterial({ color: kp.r ? srgb(kp.r) : new T.Color(F[1][0], F[1][1], F[1][2]).convertSRGBToLinear(), roughness: K.p }));
+          var maps;
+          if (K.k) {
+            var dz = derzli(K.f, K.k, K.t === 'seramik' ? 'karo' : 'tas', K.f === 'mermer-siyah'), rp = 1 / dz.boy, dk = 'dzk|' + K.f + '|' + dz.boy;
+            maps = TX[dk] || (TX[dk] = { r: kalici(new T.CanvasTexture(dz.r), rp, 0, true), n: kalici(new T.CanvasTexture(dz.n), rp), p: kalici(new T.CanvasTexture(dz.p), rp) });
+          } else {
+            var rp2 = 1 / F[0], aci = kp.t === 'lambri' ? Math.PI / 2 : 0; // lambride damarlar dikey
+            maps = { r: fotoTx(K.f, 'r', rp2, aci), n: fotoTx(K.f, 'n', rp2, aci), p: fotoTx(K.f, 'p', rp2, aci) };
+          }
+          return (mat[kk] = new T.MeshStandardMaterial({ map: maps.r, color: renk, normalMap: maps.n, normalScale: new T.Vector2(F[2], F[2]), roughnessMap: maps.p,
+            roughness: K.p, envMapIntensity: K.p < .5 ? .9 : .6 }));
+        };
+        // kaplama parçası: duvarın iç yüzüne yapışık ince levha; desen duvar boyunca kesintisiz sürer
+        var kaplamaKoy = function (par, kp, s_, e_, y0, y1, zYuz, ici_) {
+          var K = KAPLAMA[kp.t], w_ = e_ - s_, h_ = y1 - y0, mt = kapMat(kp);
+          var levha = function (dd, z_, m_) {
+            var geo = olcekUV(new T.BoxGeometry(w_, h_, dd), w_, h_, dd), uv = geo.attributes.uv;
+            for (var q = 16; q < 24; q++) uv.setXY(q, uv.getX(q) + s_, uv.getY(q) + y0);
+            var me = new T.Mesh(geo, m_); me.position.set((s_ + e_) / 2, y0 + h_ / 2, z_); me.receiveShadow = true; me.castShadow = true; par.add(me); return me;
+          };
+          if (kp.t !== 'lambri') { levha(K.z, zYuz + ici_ * K.z / 2, mt); return; }
+          // lambri: koyu arka pano üstünde 4 cm çıtalar, 1,5 cm aralıkla
+          levha(.008, zYuz + ici_ * .004, MT(0x2a2420, .9));
+          var n = Math.max(1, Math.floor((w_ - .01) / .055)), bos = (w_ - n * .055) / 2, geo = olcekUV(new T.BoxGeometry(.04, h_, .014), .04, h_, .014);
+          var im = new T.InstancedMesh(geo, mt, n), m4 = new T.Matrix4();
+          for (var j = 0; j < n; j++) { m4.makeTranslation(s_ + bos + .0275 + j * .055, y0 + h_ / 2, zYuz + ici_ * (.008 + .007)); im.setMatrixAt(j, m4); }
+          im.castShadow = im.receiveShadow = true; par.add(im);
         };
         var kumasMat = function (hex, tur) {
           var kk = 'k|' + hex + '|' + tur; if (mat[kk]) return mat[kk];
@@ -1369,10 +1462,16 @@
           var ic = MD.modern_ceiling_lamp_01.sahne.clone(true), b = new T.Box3().setFromObject(ic);
           ic.position.set(-(b.min.x + b.max.x) / 2, DUVAR_H - b.max.y, -(b.min.z + b.max.z) / 2);
           ic.traverse(function (o) { if (o.isMesh && /glass|globe/.test(o.material.name)) { o.material = o.material.clone(); o.material.emissive = new T.Color(0xffe0b0); o.material.emissiveIntensity = 1.4; o.castShadow = false; } });
-          var isik = new T.PointLight(0xffd9a6, .35, 4, 2); isik.position.set(0, DUVAR_H - (b.max.y - b.min.y) + .12, 0);
+          var isik = new T.PointLight(0xffd9a6, .35 + SAAT[U.saatAd()].l * 1.2, 4, 2); isik.position.set(0, DUVAR_H - (b.max.y - b.min.y) + .12, 0);
           par.add(ic); par.add(isik);
         };
         var sandalye = function (sg) { kutu(sg, .44, .04, .44, 0, .44, 0, AHSAP, .6); kutu(sg, .44, .42, .04, 0, .48, -.2, AHSAP, .6); [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (k) { kutu(sg, .03, .44, .03, k[0] * .19, 0, k[1] * .19, AHSAP, .6); }); };
+        // akşam ve gece: her odanın tavanında sıcak bir ışık
+        var saat = SAAT[U.saatAd()];
+        if (saat.l) plan.odalar.slice(0, 8).forEach(function (o) {
+          var c = merkez(o.pts), b = 0; o.pts.forEach(function (p) { b = Math.max(b, Math.hypot(p.x - c.x, p.y - c.y) / METRE); });
+          var li = new T.PointLight(0xffc98f, saat.l * 1.5, b * 2 + 1.5, 2); li.position.set(X(c.x), DUVAR_H - .25, Z(c.y)); G.add(li);
+        });
         // zeminler
         plan.odalar.forEach(function (o, oi) {
           var sh = new T.Shape(); o.pts.forEach(function (p, i) { if (i) sh.lineTo(X(p.x), -Z(p.y)); else sh.moveTo(X(p.x), -Z(p.y)); });
@@ -1393,7 +1492,7 @@
           o.pts.forEach(function (p, i) {
             var q = o.pts[(i + 1) % o.pts.length], ax = X(p.x), az = Z(p.y), bx = X(q.x), bz = Z(q.y);
             var L = Math.hypot(bx - ax, bz - az); if (L < .01) return;
-            var duvar = new T.Group(); duvar.position.set(ax, 0, az); duvar.rotation.y = -Math.atan2(bz - az, bx - ax); duvar.userData = { sec: { tur: 'oda', i: oi } }; G.add(duvar);
+            var duvar = new T.Group(); duvar.position.set(ax, 0, az); duvar.rotation.y = -Math.atan2(bz - az, bx - ax); duvar.userData = { sec: { tur: 'oda', i: oi, kenar: i } }; G.add(duvar);
             var nx_ = -ici * (bz - az) / L, nz_ = ici * (bx - ax) / L;
             U.duvarlar.push({ g: duvar, mx: (ax + bx) / 2 + nx_ * KAL / 2, mz: (az + bz) / 2 + nz_ * KAL / 2, nx: nx_, nz: nz_ });
             var ZK = ici * KAL / 2, Lp = Math.hypot(q.x - p.x, q.y - p.y), ux = (q.x - p.x) / Lp, uy = (q.y - p.y) / Lp;
@@ -1407,10 +1506,14 @@
             });
             ac.sort(function (a, b) { return a.s - b.s; });
             var bas = icKose(o, i) ? -KAL : 0, son_ = icKose(o, (i + 1) % o.pts.length) ? L + KAL : L;
+            var kp = kaplama(o, i), kpH = Math.min(kp.h, DUVAR_H), boyaR = kp.t === 'boya' && kp.r ? kp.r : renk;
             var parca = function (s, e, y0, y1) {
               if (e - s < .005 || y1 - y0 < .005) return;
-              var pm = kutu(duvar, e - s, y1 - y0, KAL, (s + e) / 2, y0, ZK, renk, .92); if (sivaVar) pm.material = duvarMat(renk);
-              if (y0 === 0 && e - s > .03) kutu(duvar, e - s, .08, .012, (s + e) / 2, 0, ZK + ici * (KAL / 2 + .006), 0xefece6, .45); // süpürgelik
+              var pm = kutu(duvar, e - s, y1 - y0, KAL, (s + e) / 2, y0, ZK, boyaR, .92); if (sivaVar) pm.material = duvarMat(boyaR);
+              if (kp.t !== 'boya' && y0 < kpH - .005) {
+                kaplamaKoy(duvar, kp, s, e, y0, Math.min(y1, kpH), ZK + ici * KAL / 2, ici);
+                if (kpH < DUVAR_H - .01 && y1 >= kpH - .005) kutu(duvar, e - s, .025, KAPLAMA[kp.t].z + .015, (s + e) / 2, kpH, ZK + ici * (KAL / 2 + (KAPLAMA[kp.t].z + .015) / 2), kp.t === 'lambri' ? 0x3b2f25 : 0xd9d4ca, .5); // üst bitiş profili
+              } else if (y0 === 0 && e - s > .03) kutu(duvar, e - s, .08, .012, (s + e) / 2, 0, ZK + ici * (KAL / 2 + .006), 0xefece6, .45); // süpürgelik
             };
             ac.forEach(function (k) {
               var a = k.a, gen = k.e - k.s, mid = (k.s + k.e) / 2, grp = new T.Group(); grp.position.z = ZK; grp.userData = { sec: { tur: 'acik', i: k.ai } }; duvar.add(grp);

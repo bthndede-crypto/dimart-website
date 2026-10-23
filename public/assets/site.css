@@ -97,7 +97,7 @@ html.menu .top-bar{opacity:0}
 .nav-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;gap:10px 34px;margin-top:6vh;font:400 12px var(--sans);letter-spacing:.06em;color:var(--ink2);opacity:0;transition:opacity .6s}
 .nav.open .nav-foot{opacity:1;transition-delay:.45s}
 .nav-foot a:hover{color:var(--y)}
-.nav-foot img{margin-left:auto;width:170px;height:auto;opacity:.8}
+.nav-foot img{margin-left:auto;max-width:100%;height:auto;opacity:.8}
 html.menu{overflow:hidden}
 
 /* üst bar: çizim masası, müzik */
@@ -157,7 +157,7 @@ html.js.intro .intro-ov{animation:none;cursor:pointer}
 .intro-gir button:hover{color:var(--y)}
 .intro-in{display:flex;flex-direction:column;align-items:center}
 .intro-in img{opacity:0;animation:fadeUp 1.2s .5s var(--ease) forwards}
-.intro-in .intro-slogan{animation-delay:1.5s;width:260px;height:auto}
+.intro-in .intro-slogan{animation-delay:1.5s;max-width:80vw;height:auto}
 .intro-line{display:block;width:min(420px,70vw);height:1px;background:var(--y);margin:30px 0 26px;transform:scaleX(0);animation:line 1.3s .1s var(--ease) forwards}
 @keyframes line{to{transform:scaleX(1)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -307,6 +307,11 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .masa-kagit{display:block;width:100%;height:min(74vh,760px);background:var(--bg2);cursor:crosshair;touch-action:none}
 .masa-3b{display:none;width:100%;height:min(74vh,760px);background:var(--bg2);touch-action:none}
 .masa-3b canvas{display:block;width:100%!important;height:100%!important}
+.masa-3b{position:relative}
+.masa-saat{position:absolute;left:12px;top:12px;display:flex;gap:2px;padding:3px;background:rgba(16,14,12,.92);border:1px solid var(--line);backdrop-filter:blur(6px)}
+.masa-saat button{font:500 9px/1 var(--mont);letter-spacing:.2em;text-transform:uppercase;color:var(--mute);padding:8px 10px;border:1px solid transparent;transition:color .3s,border-color .3s}
+.masa-saat button:hover{color:var(--ink)}
+.masa-saat button[aria-pressed=true]{color:var(--y);border-color:var(--y)}
 .masa.uc [data-arac]:not([data-arac="3b"])[aria-pressed=true]{color:var(--mute);border-color:transparent}
 .masa.uc .masa-kagit{display:none}.masa.uc .masa-3b{display:block}
 .masa-panel{border-left:1px solid var(--line);padding:18px 16px;max-height:min(74vh,760px);overflow:auto;scrollbar-width:thin}

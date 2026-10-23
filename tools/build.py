@@ -41,7 +41,7 @@ ESLER = [
 # Kabuktaki (başlık, menü, altlık) metinler
 METIN = {
     "tr": {"locale": "tr_TR", "atla": "İçeriğe geç", "muzikle": "Müzikle girin", "sessiz": "Sessiz girin",
-           "ana": "Dimart Mimarlık ana sayfa", "il": "Türkiye · Hollanda", "util": "Çizim masası ve müzik",
+           "ana": "Dimart Mimarlık ana sayfa", "il": "Türkiye · Hollanda", "slogan": ("/assets/slogan-acik.webp", 520, 102), "util": "Çizim masası ve müzik",
            "masa_t": "Planınızı çizin, 3B görün", "masa": "Çizim masası", "muzik_t": "Müziği aç ya da kapat",
            "muzik": "Müzik", "acik": "Müzik açık", "kapali": "Müzik kapalı", "cta": "Projenizi konuşalım",
            "iletisim": "/iletisim/", "menu": "Menü", "kapat": "Kapat", "anamenu": "Ana menü",
@@ -50,7 +50,7 @@ METIN = {
            "altmenu": "Alt menü", "disiplin": "Mimarlık · İç mimarlık · İnşaat", "gizlilik": ("/kvkk/", "KVKK ve gizlilik"),
            "muzik_k": "Müzik", "yorum": "yorum", "lisans": "deed.tr", "konum": "Konum", "anasayfa": "Ana sayfa"},
     "en": {"locale": "en_US", "atla": "Skip to content", "muzikle": "Enter with music", "sessiz": "Enter quietly",
-           "ana": "Dimart Architecture home", "il": "Türkiye · Netherlands", "util": "Drawing table and music",
+           "ana": "Dimart Architecture home", "il": "Türkiye · Netherlands", "slogan": ("/assets/slogan-acik-en.webp", 650, 92), "util": "Drawing table and music",
            "masa_t": "Sketch your plan and see it in 3D (Turkish)", "masa": "Drawing table", "muzik_t": "Turn the music on or off",
            "muzik": "Music", "acik": "Music on", "kapali": "Music off", "cta": "Talk to us",
            "iletisim": "/en/contact/", "menu": "Menu", "kapat": "Close", "anamenu": "Main menu",
@@ -59,7 +59,7 @@ METIN = {
            "altmenu": "Footer menu", "disiplin": "Architecture · Interior design · Construction", "gizlilik": ("/en/privacy/", "Privacy"),
            "muzik_k": "Music", "yorum": "performed by", "lisans": "deed.en", "konum": "Breadcrumb", "anasayfa": "Home"},
     "nl": {"locale": "nl_NL", "atla": "Naar de inhoud", "muzikle": "Binnenkomen met muziek", "sessiz": "Stil binnenkomen",
-           "ana": "Dimart Architectuur home", "il": "Turkije · Nederland", "util": "Tekentafel en muziek",
+           "ana": "Dimart Architectuur home", "il": "Turkije · Nederland", "slogan": ("/assets/slogan-acik-nl.webp", 580, 92), "util": "Tekentafel en muziek",
            "masa_t": "Teken uw plattegrond en bekijk hem in 3D (Turks)", "masa": "Tekentafel", "muzik_t": "Muziek aan of uit",
            "muzik": "Muziek", "acik": "Muziek aan", "kapali": "Muziek uit", "cta": "Laten we praten",
            "iletisim": "/nl/contact/", "menu": "Menu", "kapat": "Sluiten", "anamenu": "Hoofdmenu",
@@ -327,7 +327,7 @@ def head(title, desc, path, ld, page):
   <div class="intro-in">
     <img src="/assets/dimart-logo-beyaz.svg" alt="" width="176" height="60">
     <i class="intro-line"></i>
-    <img class="intro-slogan" src="/assets/slogan-acik.webp" alt="" width="260" height="51">
+    {slogan_img(m, 260 / 520, "intro-slogan")}
     <p class="intro-gir"><button type="button" class="intro-ses"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>{m['muzikle']}</button><button type="button" class="intro-sessiz">{m['sessiz']}</button></p>
   </div>
 </div>
@@ -394,13 +394,19 @@ def shell(path):
     <a href="mailto:{f['eposta']}">{f['eposta']}</a>
     <a href="{INSTAGRAM}" rel="noopener me" target="_blank">Instagram</a>
     <span>{m['il']}</span>
-    <img src="/assets/slogan-acik.webp" alt="" width="170" height="33">
+    {slogan_img(m, 170 / 520)}
   </div>
 </nav>"""
 
 
 def harita_linkleri(m):
     return " · ".join(f'<a href="{u}" rel="noopener" target="_blank">{n}</a>' for n, u in m["harita_ac"])
+
+
+def slogan_img(m, olcek, cls="slogan"):
+    # el yazısı slogan her dilde kendi çevirisiyle; TR görselin ölçeğinde gösterilir
+    src, w, h = m["slogan"]
+    return f'<img class="{cls}" src="{src}" alt="" width="{round(w * olcek)}" height="{round(h * olcek)}" style="width:{round(w * olcek)}px">'
 
 
 def footer(lang="tr"):
@@ -742,8 +748,12 @@ CIZIM_SSS = [
      "3B düğmesi, çizdiğiniz odaları 2,80 m duvar yüksekliğiyle, kapı ve pencere boşluklarıyla, seçtiğiniz zemin, duvar rengi ve eşyalarla birlikte gerçek bir üç boyutlu sahneye dönüştürür. Parke, mermer, traverten, terrazzo, beton, halı, keten, bouclé, kadife ve deri gerçek malzeme fotoğraflarından üretilen dokularla görünür; süpürgelik, tül perde, saksı bitki ve yemek masası üstündeki sarkıt lamba gibi ayrıntılar kendiliğinden eklenir. Fareyle sürükleyerek döndürebilir, tekerlekle yakınlaşabilir, telefonda iki parmakla gezinebilirsiniz."),
     ("Fotoğraf modu nedir?",
      "3B görünümdeyken Fotoğraf düğmesine basınca sahne büyük boyutta, yumuşak gölgeler ve köşe gölgeleriyle birkaç saniyede yeniden çizilir. Çıkan görüntüyü indirip paylaşabilir ya da bize gönderebilirsiniz."),
+    ("Duvar kaplaması ve vurgu duvarı nasıl seçilir?",
+     "Bir odaya tıklayınca panelde Duvar kaplaması listesi çıkar. Seçenekler boya, ahşap lambri, beyaz ve siyah mermer, traverten, seramik, tuğla, doğal taş, mikrobeton ve brüt betondur. Kaplamanın yüksekliğini (örneğin 110 cm lambri ya da 120 cm seramik, üstü boya) ve tonunu ayarlayabilirsiniz. Yalnızca bir duvarı farklı yapmak için 3B görünümde o duvara tıklayın; vurgu duvarına ayrı bir kaplama ya da boya rengi verebilirsiniz."),
+    ("Gün saati ne işe yarar?",
+     "3B görünümün köşesindeki Sabah, Öğle, Akşam ve Gece düğmeleri ışığı değiştirir. Sabah ve öğlen güneş farklı yönlerden girer, akşam ışığı alçak ve turuncudur, gece ise odaların tavan lambaları ve sarkıt lambalar yanar. Böylece seçtiğiniz malzeme ve renklerin günün farklı saatlerinde nasıl görüneceğini görebilirsiniz."),
     ("Kapı ve pencereleri nasıl ayarlarım?",
-     "Daire giriş (çelik), oda, banyo, balkon, çift kanatlı ve sürgü kapı tiplerinden birini seçip duvara tıklayın. Kapının genişliğini, yüksekliğini, menteşe tarafını ve içe ya da dışa açılışını panelden değiştirebilir, duvar boyunca sürükleyebilirsiniz. Pencerelerde genişlik, denizlik yüksekliği ve pencere yüksekliği ayarlanır; standart, geniş, yere kadar, mutfak ve banyo penceresi hazır tipleri vardır."),
+     "Daire giriş (çelik), oda, banyo, balkon, çift kanatlı ve sürgü kapı tiplerinden birini seçip duvara tıklayın. Kapının genişliğini, yüksekliğini, menteşe tarafını ve içe ya da dışa açılışını panelden değiştirebilir, duvar boyunca sürükleyebilirsiniz. Pencerelerde genişlik, denizlik yüksekliği ve pencere yüksekliği ayarlanır; standart, geniş, yere kadar, mutfak ve banyo penceresi hazır tipleri vardır. Her pencereye tül, fon perde, stor, zebra, jaluzi, plise ya da dikey perde takıp kapalılığını ve rengini seçebilirsiniz."),
     ("Hangi zemin malzemeleri ve duvar renkleri var?",
      "Meşe, ceviz ve balıksırtı parke, traverten, beyaz ve siyah mermer, seramik, terrazzo, hidrolik karo, mikrobeton, beton ve halı vardır. Her zeminin rengini, karo ya da tahta ölçüsünü (örneğin 60 × 60 ya da 120 × 120 cm) ve döşeme yönünü değiştirebilirsiniz. Duvar için yedi hazır renk ve dilediğiniz özel renk seçilebilir. 3B görünümde de bir odaya ya da eşyaya tıklayıp malzemesini değiştirebilirsiniz."),
     ("Oda alanı nasıl hesaplanıyor?",
@@ -898,7 +908,7 @@ def llms():
     yazilar = "\n".join(f"- [{y['baslik']}]({SITE}/blog/{y['slug']}/): {y['ozet']}" for y in YAZILAR)
     return f"""# {f['unvan']}
 
-> İstanbul merkezli, Hollanda'da (Meerlo) da ofisi bulunan mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, villa ve konut inşaatı, tadilat ve renovasyon, proje ve ruhsat ve anahtar teslim uygulamayı tek ekiple yürütür. İstanbul dışındaki projeleri de üstlenir. Slogan: "Her şey bir çizgiyle başlar."
+> İstanbul merkezli, Hollanda'da (Meerlo) da ofisi bulunan mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, villa ve konut inşaatı, tadilat ve renovasyon, proje ve ruhsat ve anahtar teslim uygulamayı tek ekiple yürütür. İstanbul dışındaki projeleri de üstlenir. Slogan: "Her şey bir çizgiyle başlar." (EN: "Everything begins with a line.", NL: "Alles begint met een lijn.")
 
 ## Hizmetler
 {svc}
