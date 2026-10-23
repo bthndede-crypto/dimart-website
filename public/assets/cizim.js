@@ -8,19 +8,19 @@
   /* ---------- malzemeler: k = modül ölçüsü (cm), n = dokudaki modül sayısı, S = sabit doku boyu (m) ---------- */
   var ZEMIN = [
     { ad: 'Boş' },
-    { ad: 'Meşe parke', tur: 'parke', a: '#9A7650', b: 'rgba(45,28,12,.35)', k: 15, n: 8, lim: [8, 30, 1], et: 'Tahta genişliği' },
-    { ad: 'Ceviz parke', tur: 'parke', a: '#5E4330', b: 'rgba(20,12,6,.45)', k: 15, n: 8, lim: [8, 30, 1], et: 'Tahta genişliği' },
-    { ad: 'Balıksırtı meşe', tur: 'balik', a: '#A88459', b: 'rgba(50,30,12,.4)', k: 8, n: 16, lim: [6, 16, 1], et: 'Tahta genişliği' },
-    { ad: 'Traverten', tur: 'tas', a: '#CDBB9C', b: 'rgba(120,100,70,.35)', k: 60, n: 2, lim: [30, 120, 5], et: 'Plaka ölçüsü', kare: 1 },
-    { ad: 'Beyaz mermer', tur: 'mermer', a: '#E7E3DD', b: 'rgba(110,110,115,.4)', k: 120, n: 1, lim: [60, 160, 10], et: 'Plaka ölçüsü', kare: 1 },
-    { ad: 'Siyah mermer', tur: 'mermer', a: '#2B2927', b: 'rgba(235,230,220,.35)', k: 120, n: 1, lim: [60, 160, 10], et: 'Plaka ölçüsü', kare: 1 },
-    { ad: 'Seramik açık', tur: 'karo', a: '#D8D3CA', b: 'rgba(90,85,80,.35)', k: 60, n: 2, lim: [20, 120, 5], et: 'Karo ölçüsü', kare: 1 },
-    { ad: 'Seramik antrasit', tur: 'karo', a: '#4A4846', b: 'rgba(15,15,15,.5)', k: 60, n: 2, lim: [20, 120, 5], et: 'Karo ölçüsü', kare: 1 },
-    { ad: 'Terrazzo', tur: 'terrazzo', a: '#DCD5C8', b: '#8E8576', S: 1.2 },
+    { ad: 'Meşe parke', f: 'mese', tur: 'parke', a: '#9A7650', b: 'rgba(45,28,12,.35)', k: 15, n: 8, lim: [8, 30, 1], et: 'Tahta genişliği' },
+    { ad: 'Ceviz parke', f: 'ceviz', tur: 'parke', a: '#5E4330', b: 'rgba(20,12,6,.45)', k: 15, n: 8, lim: [8, 30, 1], et: 'Tahta genişliği' },
+    { ad: 'Balıksırtı meşe', f: 'balik', tur: 'balik', a: '#A88459', b: 'rgba(50,30,12,.4)', k: 8, n: 16, lim: [6, 16, 1], et: 'Tahta genişliği' },
+    { ad: 'Traverten', f: 'traverten', tur: 'tas', a: '#CDBB9C', b: 'rgba(120,100,70,.35)', k: 60, n: 2, lim: [30, 120, 5], et: 'Plaka ölçüsü', kare: 1 },
+    { ad: 'Beyaz mermer', f: 'mermer-beyaz', tur: 'mermer', a: '#E7E3DD', b: 'rgba(110,110,115,.4)', k: 120, n: 1, lim: [60, 160, 10], et: 'Plaka ölçüsü', kare: 1 },
+    { ad: 'Siyah mermer', f: 'mermer-siyah', tur: 'mermer', a: '#2B2927', b: 'rgba(235,230,220,.35)', k: 120, n: 1, lim: [60, 160, 10], et: 'Plaka ölçüsü', kare: 1 },
+    { ad: 'Seramik açık', f: 'seramik', tur: 'karo', a: '#D8D3CA', b: 'rgba(90,85,80,.35)', k: 60, n: 2, lim: [20, 120, 5], et: 'Karo ölçüsü', kare: 1 },
+    { ad: 'Seramik antrasit', f: 'seramik', tur: 'karo', a: '#4A4846', b: 'rgba(15,15,15,.5)', k: 60, n: 2, lim: [20, 120, 5], et: 'Karo ölçüsü', kare: 1 },
+    { ad: 'Terrazzo', f: 'terrazzo', tur: 'terrazzo', a: '#DCD5C8', b: '#8E8576', S: 1.2 },
     { ad: 'Hidrolik karo', tur: 'hidrolik', a: '#D9CFBE', b: '#6E7F78', k: 20, n: 4, lim: [15, 30, 5], et: 'Karo ölçüsü', kare: 1 },
-    { ad: 'Mikrobeton', tur: 'siva', a: '#ABA69E', b: 'rgba(70,65,60,.25)', S: 1 },
-    { ad: 'Beton', tur: 'beton', a: '#7D7A75', b: 'rgba(30,30,30,.3)', S: 1.5 },
-    { ad: 'Halı', tur: 'hali', a: '#8E8476', b: 'rgba(40,35,30,.3)', S: .6 }
+    { ad: 'Mikrobeton', f: 'mikrobeton', tur: 'siva', a: '#ABA69E', b: 'rgba(70,65,60,.25)', S: 1 },
+    { ad: 'Beton', f: 'beton', tur: 'beton', a: '#7D7A75', b: 'rgba(30,30,30,.3)', S: 1.5 },
+    { ad: 'Halı', f: 'hali', tur: 'hali', a: '#8E8476', b: 'rgba(40,35,30,.3)', S: .6 }
   ];
   var BOYA = [
     { ad: 'Beyaz', r: '#F2F0EB' }, { ad: 'Kırık beyaz', r: '#E8E1D3' }, { ad: 'Kum', r: '#D6C8AE' },
@@ -948,6 +948,7 @@
       a.href = t.toDataURL('image/png'); a.click();
       if (uc && U.vurgu) { U.vurgu.visible = true; U.ciz(); }
     });
+    is('foto', function () { if (uc) U.foto(); });
     is('gonder', function () {
       var top = 0, satir = plan.odalar.map(function (o, i) {
         var al = alanHesap(o.pts); top += al;
@@ -968,14 +969,53 @@
       location.href = 'mailto:info@dimartmimarlik.com?subject=' + encodeURIComponent('Çizim masası taslağım · ' + top.toFixed(2).replace('.', ',') + ' m²') + '&body=' + encodeURIComponent(govde);
     });
 
+    /* ---------- gerçek malzemeler (ambientCG, CC0) ve modeller (Poly Haven, CC0): 3B'de kullanıldıkça yüklenir ---------- */
+    // ad: [görselin kapladığı alan (m), görselin ortalama rengi (sRGB), kabartma gücü]
+    var FOTO = {
+      mese: [1.9, [.72, .53, .33], .5], ceviz: [2, [.42, .26, .08], .5], balik: [1.9, [.57, .42, .26], .5],
+      traverten: [1.2, [.88, .8, .67], .35], 'mermer-beyaz': [2, [.95, .95, .94], .15], 'mermer-siyah': [2, [.24, .25, .24], .15],
+      seramik: [2, [.74, .75, .73], .12], terrazzo: [1, [.84, .81, .76], .25], mikrobeton: [1.1, [.72, .72, .72], .45], beton: [2, [.39, .38, .36], .5],
+      hali: [1.7, [.74, .69, .58], .8], siva: [2, [.84, .83, .81], .3],
+      keten: [.4, [.77, .75, .72], .9], boucle: [.3, [.94, .94, .94], 1.4], kadife: [.6, [.45, .44, .37], .5], deri: [.45, [.23, .15, .13], .6]
+    };
+    var FI = {};
+    var fotoHazir = function (ad) { return FI[ad] && FI[ad].ok; };
+    var fotoYukle = function (ad, cb) {
+      var f = FI[ad];
+      if (f) { if (f.ok) cb(); else f.cb.push(cb); return; }
+      f = FI[ad] = { ok: false, cb: [cb], kalan: 3 };
+      [['r', 'r'], ['n', 'n'], ['p', 'p']].forEach(function (k) {
+        var im = new Image(); f[k[0]] = im;
+        im.onerror = function () { f.bozuk = 1; im.onload(); };
+        im.onload = function () { if (--f.kalan) return; f.ok = true; f.cb.splice(0).forEach(function (c) { c(); }); };
+        im.src = '/assets/doku/' + ad + '-' + k[1] + '.jpg';
+      });
+    };
+    // eşya → model: [dosya, dönüş, döşeme parçası]
+    var MODEL = {
+      berjer: ['modern_arm_chair_01', 0, 'pillow'], sehpa: ['modern_coffee_table_01', Math.PI / 2], yansehpa: ['coffee_table_round_01', 0],
+      bitki: ['potted_plant_02', 0], tv: ['modern_wooden_cabinet', 0], bufe: ['modern_wooden_cabinet', 0]
+    };
+    var MD = {};
+    var modelYukle = function (ad, cb) {
+      var m = MD[ad];
+      if (m) { if (m.sahne) cb(); else m.cb.push(cb); return; }
+      m = MD[ad] = { cb: [cb] };
+      if (!w.THREE || !w.THREE.GLTFLoader) return;
+      new w.THREE.GLTFLoader().load('/assets/model/' + ad + '/' + ad + '.gltf', function (g) {
+        g.scene.traverse(function (o) { o.userData.kalici = 1; if (o.isMesh) { o.castShadow = o.receiveShadow = true; } });
+        m.sahne = g.scene; m.cb.splice(0).forEach(function (c) { c(); });
+      }, undefined, function () { m.hata = 1; });
+    };
+
     /* ---------- 3B görünüm (three.js sitede barındırılır, ilk açılışta yüklenir) ---------- */
     var U = {
       yukle: function (cb) {
-        if (w.THREE && w.THREE.OrbitControls) return cb();
+        if (w.THREE && w.THREE.OrbitControls && w.THREE.GLTFLoader) return cb();
         var yuk = function (src, sonra) { var s = d.createElement('script'); s.src = src; s.onload = sonra; s.onerror = function () { if (ipucu) ipucu.textContent = '3B görünüm yüklenemedi.'; }; d.head.appendChild(s); };
         if (ipucu) ipucu.textContent = '3B görünüm hazırlanıyor…';
-        if (w.THREE) yuk('/assets/vendor/OrbitControls.js', cb);
-        else yuk('/assets/vendor/three.min.js', function () { yuk('/assets/vendor/OrbitControls.js', cb); });
+        var ekler = function () { yuk('/assets/vendor/OrbitControls.js', function () { yuk('/assets/vendor/three-uc-ek.min.js', cb); }); };
+        if (w.THREE) ekler(); else yuk('/assets/vendor/three.min.js', ekler);
       },
       ipucu: function () { return 'Sürükleyerek döndürün, tekerlekle yakınlaşın. Bir odaya, duvara, kapıya ya da eşyaya tıklayıp sağdaki panelden malzemesini, rengini ve ölçüsünü değiştirin.'; },
       ac: function () {
@@ -988,12 +1028,12 @@
           if (ipucu) ipucu.textContent = U.ipucu();
         });
       },
-      kapat: function () { uc = false; kok.classList.remove('uc'); on(kok.querySelector('[data-arac="3b"]'), 'aria-pressed', 'false'); if (ipucu) ipucu.textContent = IPUCU[arac]; boyut(); },
+      kapat: function () { var fo = kok.querySelector('.masa-foto'); if (fo) fo.remove(); uc = false; kok.classList.remove('uc'); on(kok.querySelector('[data-arac="3b"]'), 'aria-pressed', 'false'); if (ipucu) ipucu.textContent = IPUCU[arac]; boyut(); },
       hazirla: function () {
         var T = w.THREE;
         var r3 = U.r = new T.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
         r3.setPixelRatio(Math.min(w.devicePixelRatio || 1, 2)); r3.shadowMap.enabled = true; r3.shadowMap.type = T.PCFSoftShadowMap;
-        r3.outputEncoding = T.sRGBEncoding; r3.toneMapping = T.NoToneMapping;
+        r3.outputEncoding = T.sRGBEncoding; r3.toneMapping = T.ACESFilmicToneMapping; r3.toneMappingExposure = .78;
         sahne.appendChild(r3.domElement);
         U.s = new T.Scene(); U.s.background = new T.Color(RENK.bg);
         // ortam ışığı: sıcak bir oda ve ışık panellerinden üretilen yansıma haritası; malzemeler daha gerçek görünür
@@ -1007,9 +1047,11 @@
         U.k = new T.PerspectiveCamera(42, 1, .1, 200);
         U.c = new T.OrbitControls(U.k, r3.domElement); U.c.maxPolarAngle = Math.PI / 2.05; U.c.minDistance = 1.5; U.c.maxDistance = 60;
         U.c.addEventListener('change', U.ciz);
-        U.s.add(new T.HemisphereLight(0xfff8ee, 0x3a342c, .22));
-        var g = new T.DirectionalLight(0xfff3e6, .55); g.position.set(-8, 14, 6); g.castShadow = true;
-        g.shadow.mapSize.set(2048, 2048); var sc = g.shadow.camera; sc.left = sc.bottom = -15; sc.right = sc.top = 15; g.shadow.bias = -.0005;
+        U.s.add(new T.HemisphereLight(0xfff8ee, 0x3a342c, .12));
+        // güneş: sıcak, yumuşak kenarlı gölge
+        var g = new T.DirectionalLight(0xffeedd, 1.9); g.position.set(-8, 14, 6); g.castShadow = true;
+        g.shadow.mapSize.set(2048, 2048); var sc = g.shadow.camera; sc.left = sc.bottom = -15; sc.right = sc.top = 15; sc.near = 1; sc.far = 60;
+        g.shadow.bias = -.0004; g.shadow.radius = 6; g.shadow.blurSamples = 16;
         U.isik = g; U.s.add(g); U.s.add(g.target);
         var yer = new T.Mesh(new T.PlaneGeometry(200, 200), new T.ShadowMaterial({ opacity: .45 }));
         yer.rotation.x = -Math.PI / 2; yer.position.y = -.01; yer.receiveShadow = true; U.s.add(yer);
@@ -1033,6 +1075,59 @@
           paneliKur(); ciz(); U.vurgula(); if (sec) ses(523.25, .01);
         });
       },
+      // fotoğraf modu: büyük boyutta, köşe gölgeleriyle (SSAO), güneşi ve kamerayı azıcık kaydırarak 24 kare çizer, ortalamasını alır
+      foto: function () {
+        if (U.fotoVar || !U.r) return;
+        var T = w.THREE;
+        var yuk = function (cb) { if (T.SSAOPass) return cb(); var sc = d.createElement('script'); sc.src = '/assets/vendor/three-foto-ek.min.js'; sc.onload = sc.onerror = cb; d.head.appendChild(sc); };
+        if (ipucu) ipucu.textContent = 'Fotoğraf hazırlanıyor…';
+        U.fotoVar = true;
+        yuk(function () {
+          var r3 = U.r, el = r3.domElement, pr = r3.getPixelRatio(), W0 = el.clientWidth || 800, H0 = el.clientHeight || 500;
+          var olc = Math.min(2, 2400 / W0), W = Math.round(W0 * olc), H = Math.round(H0 * olc), kam = U.k, g = U.isik, gp = g.position.clone(), uzak = kam.far;
+          r3.setPixelRatio(1); r3.setSize(W, H, false); kam.far = 60; kam.updateProjectionMatrix();
+          var golge = function (n) { g.shadow.mapSize.set(n, n); if (g.shadow.map) { g.shadow.map.dispose(); g.shadow.map = null; } };
+          golge(4096); if (U.vurgu) U.vurgu.visible = false;
+          var comp = null;
+          if (T.SSAOPass) {
+            comp = new T.EffectComposer(r3); comp.setSize(W, H);
+            var ao = new T.SSAOPass(U.s, kam, W, H); ao.kernelRadius = .35; ao.minDistance = .00002; ao.maxDistance = .004; comp.addPass(ao);
+            var tm = new T.ShaderPass(T.ACESFilmicToneMappingShader); tm.uniforms.exposure.value = r3.toneMappingExposure; comp.addPass(tm);
+            comp.addPass(new T.ShaderPass(T.GammaCorrectionShader));
+            r3.toneMapping = T.NoToneMapping; // ton eşleme zincirin içinde yapılır
+            U.s.background = new T.Color(RENK.bg).convertSRGBToLinear();
+          }
+          var acc = d.createElement('canvas'); acc.width = W; acc.height = H; var ax = acc.getContext('2d'), N = 24, i = 0;
+          var bitir = function () {
+            r3.toneMapping = T.ACESFilmicToneMapping; U.s.background = new T.Color(RENK.bg); kam.clearViewOffset(); kam.far = uzak; kam.updateProjectionMatrix(); g.position.copy(gp); golge(2048);
+            if (comp) { comp.passes.forEach(function (ps) { if (ps.dispose) ps.dispose(); }); comp.renderTarget1.dispose(); comp.renderTarget2.dispose(); }
+            r3.setPixelRatio(pr); if (U.vurgu) U.vurgu.visible = true; U.yeniden();
+            ax.globalAlpha = 1; ax.fillStyle = 'rgba(237,232,224,.75)'; ax.font = '500 ' + Math.round(12 * olc) + 'px Montserrat, sans-serif';
+            ax.fillText('dimartmimarlik.com · Çizim masası', 18 * olc, H - 18 * olc);
+            U.fotoVar = false; if (ipucu) ipucu.textContent = U.ipucu();
+            U.fotoGoster(acc.toDataURL('image/jpeg', .92));
+          };
+          var adim = function () {
+            if (!uc) { bitir(); return; }
+            var a = i * 2.39996, rr = Math.sqrt((i + .5) / N) * 1.2; // güneş geniş bir kaynak gibi: yumuşak gölge
+            g.position.set(gp.x + Math.cos(a) * rr, gp.y, gp.z + Math.sin(a) * rr);
+            kam.setViewOffset(W, H, Math.random() - .5, Math.random() - .5, W, H);
+            if (comp) comp.render(); else r3.render(U.s, kam);
+            ax.globalAlpha = 1 / (i + 1); ax.drawImage(el, 0, 0);
+            i++; if (ipucu) ipucu.textContent = 'Fotoğraf hazırlanıyor… %' + Math.round(i / N * 100);
+            if (i < N) requestAnimationFrame(adim); else bitir();
+          };
+          requestAnimationFrame(adim);
+        });
+      },
+      fotoGoster: function (url) {
+        var eski = kok.querySelector('.masa-foto'); if (eski) eski.remove();
+        var ov = d.createElement('div'); ov.className = 'masa-foto'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-label', '3B fotoğraf');
+        ov.innerHTML = '<img alt="Planın 3B fotoğrafı"><p><a class="go" download="dimart-cizim-masasi-foto.jpg">Fotoğrafı indir</a><button type="button" class="go">Kapat</button></p>';
+        ov.querySelector('img').src = url; ov.querySelector('a').href = url;
+        ov.querySelector('button').addEventListener('click', function () { ov.remove(); });
+        sahne.parentNode.appendChild(ov); ov.querySelector('button').focus();
+      },
       yeniden: function () { var b = sahne.getBoundingClientRect(); if (!U.r || !b.width) return; U.r.setSize(b.width, b.height, false); U.k.aspect = b.width / b.height; U.k.updateProjectionMatrix(); U.ciz(); },
       ciz: function () {
         if (!U.r) return;
@@ -1052,7 +1147,7 @@
       kur: function (kamera) {
         var T = w.THREE, G = U.grup;
         U.duvarlar = []; if (U.kesit === undefined) U.kesit = true;
-        while (G.children.length) { var c0 = G.children.pop(); c0.traverse(function (o) { if (o.geometry) o.geometry.dispose(); if (o.material && o.material.map) o.material.map.dispose(); }); }
+        while (G.children.length) { var c0 = G.children.pop(); c0.traverse(function (o) { if (o.userData.kalici) return; if (o.geometry) o.geometry.dispose(); if (o.material && o.material.map && !o.material.map.userData.kalici) o.material.map.dispose(); }); }
         if (!plan.odalar.length) { U.vurgula(); return; }
         var minx = 1e9, maxx = -1e9, miny = 1e9, maxy = -1e9;
         plan.odalar.forEach(function (o) { o.pts.forEach(function (p) { minx = Math.min(minx, p.x); maxx = Math.max(maxx, p.x); miny = Math.min(miny, p.y); maxy = Math.max(maxy, p.y); }); });
@@ -1060,11 +1155,73 @@
         var cx = U.merkez.x, cz = U.merkez.z, X = function (px) { return px / METRE - cx; }, Z = function (py) { return py / METRE - cz; };
         var mat = {}, OZEL = null, GOVDE = [0x8a8174, 0x9a9184, 0xa38b6d, 0x7a5a3c, 0xb08d66, 0xd8d0c2, 0xd6cfc2, 0x6e6b66];
         var HARITA = null, KUMASLAR = [0x8a8174, 0x9a9184, 0xa38b6d, 0xb3a58f, 0xc8bba6, 0xf2efe9];
+        // gerçek dokular: hazır değilse çizimli dokuyla kurulur, yüklenince sahne yeniden kurulur
+        var bekle = [], bekleM = [], TX = U.tx || (U.tx = {}), DZ = U.dz || (U.dz = {});
+        var iste = function (ad) { if (fotoHazir(ad)) return !FI[ad].bozuk; if (!FI[ad] && bekle.indexOf(ad) < 0) bekle.push(ad); return false; };
+        var isteM = function (ad) { if (MD[ad] && MD[ad].sahne) return true; if (!MD[ad] && bekleM.indexOf(ad) < 0) bekleM.push(ad); return false; };
+        var srgb = function (c) { return new T.Color(c).convertSRGBToLinear(); }; // renkler ekranda seçildiği tonda görünsün
+        var lin = function (c) { return c <= .04045 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); };
+        var tonla = function (hex, ort) { var c = new T.Color(hex); return new T.Color(lin(c.r) / lin(ort[0]), lin(c.g) / lin(ort[1]), lin(c.b) / lin(ort[2])); };
+        var kalici = function (t, tekrar, aci, srgb) { t.wrapS = t.wrapT = T.RepeatWrapping; t.repeat.set(tekrar, tekrar); t.rotation = aci || 0; t.anisotropy = 8; if (srgb) t.encoding = T.sRGBEncoding; t.userData.kalici = 1; return t; };
+        var fotoTx = function (ad, kanal, tekrar, aci) {
+          var k = ad + '|' + kanal + '|' + tekrar.toFixed(4) + '|' + (aci || 0); if (TX[k]) return TX[k];
+          var t = new T.Texture(FI[ad][kanal]); t.needsUpdate = true; return (TX[k] = kalici(t, tekrar, aci, kanal === 'r'));
+        };
+        // taş, mermer ve karo: her plaka görselin başka bir yerinden kesilir, aralarına derz çizilir
+        var derzli = function (ad, kk, tur, koyu) {
+          var key = ad + '|' + kk + '|' + (koyu ? 1 : 0); if (DZ[key]) return DZ[key];
+          var n = Math.max(1, Math.min(6, Math.round(1.8 / kk))), boy = n * kk, N = 1024, t = N / n, pxm = N / boy, out = { boy: boy };
+          var tohum = 7, rnd = function () { tohum = (tohum * 9301 + 49297) % 233280; return tohum / 233280; };
+          ['r', 'n', 'p'].forEach(function (kanal) {
+            var c = d.createElement('canvas'); c.width = c.height = N; var x = c.getContext('2d'), im = FI[ad][kanal], sc = pxm * FOTO[ad][0] / (im.width || 1024);
+            tohum = 7;
+            for (var i = 0; i < n; i++) for (var j = 0; j < n; j++) {
+              var ox = rnd() * 1024, oy = rnd() * 1024, ton = rnd();
+              x.save(); x.beginPath(); x.rect(i * t, j * t, t, t); x.clip();
+              var pat = x.createPattern(im, 'repeat'); if (pat.setTransform) pat.setTransform(new DOMMatrix([sc, 0, 0, sc, i * t - ox * sc, j * t - oy * sc]));
+              x.fillStyle = pat; x.fillRect(i * t, j * t, t, t);
+              if (kanal === 'r') { x.fillStyle = ton > .5 ? 'rgba(255,255,255,' + (ton - .5) * .08 + ')' : 'rgba(0,0,0,' + (.5 - ton) * .08 + ')'; x.fillRect(i * t, j * t, t, t); }
+              x.restore();
+            }
+            x.strokeStyle = kanal === 'n' ? '#8080ff' : kanal === 'p' ? '#f0f0f0' : koyu ? '#2a2826' : tur === 'karo' ? '#9d978e' : '#c9bda9';
+            x.lineWidth = Math.max(2, .003 * pxm); x.beginPath();
+            for (var q = 0; q <= n; q++) { x.moveTo(q * t, 0); x.lineTo(q * t, N); x.moveTo(0, q * t); x.lineTo(N, q * t); }
+            x.stroke();
+            out[kanal] = c;
+          });
+          return (DZ[key] = out);
+        };
+        var zeminFoto = function (o, Z_) {
+          var fa = Z_.f, F = FOTO[fa], aci = -(o.zaci || 0) * Math.PI / 180, maps;
+          if (Z_.kare) {
+            var dz = derzli(fa, (o.zk || Z_.k) / 100, Z_.tur, fa === 'mermer-siyah' || (Z_.tur === 'karo' && Z_.a === '#4A4846')), rp = 1 / dz.boy, kk = 'dz|' + fa + '|' + dz.boy + '|' + aci;
+            maps = TX[kk] || (TX[kk] = { r: kalici(new T.CanvasTexture(dz.r), rp, aci, true), n: kalici(new T.CanvasTexture(dz.n), rp, aci), p: kalici(new T.CanvasTexture(dz.p), rp, aci) });
+          } else {
+            var olc = Z_.k ? (o.zk || Z_.k) / Z_.k : 1, rp2 = 1 / (F[0] * olc);
+            maps = { r: fotoTx(fa, 'r', rp2, aci), n: fotoTx(fa, 'n', rp2, aci), p: fotoTx(fa, 'p', rp2, aci) };
+          }
+          var renk = o.zrenk ? tonla(o.zrenk, F[1]) : Z_.tur === 'karo' ? tonla(Z_.a, F[1]) : new T.Color(1, 1, 1);
+          return new T.MeshStandardMaterial({ map: maps.r, color: renk, normalMap: maps.n, normalScale: new T.Vector2(F[2], F[2]), roughnessMap: maps.p,
+            roughness: Z_.tur === 'mermer' ? .55 : Z_.tur === 'tas' || Z_.tur === 'karo' ? .8 : 1, envMapIntensity: Z_.tur === 'hali' ? .4 : .9 });
+        };
+        var duvarMat = function (renk) {
+          var kk = 'd|' + renk; if (mat[kk]) return mat[kk];
+          var F = FOTO.siva;
+          return (mat[kk] = new T.MeshStandardMaterial({ map: fotoTx('siva', 'r', .5), color: tonla(renk, F[1]), normalMap: fotoTx('siva', 'n', .5),
+            normalScale: new T.Vector2(F[2], F[2]), roughnessMap: fotoTx('siva', 'p', .5), roughness: 1, envMapIntensity: .6 }));
+        };
         var kumasMat = function (hex, tur) {
           var kk = 'k|' + hex + '|' + tur; if (mat[kk]) return mat[kk];
-          var dk = kumasDoku(hex, tur), tk = function (c, srgb) { var t = new T.CanvasTexture(c); t.wrapS = t.wrapT = T.RepeatWrapping; t.repeat.set(1 / dk.boy, 1 / dk.boy); t.anisotropy = 8; if (srgb) t.encoding = T.sRGBEncoding; return t; };
-          var op = { map: tk(dk.renk, true), bumpMap: tk(dk.kab), bumpScale: tur === 'boucle' ? .45 : tur === 'keten' ? .28 : .15,
-            roughness: tur === 'deri' ? .42 : tur === 'kadife' ? .78 : .93, metalness: 0, envMapIntensity: tur === 'deri' ? 1 : .55 };
+          var op;
+          if (iste(tur)) {
+            var F = FOTO[tur], rp = 1 / F[0];
+            op = { map: fotoTx(tur, 'r', rp), color: tonla(hex, F[1]), normalMap: fotoTx(tur, 'n', rp), normalScale: new T.Vector2(F[2], F[2]),
+              roughnessMap: fotoTx(tur, 'p', rp), roughness: tur === 'deri' ? .8 : 1, metalness: 0, envMapIntensity: tur === 'deri' ? 1 : .5 };
+          } else {
+            var dk = kumasDoku(hex, tur), tk = function (c, srgb) { var t = new T.CanvasTexture(c); t.wrapS = t.wrapT = T.RepeatWrapping; t.repeat.set(1 / dk.boy, 1 / dk.boy); t.anisotropy = 8; if (srgb) t.encoding = T.sRGBEncoding; return t; };
+            op = { map: tk(dk.renk, true), bumpMap: tk(dk.kab), bumpScale: tur === 'boucle' ? .45 : tur === 'keten' ? .28 : .15,
+              roughness: tur === 'deri' ? .42 : tur === 'kadife' ? .78 : .93, metalness: 0, envMapIntensity: tur === 'deri' ? 1 : .55 };
+          }
           if (tur === 'kadife') { op.sheen = 1; op.sheenRoughness = .35; op.sheenColor = new T.Color(hex).lerp(new T.Color(0xffffff), .45); }
           else if (tur !== 'deri') { op.sheen = .5; op.sheenRoughness = .8; op.sheenColor = new T.Color(hex).lerp(new T.Color(0xffffff), .3); }
           if (tur === 'deri') { op.clearcoat = .25; op.clearcoatRoughness = .5; }
@@ -1078,14 +1235,14 @@
           if (HARITA && HARITA[renk]) {
             var mm = HARITA[renk], kk = 'p|' + mm.join('|');
             if (!mat[kk]) {
-              var op = { color: mm[4] !== undefined ? 0xffffff : mm[1], roughness: mm[2], metalness: mm[3] || 0 };
+              var op = { color: mm[4] !== undefined ? 0xffffff : srgb(mm[1]), roughness: mm[2], metalness: mm[3] || 0 };
               if (mm[4] !== undefined) { var tt = new T.CanvasTexture(doku(mm[4], mm[1], 256)); tt.encoding = T.sRGBEncoding; tt.anisotropy = 4; tt.wrapS = tt.wrapT = T.RepeatWrapping; tt.repeat.set(1.2, 1.2); op.map = tt; }
               mat[kk] = new T.MeshStandardMaterial(op);
             }
             return mat[kk];
           }
           if (OZEL && GOVDE.indexOf(renk) >= 0) renk = OZEL;
-          var key = renk + '|' + rough + '|' + metal; return mat[key] || (mat[key] = new T.MeshStandardMaterial({ color: renk, roughness: rough === undefined ? .8 : rough, metalness: metal || 0 }));
+          var key = renk + '|' + rough + '|' + metal; return mat[key] || (mat[key] = new T.MeshStandardMaterial({ color: srgb(renk), roughness: rough === undefined ? .8 : rough, metalness: metal || 0 }));
         };
         var olcekUV = function (geo, w_, h_, d_) {
           var uv = geo.attributes.uv, yuz = [[d_, h_], [d_, h_], [w_, d_], [w_, d_], [w_, h_], [w_, h_]];
@@ -1108,14 +1265,47 @@
         var silindir = function (par, r1, r2, h_, x_, y_, z_, renk, rough, metal) {
           var me = new T.Mesh(new T.CylinderGeometry(r1, r2, h_, 28), MT(renk, rough, metal)); me.position.set(x_, y_ + h_ / 2, z_); me.castShadow = true; me.receiveShadow = true; par.add(me); return me;
         };
-        var camMat = new T.MeshStandardMaterial({ color: 0xbfd4dc, roughness: .05, metalness: .1, transparent: true, opacity: .3 });
+        var camMat = new T.MeshPhysicalMaterial({ color: 0xdfeaee, roughness: .04, metalness: 0, transmission: 0, transparent: true, opacity: .22, envMapIntensity: 1.4, clearcoat: 1 });
+        var perdeMat = mat.perde || (mat.perde = new T.MeshStandardMaterial({ color: 0xf4f0e8, roughness: .95, side: T.DoubleSide, transparent: true, opacity: .82, envMapIntensity: .5 }));
+        var perde = function (pw, ph) {
+          var geo = new T.PlaneGeometry(pw, ph, 36, 1), pos = geo.attributes.position;
+          for (var q = 0; q < pos.count; q++) pos.setZ(q, Math.sin(pos.getX(q) / .11 * Math.PI) * .028);
+          geo.computeVertexNormals(); var me = new T.Mesh(geo, perdeMat); me.receiveShadow = true; return me;
+        };
         var KUMAS = 0x8a8174, AHSAP = 0x7a5a3c, ACIK = 0xb08d66, BEYAZ = 0xeeebe5, METAL = 0x9a9a9a, SIYAH = 0x232220, SERAMIK = 0xf4f2ee;
+        // gerçek model: kutusu eşyanın ölçüsüne oturtulur; döşeme ya da ahşap seçildiyse o parça değişir
+        var modelKoy = function (par, e, md, gw_, gh_, gd_) {
+          var ic = MD[md[0]].sahne.clone(true), sar = new T.Group(); ic.rotation.y = md[1]; sar.add(ic); sar.updateMatrixWorld(true);
+          var b = new T.Box3().setFromObject(ic), sz = b.getSize(new T.Vector3());
+          ic.position.set(-(b.min.x + b.max.x) / 2, -b.min.y, -(b.min.z + b.max.z) / 2); sar.scale.set(gw_ / sz.x, gh_ / sz.y, gd_ / sz.z);
+          var slot = (SLOT[e.tip] || [])[0], mm = e.m && slot && PARCA[slot] && PARCA[slot].l[e.m[slot]], yeni = null;
+          if (mm) yeni = slot === 'kumas' ? kumasMat(mm[1], kumasTuru(mm[0])) : (function () {
+            var zf = mm[4] !== undefined && ZEMIN[mm[4]] && ZEMIN[mm[4]].f;
+            if (zf && iste(zf)) return new T.MeshStandardMaterial({ map: fotoTx(zf, 'r', 1), normalMap: fotoTx(zf, 'n', 1), roughness: mm[2], metalness: mm[3] || 0 });
+            return new T.MeshStandardMaterial({ color: srgb(mm[1]), roughness: mm[2], metalness: mm[3] || 0 });
+          })();
+          else if (e.renk && slot === 'kumas') yeni = kumasMat(e.renk, 'keten');
+          ic.traverse(function (o) {
+            if (!o.isMesh || (md[2] && o.material.name.indexOf(md[2]) < 0)) return;
+            if (yeni) o.material = yeni;
+            else if (e.renk) { o.material = o.material.clone(); o.material.color.copy(srgb(e.renk)); }
+          });
+          par.add(sar);
+        };
+        var lamba = 0, sarkit = function (par) {
+          var ic = MD.modern_ceiling_lamp_01.sahne.clone(true), b = new T.Box3().setFromObject(ic);
+          ic.position.set(-(b.min.x + b.max.x) / 2, DUVAR_H - b.max.y, -(b.min.z + b.max.z) / 2);
+          ic.traverse(function (o) { if (o.isMesh && /glass|globe/.test(o.material.name)) { o.material = o.material.clone(); o.material.emissive = new T.Color(0xffe0b0); o.material.emissiveIntensity = 1.4; o.castShadow = false; } });
+          var isik = new T.PointLight(0xffd9a6, .35, 4, 2); isik.position.set(0, DUVAR_H - (b.max.y - b.min.y) + .12, 0);
+          par.add(ic); par.add(isik);
+        };
         var sandalye = function (sg) { kutu(sg, .44, .04, .44, 0, .44, 0, AHSAP, .6); kutu(sg, .44, .42, .04, 0, .48, -.2, AHSAP, .6); [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (k) { kutu(sg, .03, .44, .03, k[0] * .19, 0, k[1] * .19, AHSAP, .6); }); };
         // zeminler
         plan.odalar.forEach(function (o, oi) {
           var sh = new T.Shape(); o.pts.forEach(function (p, i) { if (i) sh.lineTo(X(p.x), -Z(p.y)); else sh.moveTo(X(p.x), -Z(p.y)); });
           var malz;
-          if (o.zemin) {
+          if (o.zemin && ZEMIN[o.zemin].f && iste(ZEMIN[o.zemin].f)) malz = zeminFoto(o, ZEMIN[o.zemin]);
+          else if (o.zemin) {
             var tx = new T.CanvasTexture(doku(o.zemin, o.zrenk, 256)), S = dokuBoyu(o); tx.wrapS = tx.wrapT = T.RepeatWrapping; tx.repeat.set(1 / S, 1 / S); tx.rotation = -(o.zaci || 0) * Math.PI / 180; tx.encoding = T.sRGBEncoding; tx.anisotropy = 8;
             var z = ZEMIN[o.zemin].tur;
             malz = new T.MeshStandardMaterial({ map: tx, roughness: z === 'mermer' ? .25 : z === 'hali' ? 1 : .65 });
@@ -1123,7 +1313,7 @@
           var me = new T.Mesh(new T.ShapeGeometry(sh), malz); me.rotation.x = -Math.PI / 2; me.receiveShadow = true; me.userData = { sec: { tur: 'oda', i: oi }, zemin: 1 }; G.add(me);
         });
         // duvarlar: her oda kendi duvarını içe doğru kurar (komşu odalar kendi rengini taşır), açıklıkların çevresinde parçalara bölünür
-        var KAL = .12;
+        var KAL = .12, sivaVar = iste('siva');
         var icKose = function (o, j) { var n = o.pts.length, a = o.pts[(j - 1 + n) % n], b = o.pts[j], c = o.pts[(j + 1) % n]; return ((b.x - a.x) * (c.y - b.y) - (b.y - a.y) * (c.x - b.x)) * yon(o.pts) < 0; };
         plan.odalar.forEach(function (o, oi) {
           var renk = duvarRengi(o), ici = yon(o.pts);
@@ -1144,7 +1334,11 @@
             });
             ac.sort(function (a, b) { return a.s - b.s; });
             var bas = icKose(o, i) ? -KAL : 0, son_ = icKose(o, (i + 1) % o.pts.length) ? L + KAL : L;
-            var parca = function (s, e, y0, y1) { if (e - s < .005 || y1 - y0 < .005) return; kutu(duvar, e - s, y1 - y0, KAL, (s + e) / 2, y0, ZK, renk, .92); };
+            var parca = function (s, e, y0, y1) {
+              if (e - s < .005 || y1 - y0 < .005) return;
+              var pm = kutu(duvar, e - s, y1 - y0, KAL, (s + e) / 2, y0, ZK, renk, .92); if (sivaVar) pm.material = duvarMat(renk);
+              if (y0 === 0 && e - s > .03) kutu(duvar, e - s, .08, .012, (s + e) / 2, 0, ZK + ici * (KAL / 2 + .006), 0xefece6, .45); // süpürgelik
+            };
             ac.forEach(function (k) {
               var a = k.a, gen = k.e - k.s, mid = (k.s + k.e) / 2, grp = new T.Group(); grp.position.z = ZK; grp.userData = { sec: { tur: 'acik', i: k.ai } }; duvar.add(grp);
               parca(bas, k.s, 0, DUVAR_H);
@@ -1179,6 +1373,10 @@
                 kutu(grp, gen, .05, .06, mid, es_, 0, dr, .5); kutu(grp, gen, .05, .06, mid, es_ + yk - .05, 0, dr, .5);
                 kutu(grp, .05, yk, .06, k.s + .025, es_, 0, dr, .5); kutu(grp, .05, yk, .06, k.e - .025, es_, 0, dr, .5);
                 if (gen > .8) kutu(grp, .045, yk, .06, mid, es_, 0, dr, .5);
+                if (gen >= .5 && es_ + yk > 1.2) [-1, 1].forEach(function (yz) { // tül perdeler
+                  var pw = Math.min(.7, gen * .32) + .1, ph = DUVAR_H - .08, pd = perde(pw, ph);
+                  pd.position.set(yz < 0 ? k.s - .08 + pw / 2 : k.e + .08 - pw / 2, ph / 2 + .03, ici * (KAL / 2 + .08)); grp.add(pd);
+                });
               }
               bas = k.e;
             });
@@ -1190,7 +1388,11 @@
           var t = TIP[e.tip], gw = (e.w || t.w) / 100, gd = (e.d || t.d) / 100, gh = t.h / 100, g_ = new T.Group(), arka = -gd / 2, i, n;
           OZEL = e.renk || null; HARITA = null;
           if (e.m) { HARITA = {}; Object.keys(e.m).forEach(function (sl) { var mm = PARCA[sl] && PARCA[sl].l[e.m[sl]]; if (mm) KAYNAK(e.tip, sl).forEach(function (c) { HARITA[c] = mm; }); }); }
-          switch (e.tip) {
+          var md = MODEL[e.tip];
+          if (md && isteM(md[0])) {
+            modelKoy(g_, e, md, gw, gh, gd);
+            if (e.tip === 'tv') { kutu(g_, Math.min(1.23, gw * .8), .72, .035, 0, gh + .12, arka + .12, SIYAH, .15, .3); kutu(g_, .3, .12, .18, 0, gh, arka + .14, SIYAH, .4); }
+          } else switch (e.tip) {
             case 'koltuk3': case 'koltuk2': case 'berjer':
               (function () {
                 var kol = e.tip === 'berjer' ? .14 : .2, ayak = .1, ic = gw - 2 * kol, kum = e.tip === 'berjer' ? 0xa38b6d : KUMAS;
@@ -1269,6 +1471,7 @@
             case 'havlupan': for (i = 0; i < 8; i++) kutu(g_, gw, .02, .03, 0, .2 + i * .12, 0, OZEL || METAL, .3, .8); break;
             default: kutu(g_, gw, gh, gd, 0, 0, 0, AHSAP, .6);
           }
+          if (/^masa/.test(e.tip) && lamba < 3 && isteM('modern_ceiling_lamp_01')) { lamba++; sarkit(g_); } // yemek masasının üstünde sarkıt lamba
           OZEL = null; HARITA = null;
           g_.position.set(X(e.x), 0, Z(e.y)); g_.rotation.y = -aciRad(e); g_.userData = { sec: { tur: 'esya', i: ei } }; G.add(g_);
         });
@@ -1276,6 +1479,10 @@
           var R = Math.max(maxx - minx, maxy - miny) / METRE * Math.max(1, 1.3 / (U.k.aspect || 1));
           U.k.position.set(R * .45, R * .7 + 3.5, R * .8 + 2.5); U.c.target.set(0, .6, 0); U.c.update();
           U.isik.position.set(-R * .6 - 4, R + 10, R * .4 + 4);
+        }
+        if (bekle.length || bekleM.length) {
+          var kalan = bekle.length + bekleM.length, bitti = function () { if (--kalan === 0 && uc) U.kur(false); };
+          bekle.forEach(function (a) { fotoYukle(a, bitti); }); bekleM.forEach(function (a) { modelYukle(a, bitti); });
         }
         U.vurgula();
       }

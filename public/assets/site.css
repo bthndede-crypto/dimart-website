@@ -48,6 +48,10 @@ html.menu .top{transform:none}
 .brand img{width:96px;height:auto}
 .top-loc{position:relative;font:500 9.5px var(--mont);letter-spacing:.26em;text-transform:uppercase;color:var(--mute);margin-right:auto;padding-left:22px;border-left:1px solid var(--line)}
 .top-cta{position:relative;transition:opacity .4s}
+.dil{position:relative;display:flex;align-items:center;gap:2px;font:500 10px/1 var(--mont);letter-spacing:.2em;color:var(--mute)}
+.dil a{padding:8px 4px;color:var(--mute);transition:color .3s}
+.dil a[href]:hover,.dil a[aria-current]{color:var(--ink)}
+.dil a[aria-current]{border-bottom:1px solid var(--y)}
 html.menu .top-cta{opacity:0;pointer-events:none}
 .menu-btn{position:relative;display:flex;align-items:center;gap:14px;font:500 10px var(--mont);letter-spacing:.24em;text-transform:uppercase;padding:10px 0 10px 10px}
 .mb-t{display:block;height:12px;line-height:12px;overflow:hidden}
@@ -296,6 +300,10 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .masa-bar button[aria-pressed=true]{color:var(--y);border-color:var(--y)}
 .masa-govde{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:0;border:1px solid var(--line)}
 .masa-sahne{position:relative;min-width:0}
+.masa:not(.uc) [data-is="foto"]{display:none}
+.masa-foto{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:16px;background:rgba(16,14,12,.94)}
+.masa-foto img{max-width:100%;max-height:calc(100% - 64px);object-fit:contain;box-shadow:0 18px 50px rgba(0,0,0,.55)}
+.masa-foto p{display:flex;gap:28px;flex-wrap:wrap;justify-content:center}
 .masa-kagit{display:block;width:100%;height:min(74vh,760px);background:var(--bg2);cursor:crosshair;touch-action:none}
 .masa-3b{display:none;width:100%;height:min(74vh,760px);background:var(--bg2);touch-action:none}
 .masa-3b canvas{display:block;width:100%!important;height:100%!important}
