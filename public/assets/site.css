@@ -313,6 +313,13 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .masa-saat button{font:500 9px/1 var(--mont);letter-spacing:.2em;text-transform:uppercase;color:var(--mute);padding:8px 10px;border:1px solid transparent;transition:color .3s,border-color .3s}
 .masa-saat button:hover{color:var(--ink)}
 .masa-saat button[aria-pressed=true]{color:var(--y);border-color:var(--y)}
+.masa-gez{position:absolute;left:12px;bottom:12px;display:flex;align-items:flex-end;gap:6px;user-select:none;-webkit-user-select:none}
+.masa-gez button{background:rgba(16,14,12,.88);border:1px solid var(--line);color:var(--ink2);font:500 13px/1 var(--mont);touch-action:none;-webkit-touch-callout:none;transition:color .2s,border-color .2s}
+.masa-gez button:hover,.masa-gez button:active{color:var(--y);border-color:var(--y)}
+.gz-ok{display:grid;grid-template-columns:repeat(3,40px);grid-template-rows:repeat(2,40px);gap:3px}
+.gz-ok [data-gez=ileri]{grid-column:2;grid-row:1}.gz-ok [data-gez=sol]{grid-column:1;grid-row:2}.gz-ok [data-gez=geri]{grid-column:2;grid-row:2}.gz-ok [data-gez=sag]{grid-column:3;grid-row:2}
+.masa-gez .gz-mod{height:40px;padding:0 12px;font-size:9px;letter-spacing:.2em;text-transform:uppercase}
+.masa-gez .gz-mod[aria-pressed=true]{color:var(--y);border-color:var(--y)}
 .masa.uc [data-arac]:not([data-arac="3b"])[aria-pressed=true]{color:var(--mute);border-color:transparent}
 .masa.uc .masa-kagit{display:none}.masa.uc .masa-3b{display:block}
 .masa-panel{border-left:1px solid var(--line);padding:18px 16px;max-height:min(74vh,760px);overflow:auto;scrollbar-width:thin}
@@ -380,6 +387,11 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
   .masa-bar>div{flex-wrap:nowrap;flex:none}
   .masa-bar button{padding:12px 11px;white-space:nowrap;letter-spacing:.16em;scroll-snap-align:start}
   .masa-saat{left:8px;top:8px}
+  .masa-gez{left:8px;bottom:8px}
+  .gz-ok{grid-template-columns:repeat(3,46px);grid-template-rows:repeat(2,46px)}
+  .masa-gez .gz-mod{height:46px;padding:0 10px}
+  .masa.uc .masa-panel{max-height:44svh}
+  .masa.uc.panel-acik .masa-3b{height:46vh;height:46svh}
   .masa-saat button{padding:8px 7px;letter-spacing:.12em}
   .masa-panel{position:fixed;left:0;right:0;bottom:0;z-index:80;max-height:58vh;max-height:58svh;background:var(--bg);border:0;border-top:1px solid var(--y);padding:12px 16px 24px;transform:translateY(105%);transition:transform .45s var(--ease);box-shadow:0 -20px 40px rgba(0,0,0,.45)}
   .masa.panel-acik.gorunur .masa-panel{transform:none}

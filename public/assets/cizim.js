@@ -616,16 +616,16 @@
       if (s.tur === 'esya') {
         var e = plan.esya[s.i], t = TIP[e.tip], ew = e.w || t.w, ed = e.d || t.d;
         h += '<p class="pn-baslik">Seçili eşya</p><p class="pn-ad">' + t.ad + '</p><p class="pn-olcu">' + ew + ' × ' + ed + ' × ' + t.h + ' cm</p>' +
-          '<p class="pn-baslik">Döndür <kbd>R</kbd></p><p class="pn-not pn-ipucu">Sarı tutamağı sürükleyin ya da klavyede <b>R</b> tuşuna basın (her basışta 90°). Dokunmatikte eşyaya iki kez dokunun.</p><div class="pn-is"><button type="button" data-pis="sol90">⟲ 90°</button><button type="button" data-pis="sol15">⟲ 15°</button><button type="button" data-pis="sag15">15° ⟳</button><button type="button" data-pis="sag90">90° ⟳</button></div>' +
-          aralik('Açı', 'a', e.a || 0, 0, 359, 1, Math.round(e.a || 0) + '°') +
-          '<p class="pn-baslik">Ölçü (cm)</p><div class="pn-ikili"><label>Genişlik<input type="number" data-k="w" min="10" max="800" value="' + ew + '"></label><label>Derinlik<input type="number" data-k="d" min="10" max="800" value="' + ed + '"></label></div>' +
-          (e.w || e.d ? '<div class="pn-is"><button type="button" data-pis="standart">Standart ölçüye dön</button></div>' : '') +
           ((SLOT[e.tip] || []).length ? (SLOT[e.tip] || []).map(function (sl) {
             var P = PARCA[sl], v = (e.m || {})[sl];
             return '<p class="pn-baslik">' + P.ad + '</p><div class="pn-renk pn-malz">' +
               '<button type="button" data-slot="' + sl + '" data-mi="" aria-pressed="' + (v === undefined) + '"><i class="dogal"></i><span>Standart</span></button>' +
               P.l.map(function (mm, i) { return '<button type="button" data-slot="' + sl + '" data-mi="' + i + '" aria-pressed="' + (v === i) + '"><i ' + (mm[4] !== undefined ? 'data-onizle="' + mm[4] + '" data-ton="' + mm[1] + '"' : 'style="background:' + mm[1] + '"') + '></i><span>' + mm[0] + '</span></button>'; }).join('') + '</div>';
           }).join('') + renkler('Özel renk', 'renk', e.renk || '', ETON, 'Malzeme rengi') : renkler('Renk', 'renk', e.renk || '', ETON)) +
+          '<p class="pn-baslik">Döndür <kbd>R</kbd></p><p class="pn-not pn-ipucu">Sarı tutamağı sürükleyin ya da klavyede <b>R</b> tuşuna basın (her basışta 90°). Dokunmatikte eşyaya iki kez dokunun.</p><div class="pn-is"><button type="button" data-pis="sol90">⟲ 90°</button><button type="button" data-pis="sol15">⟲ 15°</button><button type="button" data-pis="sag15">15° ⟳</button><button type="button" data-pis="sag90">90° ⟳</button></div>' +
+          aralik('Açı', 'a', e.a || 0, 0, 359, 1, Math.round(e.a || 0) + '°') +
+          '<p class="pn-baslik">Ölçü (cm)</p><div class="pn-ikili"><label>Genişlik<input type="number" data-k="w" min="10" max="800" value="' + ew + '"></label><label>Derinlik<input type="number" data-k="d" min="10" max="800" value="' + ed + '"></label></div>' +
+          (e.w || e.d ? '<div class="pn-is"><button type="button" data-pis="standart">Standart ölçüye dön</button></div>' : '') +
           '<div class="pn-is pn-son"><button type="button" data-pis="kopya">Kopyala</button><button type="button" data-pis="sil">Sil</button>' + geriDon + '</div>';
       } else if (s.tur === 'acik') {
         var a = plan.acik[s.i];
@@ -710,7 +710,9 @@
           '<p class="pn-not">Ölçek: bir kare 50 × 50 cm. Duvar yüksekliği 2,80 m. Eşyalar standart ölçülerdedir.</p>';
       }
       var mobilAc = !!s || ['esya', 'kapi', 'pencere', 'zemin', 'boya'].indexOf(arac) >= 0;
+      var oncekiAcik = kok.classList.contains('panel-acik');
       kok.classList.toggle('panel-acik', mobilAc);
+      if (uc && oncekiAcik !== mobilAc) requestAnimationFrame(function () { U.yeniden(); });
       panel.innerHTML = '<button type="button" class="pn-kapat" data-pis="panel-kapat">Kapat ✕</button>' + h;
       Array.prototype.forEach.call(panel.querySelectorAll('[data-onizle]'), function (el) {
         el.style.backgroundImage = 'url(' + doku(+el.dataset.onizle, el.dataset.ton || '', 64).toDataURL() + ')';
@@ -1084,7 +1086,11 @@
         var ekler = function () { yuk('/assets/vendor/OrbitControls.js', function () { yuk('/assets/vendor/three-uc-ek.min.js', cb); }); };
         if (w.THREE) ekler(); else yuk('/assets/vendor/three.min.js', ekler);
       },
-      ipucu: function () { return 'Sürükleyerek döndürün, tekerlekle yakınlaşın. Bir odaya, duvara, kapıya ya da eşyaya tıklayıp sağdaki panelden malzemesini, rengini ve ölçüsünü değiştirin.'; },
+      ipucu: function () {
+        var tel = U.tel;
+        if (U.ic) return (tel ? 'Parmağınızla sürükleyerek etrafa bakın' : 'Sürükleyerek etrafa bakın') + ', ▲ ▼ ile yürüyün, ◀ ▶ ile dönün' + (tel ? '' : ' (W A S D tuşları da olur)') + '. Bir şeye dokunup malzemesini ve rengini değiştirin.';
+        return (tel ? 'Parmağınızla döndürün, iki parmakla yakınlaşın' : 'Sürükleyerek döndürün, tekerlekle yakınlaşın') + '; ▲ ▼ ile yaklaşın, İçeriden ile odanın içinde gezin. Bir odaya, duvara, kapıya ya da eşyaya dokunup ' + (tel ? 'alttaki' : 'sağdaki') + ' panelden malzemesini, rengini ve ölçüsünü değiştirin.';
+      },
       ac: function () {
         if (!plan.odalar.length) { if (ipucu) ipucu.textContent = '3B görünüm için önce bir oda çizin.'; return; }
         U.yukle(function () {
@@ -1129,6 +1135,26 @@
         sd.innerHTML = Object.keys(SAAT).map(function (k) { return '<button type="button" data-saat="' + k + '">' + SAAT[k].ad + '</button>'; }).join('');
         sd.addEventListener('click', function (ev) { var b = ev.target.closest('[data-saat]'); if (!b) return; try { localStorage.setItem('dimart-saat', b.dataset.saat); } catch (e) {} U.saatSecili = b.dataset.saat; ses(493.88); U.kur(false); });
         sahne.appendChild(sd); U.saatDug = sd;
+        // gezinme: basılı tutunca ileri/geri gider, sağa/sola döner; İçeriden göz hizasında gezdirir
+        var gz = d.createElement('div'); gz.className = 'masa-gez';
+        gz.innerHTML = '<button type="button" data-gez="ic" class="gz-mod" aria-pressed="false">İçeriden</button>' +
+          '<div class="gz-ok"><button type="button" data-gez="ileri" aria-label="İleri">▲</button><button type="button" data-gez="sol" aria-label="Sola dön">◀</button>' +
+          '<button type="button" data-gez="geri" aria-label="Geri">▼</button><button type="button" data-gez="sag" aria-label="Sağa dön">▶</button></div>' +
+          '<button type="button" data-gez="tum" class="gz-mod">Tümü</button>';
+        sahne.appendChild(gz); U.gezDug = gz;
+        var gezYon = null, gezDongu = function () { if (!gezYon) return; U.gez(gezYon, 1); requestAnimationFrame(gezDongu); };
+        gz.addEventListener('pointerdown', function (ev) {
+          var b = ev.target.closest('[data-gez]'); if (!b) return; ev.preventDefault();
+          if (b.dataset.gez === 'ic') return U.icerden(!U.ic);
+          if (b.dataset.gez === 'tum') return U.icerden(false, true);
+          gezYon = b.dataset.gez; gezDongu();
+        });
+        ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (t) { gz.addEventListener(t, function () { gezYon = null; }); });
+        gz.addEventListener('contextmenu', function (ev) { ev.preventDefault(); });
+        d.addEventListener('keydown', function (ev) {
+          if (!uc || /INPUT|SELECT|TEXTAREA/.test((d.activeElement || {}).tagName || '')) return;
+          var y = { w: 'ileri', s: 'geri', a: 'sol', d: 'sag' }[ev.key.toLowerCase()]; if (y) { U.gez(y, 2.5); ev.preventDefault(); }
+        });
         var yer = new T.Mesh(new T.PlaneGeometry(200, 200), new T.ShadowMaterial({ opacity: .45 }));
         yer.rotation.x = -Math.PI / 2; yer.position.y = -.01; yer.receiveShadow = true; U.s.add(yer);
         U.grup = new T.Group(); U.s.add(U.grup);
@@ -1149,6 +1175,8 @@
           sec = bulunan ? { tur: bulunan.tur, i: bulunan.i } : null; if (sec && bulunan.kenar !== undefined) sec.kenar = bulunan.kenar;
           if (sec && arac !== 'sec') { arac = 'sec'; basili(); }
           paneliKur(); ciz(); U.vurgula(); if (sec) ses(523.25, .01);
+          // telefonda 3B görünüm alttaki panelin üstünde kalsın
+          if (U.tel && sec) { var bb = sahne.getBoundingClientRect(); if (Math.abs(bb.top - 64) > 20) w.scrollBy({ top: bb.top - 64, behavior: 'smooth' }); }
         });
       },
       // fotoğraf modu: büyük boyutta, köşe gölgeleriyle (SSAO), güneşi ve kamerayı azıcık kaydırarak 24 kare çizer, ortalamasını alır
@@ -1211,6 +1239,46 @@
         var k = U.k.position;
         (U.duvarlar || []).forEach(function (d_) { var dis = (k.x - d_.mx) * d_.nx + (k.z - d_.mz) * d_.nz < 0; d_.g.scale.y = dis && U.kesit ? .1 : 1; });
         U.r.render(U.s, U.k);
+      },
+      // ileri/geri ve sağa/sola: kuş bakışında yaklaşır/uzaklaşır ve odanın etrafında döner, içeriden yürür ve başını çevirir
+      gez: function (yon, kat) {
+        var T = w.THREE, k = U.k.position, t = U.c.target;
+        if (yon === 'ileri' || yon === 'geri') {
+          var ileri = yon === 'ileri' ? 1 : -1;
+          if (U.ic) {
+            var dx = t.x - k.x, dz = t.z - k.z, L = Math.hypot(dx, dz) || 1, s_ = ileri * .045 * kat;
+            k.x += dx / L * s_; k.z += dz / L * s_; t.x += dx / L * s_; t.z += dz / L * s_;
+          } else {
+            var v = new T.Vector3().subVectors(t, k), dd = v.length(), adim = Math.max(.05, dd * .02) * kat * ileri;
+            if (dd - adim < U.c.minDistance || dd - adim > U.c.maxDistance) return;
+            k.addScaledVector(v.normalize(), adim);
+          }
+        } else {
+          var a = (yon === 'sol' ? 1 : -1) * .022 * kat, c = Math.cos(a), sn = Math.sin(a);
+          var merkez_ = U.ic ? k : t, hareket = U.ic ? t : k, ox = hareket.x - merkez_.x, oz = hareket.z - merkez_.z;
+          if (!U.ic) { a = -a; c = Math.cos(a); sn = Math.sin(a); }
+          hareket.x = merkez_.x + ox * c + oz * sn; hareket.z = merkez_.z - ox * sn + oz * c;
+        }
+        U.c.update(); U.ciz();
+      },
+      icerden: function (acik, sifirla) {
+        var c = U.c, k = U.k;
+        if (acik && !U.ic) {
+          U.disKam = { p: k.position.clone(), t: c.target.clone() };
+          var t = c.target, dx = t.x - k.position.x, dz = t.z - k.position.z, L = Math.hypot(dx, dz) || 1, geri = (U.olcu || 3) * .55;
+          k.position.set(t.x - dx / L * geri, 1.6, t.z - dz / L * geri); c.target.set(k.position.x + dx / L * .4, 1.5, k.position.z + dz / L * .4);
+          U.ic = true; U.kesit = false; c.minDistance = .1; c.maxDistance = .6; c.enableZoom = false; c.enablePan = false; c.minPolarAngle = Math.PI * .2; c.maxPolarAngle = Math.PI * .8;
+          k.fov = 62; k.updateProjectionMatrix();
+        } else if (!acik) {
+          var ic = U.ic;
+          U.ic = false; U.kesit = true; c.minDistance = 1.5; c.maxDistance = 60; c.enableZoom = true; c.enablePan = true; c.minPolarAngle = 0; c.maxPolarAngle = Math.PI / 2.05;
+          k.fov = 42; k.updateProjectionMatrix();
+          if (sifirla) U.kamera();
+          else if (ic && U.disKam) { k.position.copy(U.disKam.p); c.target.copy(U.disKam.t); }
+        }
+        if (U.gezDug) { var b = U.gezDug.querySelector('[data-gez="ic"]'); b.textContent = U.ic ? 'Kuş bakışı' : 'İçeriden'; b.setAttribute('aria-pressed', String(!!U.ic)); }
+        if (ipucu) ipucu.textContent = U.ipucu();
+        c.update(); U.ciz();
       },
       saatAd: function () {
         if (!U.saatSecili) { try { U.saatSecili = localStorage.getItem('dimart-saat'); } catch (e) {} }
@@ -1660,11 +1728,12 @@
           OZEL = null; HARITA = null;
           g_.position.set(X(e.x), 0, Z(e.y)); g_.rotation.y = -aciRad(e); g_.userData = { sec: { tur: 'esya', i: ei } }; G.add(g_);
         });
-        if (kamera) {
-          var R = Math.max(maxx - minx, maxy - miny) / METRE * Math.max(1, 1.3 / (U.k.aspect || 1));
+        U.olcu = Math.max(maxx - minx, maxy - miny) / METRE / 2;
+        U.kamera = function () {
+          var R = U.olcu * 2 * Math.max(1, 1.3 / (U.k.aspect || 1));
           U.k.position.set(R * .45, R * .7 + 3.5, R * .8 + 2.5); U.c.target.set(0, .6, 0); U.c.update();
-          U.isik.position.set(-R * .6 - 4, R + 10, R * .4 + 4);
-        }
+        };
+        if (kamera) { if (U.ic) U.icerden(false); U.kamera(); }
         if (bekle.length || bekleM.length) {
           var kalan = bekle.length + bekleM.length, bitti = function () { if (--kalan === 0 && uc) U.kur(false); };
           bekle.forEach(function (a) { fotoYukle(a, bitti); }); bekleM.forEach(function (a) { modelYukle(a, bitti); });
