@@ -22,6 +22,7 @@
 - [Hizmetler](https://dimartmimarlik.com/hizmetler/): hizmetlerin ayrıntıları
 - [Projeler](https://dimartmimarlik.com/projeler/)
 - [Blog](https://dimartmimarlik.com/blog/): rehberler
+- [Hizmet bölgeleri](https://dimartmimarlik.com/bolgeler/): İstanbul Anadolu Yakası ilçeleri (Sancaktepe, Ataşehir, Kadıköy, Üsküdar, Ümraniye, Maltepe, Kartal, Pendik, Tuzla, Çekmeköy)
 - [İletişim](https://dimartmimarlik.com/iletisim/)
 
 ## Blog yazıları

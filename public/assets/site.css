@@ -537,3 +537,9 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
   *,*::before,*::after{animation:none!important;transition:none!important}
   body::after{display:none}
 }
+.bolge-liste li a{display:block}
+.bolge-liste li a:hover h3{color:var(--y)}
+.bolge-liste h3{transition:color .3s}
+.bolge-komsu{margin-top:34px;font-size:13px;line-height:2}
+.bolge-komsu a{border-bottom:1px solid var(--line)}
+.bolge-komsu a:hover{border-color:var(--y)}
