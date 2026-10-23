@@ -419,7 +419,7 @@
   function bak() {
     if (yuklendi || !document.getElementById('masa')) return;
     yuklendi = true;
-    var s = document.createElement('script'); s.src = '/assets/cizim.js'; document.head.appendChild(s);
+    var s = document.createElement('script'); s.src = document.getElementById('masa').getAttribute('data-js') || '/assets/cizim.js'; document.head.appendChild(s);
   }
   document.addEventListener('dm-swap', bak);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bak); else bak();
