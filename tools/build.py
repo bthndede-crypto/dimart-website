@@ -689,7 +689,9 @@ CIZIM_SSS = [
     ("Hangi eşyaları ekleyebilirim, ölçüleri doğru mu?",
      "Oturma, yatak odası, yemek, mutfak, banyo, antre ve çalışma alanları için 46 eşya vardır: üçlü ve köşe koltuk, yatak, bebek yatağı, gardırop, yemek masası, tezgâh, eviye, ocak, buzdolabı, klozet, lavabo, duş, küvet, portmanto ve daha fazlası. Hepsi piyasadaki yaygın standart ölçülerdedir, örneğin çift kişilik yatak 160 × 200 cm, tezgâh derinliği 60 cm, klozet 40 × 70 cm. Seç aracıyla eşyaya tıklayıp sarı tutamaçla istediğiniz açıya döndürebilir, genişliğini, derinliğini ve rengini değiştirebilirsiniz."),
     ("3B görünüm nasıl çalışıyor?",
-     "3B düğmesi, çizdiğiniz odaları 2,80 m duvar yüksekliğiyle, kapı ve pencere boşluklarıyla, seçtiğiniz zemin, duvar rengi ve eşyalarla birlikte gerçek bir üç boyutlu sahneye dönüştürür. Fareyle sürükleyerek döndürebilir, tekerlekle yakınlaşabilir, telefonda iki parmakla gezinebilirsiniz."),
+     "3B düğmesi, çizdiğiniz odaları 2,80 m duvar yüksekliğiyle, kapı ve pencere boşluklarıyla, seçtiğiniz zemin, duvar rengi ve eşyalarla birlikte gerçek bir üç boyutlu sahneye dönüştürür. Parke, mermer, traverten, terrazzo, beton, halı, keten, bouclé, kadife ve deri gerçek malzeme fotoğraflarından üretilen dokularla görünür; süpürgelik, tül perde, saksı bitki ve yemek masası üstündeki sarkıt lamba gibi ayrıntılar kendiliğinden eklenir. Fareyle sürükleyerek döndürebilir, tekerlekle yakınlaşabilir, telefonda iki parmakla gezinebilirsiniz."),
+    ("Fotoğraf modu nedir?",
+     "3B görünümdeyken Fotoğraf düğmesine basınca sahne büyük boyutta, yumuşak gölgeler ve köşe gölgeleriyle birkaç saniyede yeniden çizilir. Çıkan görüntüyü indirip paylaşabilir ya da bize gönderebilirsiniz."),
     ("Kapı ve pencereleri nasıl ayarlarım?",
      "Daire giriş (çelik), oda, banyo, balkon, çift kanatlı ve sürgü kapı tiplerinden birini seçip duvara tıklayın. Kapının genişliğini, yüksekliğini, menteşe tarafını ve içe ya da dışa açılışını panelden değiştirebilir, duvar boyunca sürükleyebilirsiniz. Pencerelerde genişlik, denizlik yüksekliği ve pencere yüksekliği ayarlanır; standart, geniş, yere kadar, mutfak ve banyo penceresi hazır tipleri vardır."),
     ("Hangi zemin malzemeleri ve duvar renkleri var?",
@@ -724,7 +726,7 @@ def page_cizim():
   <section class="masa" id="masa" aria-label="Çizim masası">
     <div class="masa-bar">
       <div class="masa-araclar" role="group" aria-label="Araçlar">{btn}</div>
-      <div class="masa-isler"><button type="button" data-is="geri">Geri al</button><button type="button" data-is="temizle">Temizle</button><button type="button" data-is="indir">Görseli indir</button></div>
+      <div class="masa-isler"><button type="button" data-is="geri">Geri al</button><button type="button" data-is="temizle">Temizle</button><button type="button" data-is="indir">Görseli indir</button><button type="button" data-is="foto">Fotoğraf</button></div>
     </div>
     <div class="masa-govde">
       <div class="masa-sahne">

@@ -1,0 +1,3 @@
+3B modeller: Poly Haven (polyhaven.com), CC0 lisansı.
+modern_arm_chair_01, modern_coffee_table_01, coffee_table_round_01, potted_plant_02, modern_wooden_cabinet, modern_ceiling_lamp_01
+Dokular (../doku): ambientCG (ambientcg.com), CC0 lisansı.

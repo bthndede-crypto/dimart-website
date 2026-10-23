@@ -300,6 +300,10 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .masa-bar button[aria-pressed=true]{color:var(--y);border-color:var(--y)}
 .masa-govde{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:0;border:1px solid var(--line)}
 .masa-sahne{position:relative;min-width:0}
+.masa:not(.uc) [data-is="foto"]{display:none}
+.masa-foto{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:16px;background:rgba(16,14,12,.94)}
+.masa-foto img{max-width:100%;max-height:calc(100% - 64px);object-fit:contain;box-shadow:0 18px 50px rgba(0,0,0,.55)}
+.masa-foto p{display:flex;gap:28px;flex-wrap:wrap;justify-content:center}
 .masa-kagit{display:block;width:100%;height:min(74vh,760px);background:var(--bg2);cursor:crosshair;touch-action:none}
 .masa-3b{display:none;width:100%;height:min(74vh,760px);background:var(--bg2);touch-action:none}
 .masa-3b canvas{display:block;width:100%!important;height:100%!important}
