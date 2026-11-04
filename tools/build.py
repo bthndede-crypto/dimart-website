@@ -90,8 +90,8 @@ ORG = {
     "slogan": "Her şey bir çizgiyle başlar.",
     "description": "İstanbul merkezli mimarlık ve müteahhitlik firması. Mimari tasarım, iç mimarlık, villa ve konut inşaatı, tadilat ve renovasyon, proje ve ruhsat, anahtar teslim uygulama.",
     "url": f"{SITE}/",
-    "logo": f"{SITE}/assets/dimart-logo-siyah.svg",
-    "image": f"{SITE}/assets/dimart-favicon-512.png",
+    "logo": f"{SITE}/assets/dimart-logo.png",
+    "image": f"{SITE}/assets/dimart-paylasim.jpg",
     "email": FIRMA["eposta"],
     "telephone": FIRMA["tel_link"],
     "address": [{
@@ -309,7 +309,11 @@ def head(title, desc, path, ld, page):
 <meta property="og:title" content="{esc_attr(title)}">
 <meta property="og:description" content="{esc_attr(desc)}">
 <meta property="og:url" content="{url}">
-<meta property="og:image" content="{SITE}/assets/dimart-favicon-512.png">
+<meta property="og:image" content="{SITE}/assets/dimart-paylasim.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Dimart Mimarlık">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="msvalidate.01" content="7CF4CEBF4ED658A86E675507A2B6D623">
 <meta name="theme-color" content="#100E0C">
 <meta name="color-scheme" content="dark">
@@ -882,7 +886,7 @@ def page_yazi(y):
            "abstract": y["ozet"], "datePublished": y["tarih"], "dateModified": y["tarih"], "inLanguage": "tr-TR",
            "url": url, "mainEntityOfPage": url, "articleSection": y["kategori"],
            "author": {"@id": f"{SITE}/#firma"}, "publisher": {"@id": f"{SITE}/#firma"},
-           "image": f"{SITE}/assets/dimart-favicon-512.png", "isPartOf": {"@id": f"{SITE}/blog/#blog"}},
+           "image": f"{SITE}/assets/dimart-paylasim.jpg", "isPartOf": {"@id": f"{SITE}/blog/#blog"}},
           faq_ld(y["sss"])]
     diger = [o for o in YAZILAR if o["slug"] != y["slug"]][:3]
     return head(f"{y['baslik']} | Dimart Mimarlık", y["aciklama"], f"blog/{y['slug']}/", ld, "yazi") + f"""  <article class="post">
