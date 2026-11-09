@@ -563,6 +563,14 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .proj-g:hover .ph:not(:hover) .frame{opacity:.55}
 .ph .frame{transition:opacity .6s var(--ease)}
 .proj-son{padding-top:14vh}
+.ph-v img,.bolge-proj .frame img{display:block;width:100%;height:auto;transition:transform 1.4s var(--ease)}
+.piece:hover .ph-v img,.bolge-proj a:hover img{transform:scale(1.025)}
+.vitrin{padding-top:6vh}
+.vitrin-son{grid-column:2 / -1;margin-top:14vh}
+.bolge-proj{padding:10vh 0 8vh}
+.bolge-proj .sec-head{margin-bottom:8vh}
+.bolge-proj .links{margin-top:8vh}
+.ph-cap{display:block;font:500 9.5px/1.6 var(--mont);letter-spacing:.2em;text-transform:lowercase;color:var(--mute);margin-top:12px}
 /* büyük görsel */
 .lbx{position:fixed;inset:0;z-index:92;background:var(--bg);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s var(--ease)}
 .lbx.on{opacity:1;pointer-events:auto}
@@ -585,6 +593,7 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
   .lbx .pv,.lbx .nx{top:auto;bottom:6px;transform:none}
   .lbx .pv{left:auto;right:70px}
   .lbx p{bottom:62px}
+  .vitrin-son{margin-top:0}
 }
 
 @media (prefers-reduced-motion:reduce){

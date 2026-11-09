@@ -95,6 +95,7 @@ def page_home():
 {pieces}
   </section>
 
+{b.vitrin_html("nl")}
   <section class="say" aria-labelledby="aanpak">
     <h2 class="label" id="aanpak" data-r>Aanpak</h2>
     <p class="statement" data-r>{words("Elk gebouw begint met een lijn. Die lijn laten we niet los, van de eerste schets tot de laatste sleutel.")}</p>

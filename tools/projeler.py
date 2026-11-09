@@ -6,6 +6,7 @@ GENISLIKLER = (800, 1600)
 PROJELER = [
     {
         "slug": "kadikoy-daire",
+        "bolge": "kadikoy",
         "yil": "2026",
         "ad": ("Kadıköy daire", "Kadıköy apartment", "Appartement Kadıköy"),
         "yer": ("Kadıköy, İstanbul", "Kadıköy, Istanbul", "Kadıköy, Istanbul"),
@@ -72,6 +73,7 @@ PROJELER = [
     },
     {
         "slug": "atasehir",
+        "bolge": "atasehir",
         "yil": "2024–2026",
         "ad": ("Ataşehir konutları", "Ataşehir homes", "Woningen in Ataşehir"),
         "yer": ("Ataşehir, İstanbul", "Ataşehir, Istanbul", "Ataşehir, Istanbul"),
@@ -120,6 +122,7 @@ PROJELER = [
     },
     {
         "slug": "tuzla",
+        "bolge": "tuzla",
         "yil": "2024",
         "ad": ("Tuzla", "Tuzla", "Tuzla"),
         "yer": ("Tuzla, İstanbul", "Tuzla, Istanbul", "Tuzla, Istanbul"),
@@ -165,3 +168,7 @@ PROJELER = [
         ],
     },
 ]
+
+# Ana sayfadaki "Seçili projeler": (proje slug, foto adı)
+VITRIN = [("kadikoy-daire", "kadikoy-daire-salon"), ("kazimiye-yalova", "kazimiye-yalova-tv-unitesi"),
+          ("atasehir", "atasehir-mutfak"), ("tuzla", "tuzla-kis-bahcesi")]

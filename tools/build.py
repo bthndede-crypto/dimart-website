@@ -6,7 +6,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from blog import YAZILAR  # noqa: E402
 from bolge import BOLGELER, DIGER  # noqa: E402
-from projeler import GENISLIKLER, PROJELER as PROJE_FOTO  # noqa: E402
+from projeler import GENISLIKLER, VITRIN, PROJELER as PROJE_FOTO  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent / "public"
 SITE = "https://dimartmimarlik.com"
@@ -526,6 +526,7 @@ def page_home():
 {pieces}
   </section>
 
+{vitrin_html("tr")}
   <section class="say" aria-labelledby="yaklasim">
     <h2 class="label" id="yaklasim" data-r>Yaklaşım</h2>
     <p class="statement" data-r>{words("Her yapı bir çizgiyle başlar. Biz o çizgiyi ilk eskizden son anahtara kadar elden bırakmıyoruz.")}</p>
@@ -664,6 +665,57 @@ def foto_boyut(slug, ad):
             with Image.open(f) as im:
                 out.append((f"/assets/projeler/{slug}/{f.name}", im.width, im.height))
     return out
+
+
+def foto_img(p, f, lang, sizes):
+    boy = foto_boyut(p["slug"], f["ad"])
+    src, w, h = boy[0]
+    srcset = ", ".join(f"{s} {ww}w" for s, ww, _ in boy)
+    return f'<img src="{src}" srcset="{srcset}" sizes="{sizes}" width="{w}" height="{h}" alt="{esc_attr(f["alt"][DIL_I[lang]])}" loading="lazy" decoding="async">'
+
+
+VITRIN_M = {"tr": ("Seçili projeler", "Tüm projeler", "Projeye git"),
+            "en": ("Selected projects", "All projects", "View project"),
+            "nl": ("Geselecteerde projecten", "Alle projecten", "Bekijk project")}
+
+
+def vitrin_html(lang):
+    i = DIL_I[lang]
+    bas, tum, git = VITRIN_M[lang]
+    proj = {p["slug"]: p for p in PROJE_FOTO}
+    parca = []
+    for k, (ps, fa) in enumerate(VITRIN):
+        p = proj[ps]
+        f = next(x for x in p["fotolar"] if x["ad"] == fa)
+        parca.append(f"""    <a class="piece p{k + 1}" href="/{PROJE_YOL[lang]}#{ps}" data-cursor="{git}">
+      <div class="frame ph-v" data-r data-speed="{'0.08' if k % 2 else '-0.05'}">{foto_img(p, f, lang, "(max-width: 860px) 80vw, 34vw")}</div>
+      <div class="cap" data-r><h3>{p['ad'][i].lower()}</h3><small>{f['cap'][i]} · {p['yer'][i]} · {p['yil']}</small></div>
+    </a>""")
+    return f"""  <section class="works vitrin" aria-labelledby="vitrin">
+    <h2 class="label" id="vitrin" data-r>{bas}</h2>
+{chr(10).join(parca)}
+    <p class="links vitrin-son" data-r><a class="go" href="/{PROJE_YOL[lang]}">{tum}</a></p>
+  </section>
+"""
+
+
+def bolge_proje_html(b):
+    ps = [p for p in PROJE_FOTO if p.get("bolge") == b["slug"]]
+    if not ps:
+        return ""
+    p = ps[0]
+    figs = "\n".join(f"""      <a class="ph g{j}" href="/projeler/#{p['slug']}" data-cursor="Projeye git">
+        <div class="frame" data-r>{foto_img(p, f, "tr", "(max-width: 860px) 80vw, 30vw")}</div>
+        <span class="ph-cap">{f['cap'][0]}</span>
+      </a>""" for j, f in enumerate(p["fotolar"][:3]))
+    return f"""  <section class="proj bolge-proj" aria-labelledby="bproje">
+    <div class="sec-head" data-r><h2 class="label" id="bproje">{b['ad']}'den bir proje</h2><p class="h">{p['ad'][0]} · {p['yil']}</p></div>
+    <div class="proj-g">
+{figs}
+    </div>
+    <p class="links" data-r><a class="go" href="/projeler/#{p['slug']}">Projenin tüm fotoğrafları</a></p>
+  </section>
+"""
 
 
 def proje_ld(lang):
@@ -1085,7 +1137,7 @@ def page_bolge(b):
 {isler}
     </ol>
   </section>
-  <section class="qa" aria-labelledby="sss">
+{bolge_proje_html(b)}  <section class="qa" aria-labelledby="sss">
     <div class="sec-head" data-r><h2 class="label" id="sss">Sık sorulan sorular</h2><p class="h">{b['ad']} için merak edilenler</p></div>
     <div class="faq">
 {faq_html(b['sss'])}

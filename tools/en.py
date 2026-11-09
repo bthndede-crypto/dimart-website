@@ -91,6 +91,7 @@ def page_home():
 {pieces}
   </section>
 
+{b.vitrin_html("en")}
   <section class="say" aria-labelledby="approach">
     <h2 class="label" id="approach" data-r>Approach</h2>
     <p class="statement" data-r>{words("Every building begins with a line. We keep hold of that line from the first sketch to the last key.")}</p>
