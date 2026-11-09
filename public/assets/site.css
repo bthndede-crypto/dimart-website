@@ -564,6 +564,22 @@ html:not(.js) [data-r],html.static [data-r]{opacity:1;transform:none}
 .proj-g:hover .ph:not(:hover) .frame{opacity:.55}
 .ph .frame{transition:opacity .6s var(--ease)}
 .proj-son{padding-top:14vh}
+.post-foto{margin:0}
+.post-foto img{display:block;width:100%;height:auto}
+.post-foto figcaption{font:500 9.5px/1.6 var(--mont);letter-spacing:.2em;text-transform:lowercase;color:var(--mute);margin-top:12px}
+.post-foto figcaption a{color:var(--ink2);border-bottom:1px solid var(--line)}
+.post-foto figcaption a:hover{color:var(--y)}
+.post-foto.ic{margin:44px 0;max-width:420px}
+.proj-head h2 a{transition:color .3s}.proj-head h2 a:hover{color:var(--y)}
+.proj-head p .go{display:inline-block;margin-top:14px}
+.proj-detay{padding-top:4vh}
+.proj-detay .prose .links{margin-top:28px}
+.proj-sonraki{padding:16vh 0 4vh;border-top:1px solid var(--line);margin-top:10vh}
+.proj-sonraki>a{display:inline-block;margin-top:14px}
+.proj-sonraki>a .h{display:block;font-size:clamp(30px,4vw,64px);transition:color .4s}
+.proj-sonraki>a:hover .h{color:var(--y)}
+.proj-sonraki>a small{display:block;margin-top:8px;font:500 10px/1.6 var(--mont);letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.proj-sonraki .links{margin-top:6vh}
 .ph-v img,.bolge-proj .frame img{display:block;width:100%;height:auto;transition:transform 1.4s var(--ease)}
 .piece:hover .ph-v img,.bolge-proj a:hover img{transform:scale(1.025)}
 .vitrin{padding-top:6vh}
