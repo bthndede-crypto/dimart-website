@@ -6,6 +6,133 @@ Yeni yazı eklemek için listeye bir sözlük ekleyip `python3 tools/build.py` �
 
 YAZILAR = [
     {
+        "slug": "duvar-citalama-nedir",
+        "baslik": "Duvar çıtalama nedir? Çıta panel (boiserie) yaptırmadan önce bilmeniz gerekenler",
+        "kisa": "Duvar çıtalama",
+        "aciklama": "Duvar çıtalama (boiserie) nedir, hangi odalara yakışır, çıta ölçüsü ve panel oranları nasıl seçilir, malzeme, boya ve uygulama adımları. Ataşehir'deki uygulamamızdan fotoğraflarla.",
+        "tarih": "2026-11-09",
+        "kategori": "İç mimarlık",
+        "cizim": "ic-mimarlik",
+        "foto": ("atasehir", "atasehir-duvar-citalama"),
+        "ozet": "Duvar çıtalama, düz bir duvara ince profillerle çerçeveler çizerek ona klasik bir derinlik kazandırmaktır; Fransızca adıyla boiserie. Güzel görünmesinin sırrı oranlardadır: panellerin genişliği pencere, kapı ve mobilya hizalarıyla birlikte planlanmalı, çıtalar duvarla aynı renge boyanmalıdır. İyi hazırlanmış bir duvarda uygulama birkaç günde biter ve odanın karakterini kalıcı olarak değiştirir.",
+        "govde": """
+<h2>Çıtalama ne işe yarar?</h2>
+<p>Düz, boş bir duvar çoğu zaman odanın en sıkıcı yüzeyidir. Çıtalar bu yüzeye gölge çizgileri ekler; gün boyunca ışık değiştikçe duvar da değişir. Yatak başı, salonun TV duvarı, antre ve yemek odası en çok yakıştığı yerlerdir. Yüksek tavanlı eski binalarda dönemin ruhunu geri getirir, yeni dairelerde ise sade bir mekâna karakter kazandırır.</p>
+
+[[foto:atasehir/atasehir-citalama-detay]]
+
+<h2>Oran her şeydir</h2>
+<p>Çıtalamada en sık yapılan hata, duvarı eşit karelere bölmektir. Güzel bir düzen önce duvarın kendisine bakar: pencerenin, kapının, prizlerin ve önüne gelecek mobilyanın yeri. Genellikle duvar yatayda bir alt bant ve bir üst panel olarak ikiye ayrılır; alt bant yaklaşık sandalye sırtı yüksekliğinde biter. Panellerin genişliği birbirine yakın tutulur, kenar boşlukları ise eşitlenir. Çizimini önceden yapmak, uygulamada her şeyin hizalı oturmasını sağlar.</p>
+
+<h2>Çıta ölçüsü ve malzeme</h2>
+<ul>
+<li><strong>Profil:</strong> standart tavan yüksekliğindeki dairelerde ince ve sade profiller daha zarif durur; kalın, çok kademeli profiller yüksek tavanlı mekânlara yakışır.</li>
+<li><strong>Malzeme:</strong> poliüretan ve polistiren çıtalar hafif, nemden az etkilenen ve boyanabilir malzemelerdir; ahşap çıta ise daha sağlamdır ama nemli ortamlarda hareket edebilir.</li>
+<li><strong>Köşeler:</strong> çerçevelerin köşeleri gönyeyle 45 derece kesilir; birleşim yerleri macunlanıp zımparalanmazsa boyadan sonra çizgi gibi görünür.</li>
+</ul>
+
+<h2>Uygulama adımları</h2>
+<p>Önce duvar kontrol edilir: çatlak, kabaran boya ya da nem varsa giderilir, yüzey düzeltilir. Ardından paneller lazerle duvara çizilir. Çıtalar yapıştırıcıyla, gerekirse ince çivilerle sabitlenir. Derzler ve çivi izleri macunlanır, zımparalanır, astar atılır. Son kat boyada çıtalar ve duvar genellikle aynı renge boyanır; böylece desen bağırmaz, gölgesiyle konuşur. Boya için ipek mat ya da yarı mat bir yüzey, toz tutmaz ve silinebilir olduğu için tercih edilir.</p>
+
+<h2>Prizler, aplikler ve kapılar</h2>
+<p>Çıtalamaya başlamadan önce elektrik noktalarına karar vermek gerekir. Bir priz ya da aplik çerçevenin tam ortasında veya simetri ekseninde durmalıdır; panelin köşesine denk gelen bir priz bütün düzeni bozar. Kapı ve pencere pervazları da çıtalarla aynı dili konuşacak şekilde seçilir.</p>
+
+<h2>Ne kadar sürer?</h2>
+<p>Ortalama büyüklükte bir duvar, hazırlığı yapılmışsa birkaç günde tamamlanır; sürenin çoğu macun, zımpara ve boyanın kuruması içindir. Bütçeyi en çok duvar alanı, profilin cinsi ve duvarın hazırlık ihtiyacı belirler.</p>
+""",
+        "sss": [
+            ("Duvar çıtalama hangi odalara yakışır?",
+             "Yatak başı, salonun TV ya da kanepe duvarı, antre ve yemek odası en çok yakıştığı yerlerdir. Tek bir duvarda uygulamak bile odanın karakterini değiştirmeye yeter."),
+            ("Çıtalar duvarla aynı renge mi boyanmalı?",
+             "Çoğu zaman evet. Aynı renk desenin gölgesiyle görünmesini sağlar ve daha zarif durur. Kontrast renk daha iddialı bir etki verir, sade mekânlarda dikkatli kullanılmalıdır."),
+            ("Kiralık evde çıtalama yapılabilir mi?",
+             "Yapıştırıcıyla uygulanan hafif çıtalar sökülebilir, ancak sökümden sonra duvarın macun ve boya ile onarılması gerekir. Ev sahibinin onayını almak en doğrusudur."),
+        ],
+    },
+    {
+        "slug": "kis-bahcesi-yaptirirken",
+        "baslik": "Kış bahçesi yaptırırken dikkat edilecekler: cam, ısı, havalandırma ve döşeme",
+        "kisa": "Kış bahçesi",
+        "aciklama": "Kış bahçesi ya da camla kapatılan teras yaptırmak isteyenler için cam ve doğrama seçimi, yaz sıcağı ve kış soğuğu, havalandırma, zemin, mobilya ve izin konuları. Tuzla'daki uygulamamızdan fotoğrafla.",
+        "tarih": "2026-11-09",
+        "kategori": "İç mimarlık",
+        "cizim": "mimari-tasarim",
+        "foto": ("tuzla", "tuzla-kis-bahcesi"),
+        "ozet": "İyi bir kış bahçesi yılın her mevsiminde kullanılan bir odadır; kötüsü ise yazın sera, kışın buzdolabı olur. Farkı yaratan, ısı yalıtımlı cam ve doğrama, gölgeleme, havalandırma ve zemin seçimidir. Cephe ve ortak alanları etkilediği için başlamadan önce yönetim ve belediye kurallarını da kontrol etmek gerekir.",
+        "govde": """
+<h2>Önce yön ve kullanım</h2>
+<p>Kış bahçesinin hangi yöne baktığı her şeyi belirler. Güneye ve batıya bakan bir cam oda kışın güneşi toplar ama yaz öğleden sonraları çok ısınır; kuzey cephesi daha dengeli ama daha serindir. İkinci soru kullanımdır: sabah kahvesi mi, çalışma köşesi mi, yemek alanı mı, bitkiler için bir sera mı? Mobilya, aydınlatma ve priz noktaları bu cevaba göre planlanır.</p>
+
+<h2>Cam ve doğrama</h2>
+<ul>
+<li><strong>Isı yalıtımlı cam:</strong> çift ya da üç katmanlı, ısı kontrol kaplamalı camlar kışın ısıyı içeride, yazın güneşin bir kısmını dışarıda tutar.</li>
+<li><strong>Isı yalıtımlı doğrama:</strong> alüminyum doğramada ısı yalıtım bariyerli (ısı köprüsü kesmeli) profiller seçilmezse çerçeveler kışın terler.</li>
+<li><strong>Çatı:</strong> cam çatı güzeldir ama yazın en çok ısıyı oradan alır; kapalı ya da yarı kapalı bir çatı, gölgeleme sistemiyle birlikte çok daha konforludur.</li>
+</ul>
+
+<h2>Yazın serinlik, kışın sıcaklık</h2>
+<p>Gölgeleme dışarıda olduğunda çok daha etkilidir; tente, jaluzi ya da dış perde güneşi cama ulaşmadan keser. İçeride tül ve stor ışığı yumuşatır. Havalandırma için karşılıklı açılabilen kanatlar ya da tavana yakın bir menfez sıcak havanın kaçmasını sağlar. Kış için zemin altı ısıtma ya da duvar dibine yerleştirilen ince radyatörler camın soğuğunu dengeler.</p>
+
+<h2>Zemin ve mobilya</h2>
+<p>Güneş alan bir zeminde rengi solmayan, kolay temizlenen malzemeler seçilmelidir: seramik, doğal taş ya da güneşe dayanıklı kompozit kaplamalar. Mobilyada dış mekân kumaşları iyi bir tercihtir; güneşte solmaz, nemi tutmaz. Tuzla'daki projemizde gri minderli bir oturma grubu ve desenli yastıklarla sade bir köşe kurduk; dışarıdaki ağaçların yeşili mekânın asıl rengi oldu.</p>
+
+<h2>İzinler ve yönetim</h2>
+<p>Balkon ya da teras kapatmak binanın cephesini değiştirir. Apartmanlarda kat malikleri kurulunun ve yönetim planının kurallarına uymak gerekir; bazı durumlarda belediyeden izin de istenebilir. Taşıyıcı sisteme yük bindiren ya da yeni alan kazandıran işlerde statik kontrol ve proje gereklidir. Başlamadan önce bu konuları netleştirmek, sonradan söküm riskini ortadan kaldırır.</p>
+""",
+        "sss": [
+            ("Kış bahçesi yazın çok sıcak olur mu?",
+             "Gölgeleme ve havalandırma yoksa evet. Dış gölgeleme, ısı kontrol kaplamalı cam, açılabilir kanatlar ve mümkünse kapalı çatı yaz sıcağını büyük ölçüde çözer."),
+            ("Balkonu camla kapatmak için izin gerekir mi?",
+             "Cepheyi değiştirdiği için apartmanlarda kat malikleri ve yönetim planının kurallarına uymak gerekir; bazı durumlarda belediye izni de istenebilir. Başlamadan önce kontrol etmek en doğrusudur."),
+            ("Kış bahçesinde hangi zemin kullanılmalı?",
+             "Güneşte solmayan ve kolay temizlenen malzemeler: seramik, doğal taş ya da güneşe dayanıklı kompozit kaplamalar. Kışın konfor için zemin altı ısıtmayla birlikte düşünülebilir."),
+        ],
+    },
+    {
+        "slug": "kucuk-daire-ogrenci-evi-dosemek",
+        "baslik": "Küçük daire ve öğrenci evi nasıl döşenir? Az alanda oturma, çalışma ve yemek",
+        "kisa": "Küçük daire döşemek",
+        "aciklama": "Küçük daire, 1+1 ve öğrenci evi döşerken alanı büyük gösteren fikirler: çok işlevli mobilya, ayna ve ışık, renk paleti, depolama ve yerleşim. Ataşehir ve Kadıköy'deki uygulamalarımızdan fotoğraflarla.",
+        "tarih": "2026-11-09",
+        "kategori": "İç mimarlık",
+        "cizim": "ic-mimarlik",
+        "foto": ("atasehir", "atasehir-ogrenci-evi"),
+        "ozet": "Küçük bir evde her parçanın birden fazla işi olmalıdır. Kanepe misafir yatağına, yemek masası çalışma masasına dönüşebilir; boy aynası ve katmanlı aydınlatma mekânı büyük gösterir. Açık, sıcak bir zemin üzerine az sayıda renk seçmek ve depolamayı duvara taşımak, az alanda ferah bir ev kurmanın temelidir.",
+        "govde": """
+<h2>Önce bir günü planlayın</h2>
+<p>Küçük bir evi döşemeye mobilya listesiyle değil, bir günle başlayın. Sabah nerede kahve içiliyor, ders ya da iş nerede yapılıyor, akşam yemeği kaç kişiyle yeniyor, misafir kalıyor mu? Bu sorular hangi işlevlerin aynı köşeyi paylaşabileceğini gösterir. Ataşehir'deki öğrenci evinde oturma, çalışma ve yemeği tek bir odaya sığdırdık; masa hem yemek hem ders masası olarak çalışıyor.</p>
+
+<h2>Çok işlevli mobilya</h2>
+<ul>
+<li><strong>Masa:</strong> duvara yakın, iki kişilik bir masa hem yemek hem çalışma için yeter; gerektiğinde açılabilen modeller misafir için yer açar.</li>
+<li><strong>Kanepe:</strong> yataklı ya da derin oturumlu bir kanepe tek gecelik misafir sorununu çözer.</li>
+<li><strong>Sehpa:</strong> iç içe geçen sehpalar ortada az yer kaplar, gerektiğinde ikiye ayrılır.</li>
+</ul>
+
+[[foto:kadikoy-daire/kadikoy-daire-orta-sehpa]]
+
+<h2>Ayna ve ışık</h2>
+<p>Pencerenin karşısına ya da yanına konan bir boy aynası, ışığı ve manzarayı ikiye katlar. Tavanda tek bir avize yerine katmanlı aydınlatma kurun: genel ışık için gömme spotlar, okumak için bir lambader, akşam için masa ve duvar lambaları. Sıcak beyaz ışık küçük odaları daha samimi gösterir.</p>
+
+<h2>Renk ve doku</h2>
+<p>Duvarlarda açık ve sıcak bir ton, zeminde orta tonlu ahşap mekânı bütün gösterir. Renk, değiştirilmesi kolay parçalarla gelsin: bir yastık, bir pled, bir tablo. Kadıköy'deki dairede antrasit kanepeyi hardal sarısı detaylarla canlandırdık; iki renk ve ahşap, bütün evi taşıdı.</p>
+
+<h2>Depolamayı duvara taşıyın</h2>
+<p>Küçük evde zemin değerlidir. Tavana kadar uzanan dolaplar, kapı üstü raflar ve duvara asılan konsollar zemini boş bırakır. Yatak altı çekmeceler mevsimlik eşyalar için idealdir. Ne kadar az eşya dışarıda kalırsa ev o kadar büyük görünür.</p>
+
+<h2>Bütçeyi doğru yere harcayın</h2>
+<p>Her gün kullanılan parçalara, yani yatak, kanepe ve masa sandalyelerine öncelik verin. Aksesuar ve dekorasyon zamanla eklenebilir. Ölçüsü yanlış alınmış bir dolap ya da kanepe ise küçük evde en pahalı hatadır; satın almadan önce plan üzerinde yerleştirip deneyin. Planınızı <a href="/cizim-masasi/">çizim masasında</a> kabaca çizip mobilyaları yerleştirebilirsiniz.</p>
+""",
+        "sss": [
+            ("Küçük bir salonu büyük göstermek için ne yapılmalı?",
+             "Açık ve sıcak duvar rengi, pencereye yakın bir boy aynası, katmanlı aydınlatma ve tavana kadar uzanan dolaplar. Zeminde ne kadar az eşya kalırsa oda o kadar ferah görünür."),
+            ("Öğrenci evinde çalışma masası nereye konmalı?",
+             "Mümkünse pencere yanına, gün ışığını yandan alacak şekilde. Ayrı bir köşe yoksa yemek masası iyi bir çalışma yüzeyi olur; yanına bir masa lambası eklemek yeterli."),
+            ("Küçük evde koyu renk kullanılabilir mi?",
+             "Kullanılabilir, ama ölçülü. Koyu bir kanepe ya da tek bir koyu duvar derinlik verir. Tüm odayı koyu yapmak yerine açık bir zeminle dengelemek gerekir."),
+        ],
+    },
+    {
         "slug": "villa-insaati-sureci",
         "baslik": "Villa ve müstakil ev inşaatı: arsadan anahtara adım adım süreç",
         "kisa": "Villa inşaatı",
