@@ -424,3 +424,57 @@
   document.addEventListener('dm-swap', bak);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bak); else bak();
 })();
+
+/* Proje fotoğrafları: büyük görüntüleme (tıkla, ok tuşları, Esc) */
+(function () {
+  var d = document, kutu = null, liste = [], i = 0, onceki = null;
+  var T = { tr: ['Kapat', 'Önceki', 'Sonraki'], en: ['Close', 'Previous', 'Next'], nl: ['Sluiten', 'Vorige', 'Volgende'] };
+  function kur() {
+    var t = T[d.documentElement.lang] || T.tr;
+    kutu = d.createElement('div');
+    kutu.className = 'lbx'; kutu.setAttribute('role', 'dialog'); kutu.setAttribute('aria-modal', 'true'); kutu.hidden = true;
+    kutu.innerHTML = '<img alt=""><p></p><button type="button" class="x">' + t[0] + '</button>' +
+      '<button type="button" class="pv">' + t[1] + '</button><button type="button" class="nx">' + t[2] + '</button>';
+    d.body.appendChild(kutu);
+    kutu.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (b && b.classList.contains('pv')) goster(i - 1);
+      else if (b && b.classList.contains('nx')) goster(i + 1);
+      else if (b || e.target === kutu) kapat();
+    });
+  }
+  function goster(n) {
+    i = (n + liste.length) % liste.length;
+    var a = liste[i], img = a.querySelector('img'), fig = a.closest('figure'), cap = fig && fig.querySelector('figcaption');
+    var b = kutu.querySelector('img');
+    b.src = a.getAttribute('href'); b.alt = img ? img.alt : '';
+    var proje = a.closest('.proj'), h = proje && proje.querySelector('h2');
+    kutu.querySelector('p').textContent = (h ? h.textContent + ' · ' : '') + (cap ? cap.textContent : '') + '  ' + (i + 1) + '/' + liste.length;
+  }
+  function ac(a) {
+    if (!kutu || !d.body.contains(kutu)) kur();
+    liste = Array.prototype.slice.call(d.querySelectorAll('#sayfa a.lb'));
+    onceki = a; kutu.hidden = false;
+    goster(liste.indexOf(a));
+    requestAnimationFrame(function () { kutu.classList.add('on'); kutu.querySelector('.x').focus({ preventScroll: true }); });
+  }
+  function kapat() {
+    if (!kutu || kutu.hidden) return;
+    kutu.classList.remove('on');
+    setTimeout(function () { kutu.hidden = true; kutu.querySelector('img').removeAttribute('src'); }, 500);
+    if (onceki) onceki.focus({ preventScroll: true });
+  }
+  d.addEventListener('click', function (e) {
+    if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest && e.target.closest('a.lb');
+    if (!a) return;
+    e.preventDefault(); ac(a);
+  });
+  d.addEventListener('keydown', function (e) {
+    if (!kutu || kutu.hidden) return;
+    if (e.key === 'Escape') kapat();
+    else if (e.key === 'ArrowLeft') goster(i - 1);
+    else if (e.key === 'ArrowRight') goster(i + 1);
+  });
+  d.addEventListener('dm-swap', kapat);
+})();
