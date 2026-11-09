@@ -1,4 +1,5 @@
 """Nederlandse pagina's (/nl/). Gebruikt de schil van build.py; wordt geladen wanneer build.py draait."""
+import build as b
 from build import FIRMA, HARITA, HARITA_NL, INSTAGRAM, NL, ORG, SITE, crumbs, crumbs_ld, faq_html, faq_ld, footer, frame, head, words
 
 DIENSTEN = [
@@ -57,8 +58,6 @@ PROCES = [
     ("Oplevering", "We doen de eindcontrole en dragen sleutels en documenten over."),
 ]
 
-PROJECTEN = [("traverten", "Woning", "Interieurontwerp"), ("siva", "Villa", "Sleutelklaar"),
-             ("mese", "Kantoor", "Interieurontwerp"), ("kagit", "Woning", "Ontwerp en bouw")]
 
 
 def site_ld():
@@ -96,6 +95,7 @@ def page_home():
 {pieces}
   </section>
 
+{b.vitrin_html("nl")}
   <section class="say" aria-labelledby="aanpak">
     <h2 class="label" id="aanpak" data-r>Aanpak</h2>
     <p class="statement" data-r>{words("Elk gebouw begint met een lijn. Die lijn laten we niet los, van de eerste schets tot de laatste sleutel.")}</p>
@@ -198,22 +198,24 @@ def page_diensten():
 
 
 def page_projecten():
+    isler = b.proje_ld("nl")
     ld = [ORG, crumbs_ld([("Home", "nl/"), ("Projecten", "nl/projecten/")]),
           {"@type": "CollectionPage", "url": f"{SITE}/nl/projecten/", "name": "Projecten", "inLanguage": "nl",
-           "about": {"@id": f"{SITE}/#firma"}}]
-    items = "\n".join(f"""    <figure class="piece p{i + 1}">
-      <div class="frame m-{mat} empty" data-r data-speed="{'0.07' if i % 2 else '-0.04'}"><span>foto's volgen binnenkort</span></div>
-      <figcaption class="cap" data-r><h3>{soort.lower()}</h3><small>{dienst}</small></figcaption>
-    </figure>""" for i, (mat, soort, dienst) in enumerate(PROJECTEN))
-    return head("Projecten: villa's, woningen, kantoren en interieurs | Dimart Architectuur",
-                "Villa's, woningen, kantoren en interieurs ontworpen en gebouwd door Dimart Architectuur.",
-                "nl/projecten/", ld, "projeler") + f"""  <section class="page-hero">
+           "about": {"@id": f"{SITE}/#firma"}, "primaryImageOfPage": isler[0]["image"][0],
+           "hasPart": [{"@id": x["@id"]} for x in isler]}] + isler
+    return head("Projecten: interieurs in Istanbul en Yalova | Dimart Architectuur",
+                "Interieurprojecten van Dimart Architectuur: appartementen in Kadıköy en Ataşehir, een wintertuin in Tuzla, een groenmarmeren open haard in Kazımiye, Yalova.",
+                "nl/projecten/", ld, "projeler") + f"""  <section class="page-hero short">
     {crumbs("Projecten", "nl")}
     <h1 data-r>Geselecteerde <span class="y">projecten.</span></h1>
-    <p class="lead" data-r>Woningen, villa's, kantoren en commerciële ruimtes die we hebben ontworpen en gebouwd. We bereiden de projectfotografie voor; per project delen we de locatie, het jaar, de oppervlakte en de diensten die we hebben geleverd.</p>
+    <p class="lead" data-r>Ruimtes die we in Istanbul en Yalova hebben ontworpen en uitgevoerd: woonkamers, keukens, badkamers, kasten op maat en details. Per project delen we de opdracht en de locatie.</p>
   </section>
-  <section class="works list">
-{items}
+{b.proje_html("nl")}  <section class="split proj-son">
+    <div data-r><p class="label">Volgend project</p><p class="h">Het kan uw huis zijn</p></div>
+    <div class="prose" data-r>
+      <p>Voor uw appartement, villa of werkplek luisteren we bij het eerste gesprek naar uw wensen en stellen we een aanpak en planning voor.</p>
+      <p class="links"><a class="go" href="/nl/contact/">Laten we praten</a><a class="go" href="/nl/diensten/">Diensten</a></p>
+    </div>
   </section>
 """ + footer("nl")
 

@@ -6,6 +6,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from blog import YAZILAR  # noqa: E402
 from bolge import BOLGELER, DIGER  # noqa: E402
+from projeler import GENISLIKLER, VITRIN, PROJELER as PROJE_FOTO  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent / "public"
 SITE = "https://dimartmimarlik.com"
@@ -186,13 +187,6 @@ SUREC = [
     ("Teslim", "Kontrolleri yapar, anahtarı ve belgeleri teslim ederiz."),
 ]
 
-# Fotoğraflar gelene kadar yer tutucu: (malzeme, tür, hizmet)
-PROJELER = [
-    ("traverten", "Konut", "İç mimarlık"),
-    ("siva", "Villa", "Anahtar teslim"),
-    ("mese", "Ofis", "İç mimarlık"),
-    ("kagit", "Konut", "Mimari tasarım ve inşaat"),
-]
 
 
 
@@ -273,6 +267,13 @@ ESKIZ = _aks(
 
 CIZIMLER["eskiz"] = ("traverten", "Eskiz · aksonometri", "Konsol üst katlı bir konutun aksonometrik eskizi",
                       ESKIZ + '\n      <rect class="sq" x="255" y="343" width="8" height="8"/>', "0 0 400 500")
+
+
+def kucuk(t, lang="tr"):
+    """Türkçe doğru küçük harf: I→ı, İ→i."""
+    if lang == "tr":
+        t = t.replace("I", "ı").replace("İ", "i")
+    return t.lower()
 
 
 def esc_attr(t):
@@ -510,7 +511,7 @@ def page_home():
                 "inLanguage": "tr-TR", "publisher": {"@id": f"{SITE}/#firma"}}, faq_ld(SSS)]
     pieces = "\n".join(f"""    <a class="piece p{i + 1}" href="/hizmetler/#{slug}" data-cursor="İncele">
       {frame(slug, speed=("0.08" if i % 2 else "-0.05"))}
-      <div class="cap" data-r><h3>{ad.lower()}</h3><small>{kisa}</small></div>
+      <div class="cap" data-r><h3>{kucuk(ad)}</h3><small>{kisa}</small></div>
     </a>""" for i, (code, ad, slug, kisa, *_) in enumerate(HIZMETLER))
     steps = "\n".join(f'      <li data-r style="--d:{i}"><span class="n">0{i + 1}</span><h3>{a}</h3><p>{b}</p></li>'
                       for i, (a, b) in enumerate(SUREC))
@@ -532,6 +533,7 @@ def page_home():
 {pieces}
   </section>
 
+{vitrin_html("tr")}
   <section class="say" aria-labelledby="yaklasim">
     <h2 class="label" id="yaklasim" data-r>Yaklaşım</h2>
     <p class="statement" data-r>{words("Her yapı bir çizgiyle başlar. Biz o çizgiyi ilk eskizden son anahtara kadar elden bırakmıyoruz.")}</p>
@@ -651,22 +653,169 @@ def page_hizmetler():
 """ + footer()
 
 
+DIL_I = {"tr": 0, "en": 1, "nl": 2}
+PROJE_YOL = {"tr": "projeler/", "en": "en/projects/", "nl": "nl/projecten/"}
+PROJE_M = {
+    "tr": {"buyut": "Büyüt", "yer": "konum", "yil": "yıl", "kapsam": "kapsam", "foto": "görsel", "dizin": "Projeler dizini"},
+    "en": {"buyut": "View", "yer": "location", "yil": "year", "kapsam": "scope", "foto": "images", "dizin": "Project index"},
+    "nl": {"buyut": "Bekijk", "yer": "locatie", "yil": "jaar", "kapsam": "opdracht", "foto": "beelden", "dizin": "Projectoverzicht"},
+}
+
+
+def foto_boyut(slug, ad):
+    """Üretilmiş webp dosyalarından (genişlik, dosya yolu, gerçek en, boy) listesi."""
+    from PIL import Image
+    out = []
+    for w in GENISLIKLER:
+        f = ROOT / "assets" / "projeler" / slug / f"{ad}-{w}.webp"
+        if f.exists():
+            with Image.open(f) as im:
+                out.append((f"/assets/projeler/{slug}/{f.name}", im.width, im.height))
+    return out
+
+
+def foto_img(p, f, lang, sizes):
+    boy = foto_boyut(p["slug"], f["ad"])
+    src, w, h = boy[0]
+    srcset = ", ".join(f"{s} {ww}w" for s, ww, _ in boy)
+    return f'<img src="{src}" srcset="{srcset}" sizes="{sizes}" width="{w}" height="{h}" alt="{esc_attr(f["alt"][DIL_I[lang]])}" loading="lazy" decoding="async">'
+
+
+VITRIN_M = {"tr": ("Seçili projeler", "Tüm projeler", "Projeye git"),
+            "en": ("Selected projects", "All projects", "View project"),
+            "nl": ("Geselecteerde projecten", "Alle projecten", "Bekijk project")}
+
+
+def vitrin_html(lang):
+    i = DIL_I[lang]
+    bas, tum, git = VITRIN_M[lang]
+    proj = {p["slug"]: p for p in PROJE_FOTO}
+    parca = []
+    for k, (ps, fa) in enumerate(VITRIN):
+        p = proj[ps]
+        f = next(x for x in p["fotolar"] if x["ad"] == fa)
+        parca.append(f"""    <a class="piece p{k + 1}" href="/{PROJE_YOL[lang]}#{ps}" data-cursor="{git}">
+      <div class="frame ph-v" data-r data-speed="{'0.08' if k % 2 else '-0.05'}">{foto_img(p, f, lang, "(max-width: 860px) 80vw, 34vw")}</div>
+      <div class="cap" data-r><h3>{kucuk(p['ad'][i], lang)}</h3><small>{f['cap'][i]} · {p['yer'][i]} · {p['yil']}</small></div>
+    </a>""")
+    return f"""  <section class="works vitrin" aria-labelledby="vitrin">
+    <h2 class="label" id="vitrin" data-r>{bas}</h2>
+{chr(10).join(parca)}
+    <p class="links vitrin-son" data-r><a class="go" href="/{PROJE_YOL[lang]}">{tum}</a></p>
+  </section>
+"""
+
+
+def bolge_proje_html(b):
+    ps = [p for p in PROJE_FOTO if p.get("bolge") == b["slug"]]
+    if not ps:
+        return ""
+    p = ps[0]
+    figs = "\n".join(f"""      <a class="ph g{j}" href="/projeler/#{p['slug']}" data-cursor="Projeye git">
+        <div class="frame" data-r>{foto_img(p, f, "tr", "(max-width: 860px) 80vw, 30vw")}</div>
+        <span class="ph-cap">{f['cap'][0]}</span>
+      </a>""" for j, f in enumerate(p["fotolar"][:3]))
+    return f"""  <section class="proj bolge-proj" aria-labelledby="bproje">
+    <div class="sec-head" data-r><h2 class="label" id="bproje">{b['de']} bir projemiz</h2><p class="h">{p['ad'][0]} · {p['yil']}</p></div>
+    <div class="proj-g">
+{figs}
+    </div>
+    <p class="links" data-r><a class="go" href="/projeler/#{p['slug']}">Projenin tüm fotoğrafları</a></p>
+  </section>
+"""
+
+
+def proje_ld(lang):
+    i = DIL_I[lang]
+    url = f"{SITE}/{PROJE_YOL[lang]}"
+    isler = []
+    for p in PROJE_FOTO:
+        imgs = []
+        for f in p["fotolar"]:
+            src, w, h = foto_boyut(p["slug"], f["ad"])[-1]
+            imgs.append({"@type": "ImageObject", "contentUrl": SITE + src, "url": SITE + src, "width": w, "height": h,
+                         "name": f"{p['ad'][i]}: {f['cap'][i]}", "caption": f["alt"][i], "inLanguage": lang,
+                         "creditText": "Dimart Mimarlık", "creator": {"@id": f"{SITE}/#firma"},
+                         "copyrightHolder": {"@id": f"{SITE}/#firma"}})
+        isler.append({"@type": "CreativeWork", "@id": f"{url}#{p['slug']}", "url": f"{url}#{p['slug']}",
+                      "name": f"{p['ad'][i]} · {p['yer'][i]}", "description": p["not"][i], "genre": p["kapsam"][i], "inLanguage": lang,
+                      **({"creativeWorkStatus": p["durum"][i]} if p.get("durum") else {"dateCreated": p["yil"][-4:]}),
+                      "creator": {"@id": f"{SITE}/#firma"},
+                      "locationCreated": {"@type": "Place", "name": p["yer"][i], "address": {
+                          "@type": "PostalAddress", "addressLocality": p["yer"][i].split(",")[0], "addressRegion": p["il"],
+                          "addressCountry": "TR"}},
+                      "image": imgs})
+    return isler
+
+
+def proje_html(lang):
+    i = DIL_I[lang]
+    pm = PROJE_M[lang]
+    dizin = "\n".join(f'      <li><a href="#{p["slug"]}"><span class="n">{k + 1:02d}</span>{p["ad"][i]}</a></li>'
+                       for k, p in enumerate(PROJE_FOTO))
+    bloklar = []
+    for k, p in enumerate(PROJE_FOTO):
+        figs = []
+        for j, f in enumerate(p["fotolar"]):
+            boy = foto_boyut(p["slug"], f["ad"])
+            src, w, h = boy[0]
+            big, bw, bh = boy[-1]
+            srcset = ", ".join(f"{s} {ww}w" for s, ww, _ in boy)
+            sp = ' data-speed="0.05"' if j % 3 == 1 else (' data-speed="-0.03"' if j % 3 == 2 else "")
+            yon = "yatay" if w > h * 1.1 else "dik"
+            figs.append(f"""      <figure class="ph g{j % 6} {yon}"{sp}>
+        <a class="lb" href="{big}" data-w="{bw}" data-h="{bh}" data-cursor="{pm['buyut']}">
+          <div class="frame" data-r><img src="{src}" srcset="{srcset}" sizes="(max-width: 860px) 80vw, 40vw" width="{w}" height="{h}" alt="{esc_attr(f['alt'][i])}" loading="lazy" decoding="async"></div>
+        </a>
+        <figcaption>{f['cap'][i]}</figcaption>
+      </figure>""")
+        bloklar.append(f"""  <article class="proj" id="{p['slug']}" aria-labelledby="{p['slug']}-b">
+    <header class="proj-head" data-r>
+      <span class="n">{k + 1:02d}</span>
+      <h2 id="{p['slug']}-b">{p['ad'][i]}{f' <small class="durum">{p["durum"][i]}</small>' if p.get('durum') else ''}</h2>
+      <dl class="meta">
+        <div><dt>{pm['yer']}</dt><dd>{p['yer'][i]}</dd></div>
+        <div><dt>{pm['yil']}</dt><dd>{p['yil']}{f' · <span class="y">{p["durum"][i]}</span>' if p.get('durum') else ''}</dd></div>
+        <div><dt>{pm['kapsam']}</dt><dd>{p['kapsam'][i]}</dd></div>
+        <div><dt>{pm['foto']}</dt><dd>{len(p['fotolar'])}</dd></div>
+      </dl>
+      <p>{p['not'][i]}</p>
+    </header>
+    <div class="proj-g">
+{chr(10).join(figs)}
+    </div>
+  </article>""")
+    return f"""  <nav class="proj-idx" aria-label="{pm['dizin']}" data-r>
+    <ol>
+{dizin}
+    </ol>
+  </nav>
+{chr(10).join(bloklar)}
+"""
+
+
+PROJE_OZET = "; ".join(f"{x['ad'][0]} ({x['yer'][0]}, {x.get('durum', [x['yil']])[0]})" for x in PROJE_FOTO)
+
+
 def page_projeler():
+    isler = proje_ld("tr")
     ld = [ORG, crumbs_ld([("Ana sayfa", ""), ("Projeler", "projeler/")]),
-          {"@type": "CollectionPage", "url": f"{SITE}/projeler/", "name": "Projeler", "about": {"@id": f"{SITE}/#firma"}}]
-    items = "\n".join(f"""    <figure class="piece p{i + 1}">
-      <div class="frame m-{mat} empty" data-r data-speed="{'0.07' if i % 2 else '-0.04'}"><span>görseller hazırlanıyor</span></div>
-      <figcaption class="cap" data-r><h3>{tur.lower()}</h3><small>{hizmet}</small></figcaption>
-    </figure>""" for i, (mat, tur, hizmet) in enumerate(PROJELER))
-    return head("Projeler: villa, konut, ofis ve iç mimarlık | Dimart Mimarlık",
-                "Dimart Mimarlık'ın tasarlayıp inşa ettiği villa, konut, ofis ve iç mimarlık projeleri.",
-                "projeler/", ld, "projeler") + f"""  <section class="page-hero">
+          {"@type": "CollectionPage", "url": f"{SITE}/projeler/", "name": "Projeler", "inLanguage": "tr",
+           "about": {"@id": f"{SITE}/#firma"}, "primaryImageOfPage": isler[0]["image"][0],
+           "hasPart": [{"@id": x["@id"]} for x in isler]}] + isler
+    return head("Projeler: Kadıköy, Ataşehir, Tuzla ve Yalova'da iç mimarlık | Dimart Mimarlık",
+                "Dimart Mimarlık'ın iç mimarlık projeleri: Kadıköy ve Ataşehir'de daireler, Tuzla'da kış bahçesi, Yalova Kazımiye'de yeşil mermer şömine. Salon, mutfak, banyo ve yatak odası fotoğrafları.",
+                "projeler/", ld, "projeler") + f"""  <section class="page-hero short">
     {crumbs("Projeler")}
     <h1 data-r>Seçili <span class="y">projeler.</span></h1>
-    <p class="lead" data-r>Konut, villa, ofis ve ticari mekânlarda tasarladığımız ve inşa ettiğimiz işler. Proje fotoğraflarımızı hazırlıyoruz; her projede konum, yıl, alan ve üstlendiğimiz hizmetleri paylaşacağız.</p>
+    <p class="lead" data-r>İstanbul ve Yalova'da tasarlayıp uyguladığımız mekânlar: salonlar, mutfaklar, banyolar, ısmarlama dolaplar ve detaylar. Her projede kapsamı ve konumu paylaşıyoruz.</p>
   </section>
-  <section class="works list">
-{items}
+{proje_html("tr")}  <section class="split proj-son">
+    <div data-r><p class="label">Sıradaki proje</p><p class="h">Sizin eviniz olabilir</p></div>
+    <div class="prose" data-r>
+      <p>Daireniz, villanız ya da iş yeriniz için ilk görüşmede ihtiyacınızı dinler, süreç ve takvim öneririz. Planınızı <a href="/cizim-masasi/">çizim masasında</a> kabaca çizip bize gönderebilirsiniz.</p>
+      <p class="links"><a class="go" href="/iletisim/">Projenizi konuşalım</a><a class="go" href="/hizmetler/">Hizmetler</a></p>
+    </div>
   </section>
 """ + footer()
 
@@ -995,7 +1144,7 @@ def page_bolge(b):
 {isler}
     </ol>
   </section>
-  <section class="qa" aria-labelledby="sss">
+{bolge_proje_html(b)}  <section class="qa" aria-labelledby="sss">
     <div class="sec-head" data-r><h2 class="label" id="sss">Sık sorulan sorular</h2><p class="h">{b['ad']} için merak edilenler</p></div>
     <div class="faq">
 {faq_html(b['sss'])}
@@ -1035,7 +1184,7 @@ def llms():
 ## Sayfalar
 - [Stüdyo]({SITE}/studyo/): yaklaşım ve çalışma bölgesi
 - [Hizmetler]({SITE}/hizmetler/): hizmetlerin ayrıntıları
-- [Projeler]({SITE}/projeler/)
+- [Projeler]({SITE}/projeler/): {PROJE_OZET}
 - [Blog]({SITE}/blog/): rehberler
 - [Hizmet bölgeleri]({SITE}/bolgeler/): İstanbul Anadolu Yakası ilçeleri ({", ".join(b["ad"] for b in BOLGELER)})
 - [İletişim]({SITE}/iletisim/)
@@ -1046,12 +1195,14 @@ def llms():
 ## English
 - [Home]({SITE}/en/): architecture and construction firm with offices in Istanbul and Meerlo (NL), design to turnkey
 - [Services]({SITE}/en/services/)
+- [Projects]({SITE}/en/projects/)
 - [Studio]({SITE}/en/studio/)
 - [Contact]({SITE}/en/contact/)
 
 ## Nederlands
 - [Home]({SITE}/nl/): architect en aannemer met kantoren in Meerlo en Istanbul
 - [Diensten]({SITE}/nl/diensten/)
+- [Projecten]({SITE}/nl/projecten/)
 - [Studio]({SITE}/nl/studio/)
 - [Contact]({SITE}/nl/contact/)
 """
@@ -1083,9 +1234,15 @@ if __name__ == "__main__":
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(fn(), encoding="utf-8")
     (ROOT / "404.html").write_text(page_404(), encoding="utf-8")
-    urls = "\n".join(f"  <url><loc>{SITE}/{p.replace('index.html', '')}</loc><lastmod>2026-10-23</lastmod></url>" for p in PAGES)
+    def resimler(p):
+        yol = p.replace("index.html", "")
+        if yol not in PROJE_YOL.values():
+            return ""
+        return "".join(f"<image:image><image:loc>{SITE}{foto_boyut(x['slug'], f['ad'])[-1][0]}</image:loc></image:image>"
+                       for x in PROJE_FOTO for f in x["fotolar"])
+    urls = "\n".join(f"  <url><loc>{SITE}/{p.replace('index.html', '')}</loc><lastmod>{'2026-11-09' if p.replace('index.html', '') in PROJE_YOL.values() else '2026-10-23'}</lastmod>{resimler(p)}</url>" for p in PAGES)
     (ROOT / "sitemap.xml").write_text(
-        f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n',
+        f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n{urls}\n</urlset>\n',
         encoding="utf-8")
     (ROOT / "llms.txt").write_text(llms(), encoding="utf-8")
     print("ok", len(PAGES))

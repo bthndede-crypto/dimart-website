@@ -58,8 +58,6 @@ PROCESS = [
     ("Handover", "We carry out the final checks and hand over the keys and documents."),
 ]
 
-PROJECTS = [("traverten", "Residence", "Interior design"), ("siva", "Villa", "Turnkey"),
-            ("mese", "Office", "Interior design"), ("kagit", "Residence", "Design and construction")]
 
 
 def site_ld():
@@ -93,6 +91,7 @@ def page_home():
 {pieces}
   </section>
 
+{b.vitrin_html("en")}
   <section class="say" aria-labelledby="approach">
     <h2 class="label" id="approach" data-r>Approach</h2>
     <p class="statement" data-r>{words("Every building begins with a line. We keep hold of that line from the first sketch to the last key.")}</p>
@@ -196,22 +195,24 @@ def page_services():
 
 
 def page_projects():
+    isler = b.proje_ld("en")
     ld = [ORG, crumbs_ld([("Home", "en/"), ("Projects", "en/projects/")]),
           {"@type": "CollectionPage", "url": f"{SITE}/en/projects/", "name": "Projects", "inLanguage": "en",
-           "about": {"@id": f"{SITE}/#firma"}}]
-    items = "\n".join(f"""    <figure class="piece p{i + 1}">
-      <div class="frame m-{mat} empty" data-r data-speed="{'0.07' if i % 2 else '-0.04'}"><span>photos coming soon</span></div>
-      <figcaption class="cap" data-r><h3>{tur.lower()}</h3><small>{hizmet}</small></figcaption>
-    </figure>""" for i, (mat, tur, hizmet) in enumerate(PROJECTS))
-    return head("Projects: villas, homes, offices and interiors | Dimart Architecture",
-                "Villas, homes, offices and interiors designed and built by Dimart Architecture in Istanbul.",
-                "en/projects/", ld, "projeler") + f"""  <section class="page-hero">
+           "about": {"@id": f"{SITE}/#firma"}, "primaryImageOfPage": isler[0]["image"][0],
+           "hasPart": [{"@id": x["@id"]} for x in isler]}] + isler
+    return head("Projects: interiors in Istanbul and Yalova | Dimart Architecture",
+                "Interior design projects by Dimart Architecture: apartments in Kadıköy and Ataşehir, a winter garden in Tuzla, a green marble fireplace in Kazımiye, Yalova.",
+                "en/projects/", ld, "projeler") + f"""  <section class="page-hero short">
     {crumbs("Projects", "en")}
     <h1 data-r>Selected <span class="y">projects.</span></h1>
-    <p class="lead" data-r>Homes, villas, offices and commercial spaces we have designed and built. We are preparing the project photography; for each project we will share the location, year, area and the services we provided.</p>
+    <p class="lead" data-r>Spaces we have designed and built in Istanbul and Yalova: living rooms, kitchens, bathrooms, made-to-measure cabinetry and details. For each project we share the scope and the location.</p>
   </section>
-  <section class="works list">
-{items}
+{b.proje_html("en")}  <section class="split proj-son">
+    <div data-r><p class="label">Next project</p><p class="h">It could be your home</p></div>
+    <div class="prose" data-r>
+      <p>For your apartment, villa or workplace we listen to your needs at the first meeting and propose a process and schedule.</p>
+      <p class="links"><a class="go" href="/en/contact/">Talk to us</a><a class="go" href="/en/services/">Services</a></p>
+    </div>
   </section>
 """ + footer("en")
 
