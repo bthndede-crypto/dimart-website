@@ -204,7 +204,7 @@ def page_projecten():
            "about": {"@id": f"{SITE}/#firma"}, "primaryImageOfPage": isler[0]["image"][0],
            "hasPart": [{"@id": x["@id"]} for x in isler]}] + isler
     return head("Projecten: interieurs in Istanbul en Yalova | Dimart Architectuur",
-                "Interieurprojecten van Dimart Architectuur: appartementen in Kadıköy en Ataşehir, een wintertuin in Tuzla, een marmeren open haard en tv-wand in Kazımiye, Yalova.",
+                "Interieurprojecten van Dimart Architectuur: appartementen in Kadıköy en Ataşehir, een wintertuin in Tuzla, een groenmarmeren open haard in Kazımiye, Yalova.",
                 "nl/projecten/", ld, "projeler") + f"""  <section class="page-hero short">
     {crumbs("Projecten", "nl")}
     <h1 data-r>Geselecteerde <span class="y">projecten.</span></h1>

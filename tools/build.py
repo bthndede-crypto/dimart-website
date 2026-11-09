@@ -709,7 +709,7 @@ def bolge_proje_html(b):
         <span class="ph-cap">{f['cap'][0]}</span>
       </a>""" for j, f in enumerate(p["fotolar"][:3]))
     return f"""  <section class="proj bolge-proj" aria-labelledby="bproje">
-    <div class="sec-head" data-r><h2 class="label" id="bproje">{b['ad']}'den bir proje</h2><p class="h">{p['ad'][0]} · {p['yil']}</p></div>
+    <div class="sec-head" data-r><h2 class="label" id="bproje">{b['de']} bir projemiz</h2><p class="h">{p['ad'][0]} · {p['yil']}</p></div>
     <div class="proj-g">
 {figs}
     </div>
@@ -731,7 +731,7 @@ def proje_ld(lang):
                          "creditText": "Dimart Mimarlık", "creator": {"@id": f"{SITE}/#firma"},
                          "copyrightHolder": {"@id": f"{SITE}/#firma"}})
         isler.append({"@type": "CreativeWork", "@id": f"{url}#{p['slug']}", "url": f"{url}#{p['slug']}",
-                      "name": p["ad"][i], "description": p["not"][i], "genre": p["kapsam"][i], "inLanguage": lang,
+                      "name": f"{p['ad'][i]} · {p['yer'][i]}", "description": p["not"][i], "genre": p["kapsam"][i], "inLanguage": lang,
                       "dateCreated": p["yil"][-4:],
                       "creator": {"@id": f"{SITE}/#firma"},
                       "locationCreated": {"@type": "Place", "name": p["yer"][i], "address": {
@@ -797,7 +797,7 @@ def page_projeler():
            "about": {"@id": f"{SITE}/#firma"}, "primaryImageOfPage": isler[0]["image"][0],
            "hasPart": [{"@id": x["@id"]} for x in isler]}] + isler
     return head("Projeler: Kadıköy, Ataşehir, Tuzla ve Yalova'da iç mimarlık | Dimart Mimarlık",
-                "Dimart Mimarlık'ın iç mimarlık projeleri: Kadıköy ve Ataşehir'de daireler, Tuzla'da kış bahçesi, Yalova Kazımiye'de mermer şömine ve TV ünitesi. Salon, mutfak, banyo ve yatak odası fotoğrafları.",
+                "Dimart Mimarlık'ın iç mimarlık projeleri: Kadıköy ve Ataşehir'de daireler, Tuzla'da kış bahçesi, Yalova Kazımiye'de yeşil mermer şömine. Salon, mutfak, banyo ve yatak odası fotoğrafları.",
                 "projeler/", ld, "projeler") + f"""  <section class="page-hero short">
     {crumbs("Projeler")}
     <h1 data-r>Seçili <span class="y">projeler.</span></h1>

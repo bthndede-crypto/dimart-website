@@ -8,7 +8,7 @@ PROJELER = [
         "slug": "kadikoy-daire",
         "bolge": "kadikoy",
         "yil": "2026",
-        "ad": ("Kadıköy daire", "Kadıköy apartment", "Appartement Kadıköy"),
+        "ad": ("Antrasit ve hardal", "Anthracite and mustard", "Antraciet en mosterd"),
         "yer": ("Kadıköy, İstanbul", "Kadıköy, Istanbul", "Kadıköy, Istanbul"),
         "il": "İstanbul",
         "kapsam": ("İç mimarlık ve uygulama", "Interior design and fit-out", "Interieurontwerp en uitvoering"),
@@ -41,19 +41,14 @@ PROJELER = [
     {
         "slug": "kazimiye-yalova",
         "yil": "2025",
-        "ad": ("Kazımiye, Yalova", "Kazımiye, Yalova", "Kazımiye, Yalova"),
+        "ad": ("Yeşil mermerli ev", "The green marble house", "Het huis met groen marmer"),
         "yer": ("Kazımiye, Yalova", "Kazımiye, Yalova", "Kazımiye, Yalova"),
         "il": "Yalova",
         "kapsam": ("İç mimarlık ve uygulama", "Interior design and fit-out", "Interieurontwerp en uitvoering"),
-        "not": ("Yeşil mermer, ceviz ve terrazzo: ısmarlama TV ünitesi, mermer kaplı şömine, tezgahlar ve aydınlık bir üst kat koridoru.",
-                "Green marble, walnut and terrazzo: a made-to-measure TV wall, a marble-clad fireplace, worktops and a bright upper-floor hallway.",
-                "Groen marmer, notenhout en terrazzo: een tv-wand op maat, een met marmer beklede open haard, werkbladen en een lichte gang op de verdieping."),
+        "not": ("Yeşil mermer kaplı şömine, terrazzo zemin önünde turuncu tuğla duvar ve aydınlık bir üst kat koridoru.",
+                "A fireplace clad in green marble, an orange brick wall above terrazzo and a bright upper-floor hallway.",
+                "Een open haard bekleed met groen marmer, een oranje bakstenen wand boven terrazzo en een lichte gang op de verdieping."),
         "fotolar": [
-            {"ad": "kazimiye-yalova-tv-unitesi", "kaynak": "Kazimiye_Yalova/TV ÜNİTESİ.png",
-             "alt": ("Ceviz kapaklı alt dolap, yeşil mermer tezgah ve beyaz üst dolaplarla boydan boya TV ünitesi",
-                     "Full-width TV wall with walnut base cabinets, a green marble top and white upper cabinets",
-                     "Tv-wand over de volle breedte met notenhouten onderkasten, groen marmeren blad en witte bovenkasten"),
-             "cap": ("tv ünitesi", "tv wall", "tv-wand")},
             {"ad": "kazimiye-yalova-somine", "kaynak": "Kazimiye_Yalova/şömine.jpeg",
              "alt": ("Yeşil damarlı mermer kaplı şömine ve koyu yeşil dolap kapakları",
                      "Fireplace clad in veined green marble next to dark green cabinet doors",
@@ -75,13 +70,13 @@ PROJELER = [
         "slug": "atasehir",
         "bolge": "atasehir",
         "yil": "2024–2026",
-        "ad": ("Ataşehir konutları", "Ataşehir homes", "Woningen in Ataşehir"),
+        "ad": ("Altı daire, tek çizgi", "Six apartments, one line", "Zes appartementen, één lijn"),
         "yer": ("Ataşehir, İstanbul", "Ataşehir, Istanbul", "Ataşehir, Istanbul"),
         "il": "İstanbul",
         "kapsam": ("İç mimarlık ve uygulama", "Interior design and fit-out", "Interieurontwerp en uitvoering"),
-        "not": ("Ataşehir'deki konutlarda mutfak, banyo, yatak odası, ısmarlama makyaj masası ve klasik duvar çıtaları.",
-                "Kitchens, bathrooms, bedrooms, a made-to-measure dressing table and classic wall moulding in homes in Ataşehir.",
-                "Keukens, badkamers, slaapkamers, een kaptafel op maat en klassieke wandlijsten in woningen in Ataşehir."),
+        "not": ("Ataşehir'de altı ayrı dairede mutfak, banyo, yatak odası, ısmarlama makyaj masası ve klasik duvar çıtaları.",
+                "Kitchens, bathrooms, bedrooms, a made-to-measure dressing table and classic wall moulding in six apartments in Ataşehir.",
+                "Keukens, badkamers, slaapkamers, een kaptafel op maat en klassieke wandlijsten in zes appartementen in Ataşehir."),
         "fotolar": [
             {"ad": "atasehir-mutfak", "kaynak": "Ataşehir3/MUTFAKK.png",
              "alt": ("Beyaz mutfak dolapları, siyah sarkıt lambalar ve ahşap zeminli açık mutfak",
@@ -124,7 +119,7 @@ PROJELER = [
         "slug": "tuzla",
         "bolge": "tuzla",
         "yil": "2024",
-        "ad": ("Tuzla", "Tuzla", "Tuzla"),
+        "ad": ("Ağaçlara bakan kış bahçesi", "A winter garden among the trees", "Een wintertuin tussen de bomen"),
         "yer": ("Tuzla, İstanbul", "Tuzla, Istanbul", "Tuzla, Istanbul"),
         "il": "İstanbul",
         "kapsam": ("İç mimarlık ve uygulama", "Interior design and fit-out", "Interieurontwerp en uitvoering"),
@@ -147,7 +142,7 @@ PROJELER = [
     {
         "slug": "yalova-daire",
         "yil": "2025",
-        "ad": ("Yalova daire", "Yalova apartment", "Appartement Yalova"),
+        "ad": ("Işık ve tül", "Light and linen", "Licht en linnen"),
         "yer": ("Yalova", "Yalova", "Yalova"),
         "il": "Yalova",
         "kapsam": ("İç mimarlık ve uygulama", "Interior design and fit-out", "Interieurontwerp en uitvoering"),
@@ -170,5 +165,5 @@ PROJELER = [
 ]
 
 # Ana sayfadaki "Seçili projeler": (proje slug, foto adı)
-VITRIN = [("kadikoy-daire", "kadikoy-daire-salon"), ("kazimiye-yalova", "kazimiye-yalova-tv-unitesi"),
-          ("atasehir", "atasehir-mutfak"), ("tuzla", "tuzla-kis-bahcesi")]
+VITRIN = [("kadikoy-daire", "kadikoy-daire-salon"), ("atasehir", "atasehir-banyo"),
+          ("tuzla", "tuzla-kis-bahcesi"), ("yalova-daire", "yalova-daire-perde-detay")]
