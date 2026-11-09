@@ -732,7 +732,7 @@ def proje_ld(lang):
                          "copyrightHolder": {"@id": f"{SITE}/#firma"}})
         isler.append({"@type": "CreativeWork", "@id": f"{url}#{p['slug']}", "url": f"{url}#{p['slug']}",
                       "name": f"{p['ad'][i]} · {p['yer'][i]}", "description": p["not"][i], "genre": p["kapsam"][i], "inLanguage": lang,
-                      "dateCreated": p["yil"][-4:],
+                      **({"creativeWorkStatus": p["durum"][i]} if p.get("durum") else {"dateCreated": p["yil"][-4:]}),
                       "creator": {"@id": f"{SITE}/#firma"},
                       "locationCreated": {"@type": "Place", "name": p["yer"][i], "address": {
                           "@type": "PostalAddress", "addressLocality": p["yer"][i].split(",")[0], "addressRegion": p["il"],
@@ -765,10 +765,10 @@ def proje_html(lang):
         bloklar.append(f"""  <article class="proj" id="{p['slug']}" aria-labelledby="{p['slug']}-b">
     <header class="proj-head" data-r>
       <span class="n">{k + 1:02d}</span>
-      <h2 id="{p['slug']}-b">{p['ad'][i]}</h2>
+      <h2 id="{p['slug']}-b">{p['ad'][i]}{f' <small class="durum">{p["durum"][i]}</small>' if p.get('durum') else ''}</h2>
       <dl class="meta">
         <div><dt>{pm['yer']}</dt><dd>{p['yer'][i]}</dd></div>
-        <div><dt>{pm['yil']}</dt><dd>{p['yil']}</dd></div>
+        <div><dt>{pm['yil']}</dt><dd>{p['yil']}{f' · <span class="y">{p["durum"][i]}</span>' if p.get('durum') else ''}</dd></div>
         <div><dt>{pm['kapsam']}</dt><dd>{p['kapsam'][i]}</dd></div>
         <div><dt>{pm['foto']}</dt><dd>{len(p['fotolar'])}</dd></div>
       </dl>
@@ -787,7 +787,7 @@ def proje_html(lang):
 """
 
 
-PROJE_OZET = "; ".join(f"{x['ad'][0]} ({x['yer'][0]}, {x['yil']})" for x in PROJE_FOTO)
+PROJE_OZET = "; ".join(f"{x['ad'][0]} ({x['yer'][0]}, {x.get('durum', [x['yil']])[0]})" for x in PROJE_FOTO)
 
 
 def page_projeler():
