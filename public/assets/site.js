@@ -282,8 +282,20 @@
     if (dil(u.pathname) !== dil(location.pathname)) return null;
     return u;
   }
-  function git(url, push) {
+  /* geri/ileri: her geçmiş kaydı kendi kaydırma konumunu saklar */
+  function konumYaz() {
+    try { history.replaceState(Object.assign({}, history.state, { y: Math.round(w.scrollY) }), ''); } catch (e) {}
+  }
+  var konumZ;
+  function konumSakla() { clearTimeout(konumZ); konumZ = setTimeout(konumYaz, 200); }
+  function konumaGit(y) {
+    w.scrollTo(0, y);
+    // geç yüklenen görseller sayfayı uzatırsa bir kez daha dene
+    if (Math.abs(w.scrollY - y) > 2) setTimeout(function () { w.scrollTo(0, y); }, 350);
+  }
+  function git(url, push, y) {
     if (mesgul) return; mesgul = true;
+    if (push) { clearTimeout(konumZ); konumYaz(); }
     Ses.whoosh();
     menu(false);
     var sayfa = fetch(url, { headers: { 'X-Requested-With': 'dimart' } }).then(function (r) {
@@ -292,10 +304,11 @@
     Promise.all([sayfa, Moz.run(true, 700)]).then(function (v) {
       degistir(v[0]);
       d.dispatchEvent(new Event('dm-swap'));
-      if (push) history.pushState({}, '', url);
+      if (push) history.pushState({ y: 0 }, '', url);
       navIsaretle();
       var hash = new URL(url, location.href).hash, hedef = hash && d.getElementById(decodeURIComponent(hash.slice(1)));
-      w.scrollTo(0, hedef ? hedef.getBoundingClientRect().top + w.scrollY - 20 : 0);
+      if (typeof y === 'number') konumaGit(y);
+      else w.scrollTo(0, hedef ? hedef.getBoundingClientRect().top + w.scrollY - 20 : 0);
       gozle();
       mesgul = false;
       return Moz.run(false, 900);
@@ -397,13 +410,25 @@
         e.preventDefault(); menu(false);
         var hedef = u.hash && d.getElementById(decodeURIComponent(u.hash.slice(1)));
         w.scrollTo({ top: hedef ? hedef.getBoundingClientRect().top + w.scrollY - 20 : 0, behavior: reduce ? 'auto' : 'smooth' });
-        if (u.hash) history.replaceState({}, '', u.href);
+        if (u.hash) history.replaceState(history.state, '', u.href);
         return;
       }
       e.preventDefault();
       git(u.href, true);
     });
-    w.addEventListener('popstate', function () { git(location.href, false); });
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    w.addEventListener('popstate', function (e) {
+      var y = e.state && typeof e.state.y === 'number' ? e.state.y : 0;
+      git(location.href, false, y);
+    });
+    w.addEventListener('pagehide', function () { clearTimeout(konumZ); konumYaz(); });
+    // başka bir siteden / tam yüklemeyle geri gelindiyse konumu geri koy
+    var nav = w.performance && performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+    if (nav && (nav.type === 'back_forward' || nav.type === 'reload') && history.state && history.state.y) {
+      var hy = history.state.y;
+      if (d.readyState === 'complete') konumaGit(hy); else w.addEventListener('load', function () { konumaGit(hy); });
+    }
+    w.addEventListener('scroll', konumSakla, { passive: true });
     w.addEventListener('scroll', kaydir, { passive: true });
     w.addEventListener('resize', kaydir);
     d.addEventListener('toggle', function (e) { if (e.target.tagName === 'DETAILS') Ses.tick(); }, true);
