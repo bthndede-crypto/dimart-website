@@ -269,6 +269,13 @@ CIZIMLER["eskiz"] = ("traverten", "Eskiz · aksonometri", "Konsol üst katlı bi
                       ESKIZ + '\n      <rect class="sq" x="255" y="343" width="8" height="8"/>', "0 0 400 500")
 
 
+def kucuk(t, lang="tr"):
+    """Türkçe doğru küçük harf: I→ı, İ→i."""
+    if lang == "tr":
+        t = t.replace("I", "ı").replace("İ", "i")
+    return t.lower()
+
+
 def esc_attr(t):
     return t.replace('"', "&quot;")
 
@@ -504,7 +511,7 @@ def page_home():
                 "inLanguage": "tr-TR", "publisher": {"@id": f"{SITE}/#firma"}}, faq_ld(SSS)]
     pieces = "\n".join(f"""    <a class="piece p{i + 1}" href="/hizmetler/#{slug}" data-cursor="İncele">
       {frame(slug, speed=("0.08" if i % 2 else "-0.05"))}
-      <div class="cap" data-r><h3>{ad.lower()}</h3><small>{kisa}</small></div>
+      <div class="cap" data-r><h3>{kucuk(ad)}</h3><small>{kisa}</small></div>
     </a>""" for i, (code, ad, slug, kisa, *_) in enumerate(HIZMETLER))
     steps = "\n".join(f'      <li data-r style="--d:{i}"><span class="n">0{i + 1}</span><h3>{a}</h3><p>{b}</p></li>'
                       for i, (a, b) in enumerate(SUREC))
@@ -689,7 +696,7 @@ def vitrin_html(lang):
         f = next(x for x in p["fotolar"] if x["ad"] == fa)
         parca.append(f"""    <a class="piece p{k + 1}" href="/{PROJE_YOL[lang]}#{ps}" data-cursor="{git}">
       <div class="frame ph-v" data-r data-speed="{'0.08' if k % 2 else '-0.05'}">{foto_img(p, f, lang, "(max-width: 860px) 80vw, 34vw")}</div>
-      <div class="cap" data-r><h3>{p['ad'][i].lower()}</h3><small>{f['cap'][i]} · {p['yer'][i]} · {p['yil']}</small></div>
+      <div class="cap" data-r><h3>{kucuk(p['ad'][i], lang)}</h3><small>{f['cap'][i]} · {p['yer'][i]} · {p['yil']}</small></div>
     </a>""")
     return f"""  <section class="works vitrin" aria-labelledby="vitrin">
     <h2 class="label" id="vitrin" data-r>{bas}</h2>
