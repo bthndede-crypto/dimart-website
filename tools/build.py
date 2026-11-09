@@ -1095,7 +1095,7 @@ def page_blog():
            "blogPost": [{"@type": "BlogPosting", "headline": y["baslik"], "url": f"{SITE}/blog/{y['slug']}/",
                          "datePublished": y["tarih"]} for y in YAZILAR]}]
     return head("Blog: mimarlık, iç mimarlık, ruhsat ve inşaat rehberleri | Dimart Mimarlık",
-                "Duvar çıtalama, kış bahçesi, küçük daire döşemek, villa inşaatı, ofis iç mimarisi, anahtar teslim inşaat, yapı ruhsatı ve tadilat bütçesi üzerine Dimart Mimarlık'ın hazırladığı rehberler.",
+                "Banyo tadilatı, mutfak yenileme, antre ve perde seçimi, duvar çıtalama, kış bahçesi, küçük daire döşemek, villa inşaatı, ofis iç mimarisi, anahtar teslim inşaat, yapı ruhsatı ve tadilat bütçesi üzerine Dimart Mimarlık'ın hazırladığı rehberler.",
                 "blog/", ld, "blog") + f"""  <section class="page-hero">
     {crumbs("Blog")}
     <h1 data-r>Çizgiden <span class="y">notlar.</span></h1>
@@ -1217,7 +1217,7 @@ def page_bolge(b):
                       for i, (a, t) in enumerate(b["isler"]))
     diger = [o for o in BOLGELER if o["slug"] != b["slug"]]
     komsu = " · ".join(f'<a href="/bolgeler/{o["slug"]}/">{o["ad"]}</a>' for o in diger)
-    return head(f"{b['ad']} mimarlık, iç mimarlık ve tadilat | Dimart Mimarlık",
+    return head(f"{b['ad']} iç mimarlık ofisi, mimarlık ve tadilat | Dimart Mimarlık",
                 f"{b['de']} mimari tasarım, iç mimarlık, tadilat ve anahtar teslim inşaat. {b['ozet']} Keşif için: {FIRMA['tel']}.",
                 f"bolgeler/{b['slug']}/", ld, "bolge") + f"""  <section class="page-hero">
     <nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a><span>/</span><a href="/bolgeler/">Hizmet bölgeleri</a><span>/</span><span>{b['ad']}</span></nav>

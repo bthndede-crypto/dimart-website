@@ -6,6 +6,177 @@ Yeni yazı eklemek için listeye bir sözlük ekleyip `python3 tools/build.py` �
 
 YAZILAR = [
     {
+        "slug": "banyo-tadilati-nasil-yapilir",
+        "baslik": "Banyo tadilatı nasıl yapılır? Adım adım süreç, su yalıtımı ve malzeme seçimi",
+        "kisa": "Banyo tadilatı",
+        "aciklama": "Banyo tadilatında söküm, tesisat, su yalıtımı, seramik, dolap, ayna ve aydınlatma adımları; en sık yapılan hatalar ve süreyi etkileyen konular. Ataşehir'deki banyo uygulamamızdan fotoğrafla.",
+        "tarih": "2026-11-10",
+        "kategori": "Tadilat",
+        "cizim": "ic-mimarlik",
+        "foto": ("atasehir", "atasehir-banyo"),
+        "ozet": "Banyo tadilatı söküm, tesisat, su yalıtımı, seramik, vitrifiye ve aydınlatma adımlarıyla ilerler. En önemli ve sonradan düzeltmesi en zor adım su yalıtımıdır; seramiğin altında kaldığı için görünmez ama banyonun ömrünü belirler. Planı en başta netleştirmek, yani duşun, lavabonun ve klozetin yerini, dolap ölçülerini ve aydınlatmayı söküme başlamadan çizmek, hem süreyi hem bütçeyi korur.",
+        "govde": """
+<h2>1. Plan ve ölçü</h2>
+<p>Banyo küçük bir alandır ama her santimetresi önemlidir. Söküme başlamadan önce duşun, lavabonun ve klozetin yeri, dolapların ölçüsü, prizler ve aydınlatma bir plana çizilir. Gider yerleri değişecekse eğimin yeterli olup olmadığı kontrol edilir. Duş teknesi yerine zemine gömme (sıfır eşikli) duş isteniyorsa zemin kotu buna göre hazırlanır.</p>
+
+<h2>2. Söküm ve tesisat</h2>
+<p>Eski seramikler, vitrifiyeler ve gerekiyorsa sıva sökülür. Eski binalarda temiz ve pis su borularının da yenilenmesi önerilir; seramik döşendikten sonra borunun değişmesi bütün işi baştan yapmak demektir. Elektrik hattı, ıslak hacim kurallarına uygun şekilde ve kaçak akım rölesiyle korunarak yenilenir.</p>
+
+<h2>3. Su yalıtımı</h2>
+<p>Banyonun en kritik adımıdır. Zeminin tamamına ve duş alanında duvarların yukarıya kadar sürme yalıtım uygulanır; köşeler ve gider çevreleri file ya da bantla güçlendirilir. Uygulamadan sonra bir su testi yapmak, olası bir sızıntıyı seramik döşenmeden görmeyi sağlar.</p>
+
+<h2>4. Seramik ve derz</h2>
+<p>Büyük ebatlı seramikler daha az derz, daha sakin bir yüzey demektir; ancak zeminin düzgün olması gerekir. Duş zemininde kaymaz yüzeyli malzeme seçilir. Ataşehir'deki banyoda duş duvarında desenli büyük plakalar, diğer duvarlarda sade bir yüzey kullandık; desen tek bir duvarda kalınca banyo kalabalık görünmüyor.</p>
+
+<h2>5. Dolap, ayna ve aydınlatma</h2>
+<ul>
+<li><strong>Lavabo dolabı:</strong> asma dolaplar zemini açık bırakır, temizliği kolaylaştırır ve banyoyu ferah gösterir. Ahşap görünümlü kapaklar soğuk bir mekânı ısıtır.</li>
+<li><strong>Boy dolabı:</strong> havlu ve temizlik malzemeleri için tavana yakın uzanan ince bir dolap, küçük banyoda büyük fark yaratır.</li>
+<li><strong>Ayna:</strong> arkadan aydınlatmalı bir ayna hem yüzü gölgesiz aydınlatır hem de akşam ışığı olarak kullanılır.</li>
+<li><strong>Aydınlatma:</strong> tavanda ıslak hacme uygun gömme spotlar, aynada yüz aydınlatması; iki ayrı devre banyoyu sabah ve akşam için ayrı ayarlamanızı sağlar.</li>
+</ul>
+
+<h2>Ne kadar sürer?</h2>
+<p>Malzemeler önceden seçilip sipariş edildiyse, ortalama bir banyo tadilatı genellikle birkaç haftada tamamlanır. Süreyi en çok malzemenin gecikmesi, sökümde çıkan sürprizler (çürük boru, bozuk şap) ve yalıtımın kuruma süresi etkiler. Apartmanlarda gürültülü işler için yönetim kurallarına ve çalışma saatlerine uymak gerekir.</p>
+""",
+        "sss": [
+            ("Banyo tadilatında en önemli adım hangisi?",
+             "Su yalıtımı. Seramiğin altında kaldığı için görünmez ama sızıntı olursa bütün banyoyu yeniden sökmek gerekir. Uygulamadan sonra su testi yapılması önerilir."),
+            ("Eski seramiğin üstüne yeni seramik döşenebilir mi?",
+             "Bazı durumlarda mümkün ama önerilmez. Alttaki yüzeyin sağlamlığı ve yalıtımı bilinmez, zemin kotu yükselir ve kapı altında sorun çıkarabilir. Söküp yalıtımı yenilemek daha güvenlidir."),
+            ("Duş teknesi mi, zemine gömme duş mu?",
+             "Zemine gömme duş daha ferah ve modern görünür, ancak zeminde eğim ve gider için yeterli yükseklik gerekir. Uygun değilse ince, zemine yakın bir duş teknesi iyi bir alternatiftir."),
+        ],
+    },
+    {
+        "slug": "mutfak-yenileme-rehberi",
+        "baslik": "Mutfak yenileme rehberi: yerleşim, dolap, tezgah ve aydınlatma seçimi",
+        "kisa": "Mutfak yenileme",
+        "aciklama": "Mutfak yenilerken çalışma üçgeni ve yerleşim, dolap kapağı ve gövde malzemesi, tezgah seçenekleri, tezgah arası kaplama ve aydınlatma üzerine pratik bir rehber. Ataşehir ve Yalova'daki uygulamalarımızdan fotoğraflarla.",
+        "tarih": "2026-11-10",
+        "kategori": "İç mimarlık",
+        "cizim": "ic-mimarlik",
+        "foto": ("atasehir", "atasehir-mutfak"),
+        "ozet": "İyi bir mutfak önce doğru yerleşimle başlar: evye, ocak ve buzdolabı arasındaki yol kısa ve engelsiz olmalıdır. Ardından dolap gövdesi ve kapakları, tezgah, tezgah arası kaplama ve aydınlatma seçilir. Beyaz ve açık renk dolaplar küçük mutfağı ferah gösterir; tezgah altı aydınlatma ise çalışmayı kolaylaştırır ve akşamları mekâna sıcaklık katar.",
+        "govde": """
+<h2>Yerleşim: çalışma üçgeni</h2>
+<p>Mutfakta en çok gidip gelinen üç nokta evye, ocak ve buzdolabıdır. Bu üç nokta arasındaki yol kısa ve engelsiz olmalı; ama birbirine de yapışık olmamalıdır. Evye ile ocak arasında rahat bir hazırlık tezgahı kalması gerekir. Düz (tek duvar), L, U ya da adalı yerleşim, mutfağın ölçüsüne ve evin geri kalanıyla ilişkisine göre seçilir.</p>
+
+<h2>Açık mutfak mı, kapalı mutfak mı?</h2>
+<p>Açık mutfak salonla birleşir, evi büyük gösterir ve sosyal bir yaşam sunar; ancak koku ve gürültü için güçlü bir davlumbaz ve düzenli bir tezgah ister. Ataşehir'deki dairede açık mutfağı salona bakan bir yemek masasıyla bağladık; siyah sarkıt lambalar masanın yerini işaretliyor.</p>
+
+<h2>Dolap gövdesi ve kapaklar</h2>
+<ul>
+<li><strong>Gövde:</strong> özellikle evye altında neme dayanıklı gövde malzemesi seçilmelidir.</li>
+<li><strong>Kapak:</strong> lake kapaklar pürüzsüz ve şık görünür ama darbeye karşı özen ister; membran ve laminat kapaklar daha dayanıklı ve ekonomiktir.</li>
+<li><strong>Üst dolaplar:</strong> tavana kadar uzanan üst dolaplar toz tutacak boşluk bırakmaz ve depolamayı artırır.</li>
+<li><strong>Donanım:</strong> frenli menteşe ve tam açılan çekmece rayları, mutfağın her gün nasıl kullanıldığını değiştirir.</li>
+</ul>
+
+<h2>Tezgah ve tezgah arası</h2>
+<p>Tezgah, mutfağın en çok yıpranan yüzeyidir. Kuvars kompozit ve porselen tezgahlar leke ve çizilmeye dayanıklıdır; doğal taş eşsiz bir görünüm sunar ama bakım ister. Tezgah arasında seramik, cam ya da tezgahla aynı malzeme kullanılabilir. Yalova'daki çiftlik evinde turuncu tuğla görünümlü seramik ve terrazzo zemin, beyaz dolaplara sıcak bir zemin hazırladı.</p>
+
+[[foto:kazimiye-yalova/kazimiye-yalova-tezgah]]
+
+<h2>Aydınlatma</h2>
+<p>Tavandaki genel ışık tek başına yetmez; üst dolapların altına yerleştirilen LED şerit tezgahı gölgesiz aydınlatır. Yemek masası ya da ada üzerinde sarkıt lambalar hem işlevsel hem dekoratiftir. Sıcak beyaz ışık mutfağı salonla aynı atmosferde buluşturur.</p>
+
+<h2>Sıralama ve süre</h2>
+<p>Mutfak yenilemede sıra genellikle şöyledir: ölçü ve proje, söküm, tesisat ve elektrik, duvar ve zemin, dolap montajı, tezgah ölçüsü ve montajı, tezgah arası kaplama, cihazlar. Tezgah, dolaplar monte edildikten sonra ölçülür; bu yüzden süreç planlanırken tezgahın üretim süresi hesaba katılmalıdır.</p>
+""",
+        "sss": [
+            ("Küçük mutfak nasıl ferah gösterilir?",
+             "Açık renk ve kulpsuz kapaklar, tavana kadar uzanan üst dolaplar, tezgah altı aydınlatma ve sade bir tezgah arası kaplama küçük mutfağı daha geniş gösterir."),
+            ("Mutfak tezgahı için hangi malzeme daha dayanıklı?",
+             "Kuvars kompozit ve porselen tezgahlar leke, ısı ve çizilmeye karşı dayanıklıdır. Doğal taş daha özel görünür ama düzenli bakım ister."),
+            ("Mutfak yenilemede tezgah ne zaman ölçülür?",
+             "Alt dolaplar monte edildikten sonra. Böylece tezgah duvarların gerçek ölçüsüne göre kesilir; üretim süresi de takvimde hesaba katılmalıdır."),
+        ],
+    },
+    {
+        "slug": "antre-ve-ayakkabilik-tasarimi",
+        "baslik": "Antre ve ayakkabılık tasarımı: küçük girişte düzen, depolama ve ilk izlenim",
+        "kisa": "Antre tasarımı",
+        "aciklama": "Ev girişinde ayakkabılık, vestiyer, ayna, aydınlatma ve ısmarlama dolap fikirleri; küçük antreyi derli toplu ve ferah gösterme yolları. Tuzla ve Ataşehir'deki uygulamalarımızdan fotoğraflarla.",
+        "tarih": "2026-11-10",
+        "kategori": "İç mimarlık",
+        "cizim": "ic-mimarlik",
+        "foto": ("tuzla", "tuzla-antre-ayakkabilik"),
+        "ozet": "Antre evin ilk izlenimidir ve en çok dağılan yeridir. Ölçüye göre yapılmış bir ayakkabılık, ceketler için kapalı bir vestiyer, bir ayna ve sıcak bir ışık girişi derli toplu tutar. Kulpsuz kapaklar ve duvara asılan dolaplar dar antreyi ferah gösterir; dolabın üstü anahtar ve çanta için küçük bir tezgaha dönüşür.",
+        "govde": """
+<h2>Önce ihtiyaç listesi</h2>
+<p>Evde kaç kişi yaşıyor, kaç çift ayakkabı her gün kullanılıyor, mont ve şemsiyeler nereye konuyor, çocuk arabası ya da bisiklet var mı? Bu sorular antrenin ne kadar depolama istediğini gösterir. Mevsimlik ayakkabılar antre yerine başka bir dolapta durabilir; girişte yalnızca günlük kullanılanlar kalmalıdır.</p>
+
+<h2>Ayakkabılık</h2>
+<ul>
+<li><strong>Derinlik:</strong> ayakkabıları eğimli raflara yerleştiren ince ayakkabılıklar dar koridorlarda yer kazandırır.</li>
+<li><strong>Havalandırma:</strong> kapaklarda küçük boşluklar ya da arkada havalandırma payı bırakmak koku oluşmasını önler.</li>
+<li><strong>Yükseklik:</strong> bel hizasında biten bir ayakkabılığın üstü anahtar, posta ve çanta için tezgah olur.</li>
+</ul>
+<p>Tuzla'daki projede beyaz kapaklı ayakkabılığı koyu ahşap bir çerçeveyle sardık; çerçeve dolabı mobilya gibi gösteriyor, beyaz kapaklar ise dar girişi aydınlık tutuyor.</p>
+
+<h2>Vestiyer ve kapalı dolap</h2>
+<p>Açık askılar pratiktir ama kısa sürede kalabalık görünür. Mümkünse ceketler için kapaklı, boy dolabı şeklinde bir vestiyer yapılmalıdır. Duvara gömülü ya da tavana kadar uzanan dolaplar, antrede yerden kazanılmış bir oda gibi çalışır. Ismarlama dolaplarda iç düzen de ihtiyaca göre çizilir; aynı yaklaşımı Ataşehir'deki makyaj masasında da kullandık.</p>
+
+[[foto:atasehir/atasehir-makyaj-masasi]]
+
+<h2>Ayna ve ışık</h2>
+<p>Girişte bir ayna hem çıkmadan önce son bakış için gereklidir hem de dar antreyi iki kat geniş gösterir. Yuvarlak aynalar köşeli dolapları yumuşatır. Aydınlatmada tavandaki spotlara ek olarak dolabın altına ya da aynanın arkasına yerleştirilen gizli bir ışık, eve gece girildiğinde yumuşak bir karşılama sağlar.</p>
+
+<h2>Zemin</h2>
+<p>Antre zemini dışarıdan gelen kir ve suyla ilk karşılaşan yüzeydir. Kolay temizlenen seramik ya da taş, ahşap zeminli bir evde bile girişte iyi bir tercihtir. İki zeminin birleştiği çizgi kapı hizasında ya da dolabın bittiği yerde temiz bir şekilde çözülmelidir.</p>
+""",
+        "sss": [
+            ("Dar bir antreye ayakkabılık sığar mı?",
+             "Evet. Eğimli raflı ince ayakkabılıklar ya da duvara asılan, zemini boş bırakan modeller dar koridorlara sığar. Ölçüye göre yapılan bir dolap her santimetreyi kullanır."),
+            ("Antrede ayna nereye konmalı?",
+             "Kapıdan girince görülen ya da dolabın üstüne gelen bir duvara. Ayna hem çıkmadan önce son bakış için kullanılır hem de dar girişi daha geniş gösterir."),
+            ("Ayakkabılıkta koku nasıl önlenir?",
+             "Kapaklarda küçük havalandırma boşlukları ya da arkada hava payı bırakmak, ıslak ayakkabıları dolaba koymadan önce kurutmak ve rafları düzenli silmek yeterlidir."),
+        ],
+    },
+    {
+        "slug": "perde-tul-ve-jaluzi-secimi",
+        "baslik": "Perde, tül ve jaluzi seçimi: gömme perde rayı, doğru ölçü ve kumaş",
+        "kisa": "Perde seçimi",
+        "aciklama": "Perde, tül, stor ve ahşap jaluzi arasında seçim; tavana gömme perde rayı, perde boyu ve eni nasıl ölçülür, keten ve keten görünümlü kumaşlar, güneş kontrolü. Yalova'daki uygulamamızdan fotoğraflarla.",
+        "tarih": "2026-11-10",
+        "kategori": "İç mimarlık",
+        "cizim": "ic-mimarlik",
+        "foto": ("yalova-daire", "yalova-daire-perde-detay"),
+        "ozet": "Perde, odanın ışığını ve ölçeğini belirler. Tavandan yere kesintisiz inen tüller odayı yüksek gösterir; bunun için perde rayı tavana gömülür ya da tavana yakın monte edilir. Güneş alan pencerelerde ahşap jaluzi ya da stor ışığı ayarlar, keten veya keten görünümlü tüller onu yumuşatır. Perdenin eni pencereden geniş, boyu ise yere değecek kadar olmalıdır.",
+        "govde": """
+<h2>Önce ışık</h2>
+<p>Perde seçmeden önce pencerenin yönüne bakın. Güneye ve batıya bakan odalarda güneş kontrolü öncelik olur: ahşap jaluzi, stor ya da karartma perde. Kuzeye bakan odalarda ise ışığı kesmeyen ince tüller yeterlidir. Yatak odasında karartma, salonda ise gün ışığını süzen bir tül genellikle doğru dengeyi kurar.</p>
+
+<h2>Gömme perde rayı</h2>
+<p>Tavana gömülen bir perde rayı, pencerenin üstünde hiçbir mekanizma bırakmaz. Tül tavandan yere kesintisiz iner, oda olduğundan yüksek görünür. Bunun için asma tavanda ya da kartonpiyerin arkasında perde boşluğu planlanmalıdır; bu yüzden gömme ray kararı tadilat sırasında, tavan yapılmadan verilir. Yalova'daki dairede rayları tavana gömerek tülleri tavandan yere indirdik.</p>
+
+[[foto:yalova-daire/yalova-daire-salon-perde]]
+
+<h2>Ölçü nasıl alınır?</h2>
+<ul>
+<li><strong>En:</strong> perde rayı pencerenin iki yanından taşmalıdır; böylece perde açıldığında camı kapatmaz, pencere daha geniş görünür.</li>
+<li><strong>Boy:</strong> tül yere değecek ya da yerin hemen üstünde bitecek şekilde ölçülür. Kısa kalan perde odayı alçak gösterir.</li>
+<li><strong>Pile:</strong> perdenin dikiş sıklığı, kumaşın ne kadar dolgun görüneceğini belirler; sık pile daha zengin, seyrek pile daha sade durur.</li>
+</ul>
+
+<h2>Kumaş</h2>
+<p>Keten ve keten görünümlü kumaşlar ışığı yumuşak ve sıcak süzer, doğal bir doku verir. Saf keten kırışabilir; karışımlı kumaşlar daha kolay bakım ister. Beyaz yerine kırık beyaz ya da bej tonlar ahşap zemin ve duvar renkleriyle daha uyumlu durur.</p>
+
+<h2>Jaluzi ve stor ile birlikte</h2>
+<p>Ahşap jaluzi, ışığın açısını ayarlamaya izin verir ve tülle birlikte katmanlı bir pencere oluşturur: gündüz tül, öğle güneşinde jaluzi, gece ikisi birden. Jaluzi ya da stor camın hemen önüne, tül ise onun önüne gelecek şekilde iki ayrı ray planlanmalıdır.</p>
+""",
+        "sss": [
+            ("Perde rayı tavana mı, duvara mı takılmalı?",
+             "Tavana gömülen ya da tavana yakın takılan raylar odayı daha yüksek gösterir. Gömme ray, asma tavan ya da kartonpiyer yapılırken planlanmalıdır."),
+            ("Tül perdenin boyu ne kadar olmalı?",
+             "Yere değecek ya da yerin hemen üstünde bitecek kadar. Pencere pervazında biten kısa perdeler odayı alçak ve dağınık gösterir."),
+            ("Salonda jaluzi mi, stor mu, tül mü?",
+             "Çoğu salonda katmanlı bir çözüm en iyisidir: ışığı ayarlamak için ahşap jaluzi ya da stor, yumuşatmak için tül. İki ayrı ray buna imkân verir."),
+        ],
+    },
+    {
         "slug": "duvar-citalama-nedir",
         "baslik": "Duvar çıtalama nedir? Çıta panel (boiserie) yaptırmadan önce bilmeniz gerekenler",
         "kisa": "Duvar çıtalama",
@@ -351,7 +522,7 @@ YAZILAR = [
 <h2>Başvurudan önce: imar durumu</h2>
 <p>İlk iş, parselin imar durumunu öğrenmektir. İmar durumu belgesi; yapılaşma koşullarını, çekme mesafelerini, emsal ve kat yüksekliği gibi sınırları gösterir. Tasarım bu sınırlar içinde yapılır. Birçok belediye bu bilgiyi e-imar sistemleri üzerinden de paylaşır.</p>
 
-<h2>Genellikle istenen belgeler</h2>
+<h2>İnşaat ruhsatı için gerekli belgeler</h2>
 <ul>
 <li>Tapu kaydı ve gerekiyorsa maliklerin muvafakati.</li>
 <li>İmar durumu belgesi ve aplikasyon krokisi.</li>
