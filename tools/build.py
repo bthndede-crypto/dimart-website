@@ -313,7 +313,6 @@ def head(title, desc, path, ld, page):
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Dimart Mimarlık">
-<meta name="twitter:card" content="summary_large_image">
 <meta name="msvalidate.01" content="7CF4CEBF4ED658A86E675507A2B6D623">
 <meta name="theme-color" content="#100E0C">
 <meta name="color-scheme" content="dark">
